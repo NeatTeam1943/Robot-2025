@@ -179,4 +179,9 @@ public final class Constants {
                 public static final int photoSwitchPort = 0;
                 public static final int motorPort = 0;
         }
+
+        public static final class AlgeaConstants {
+                public static final int motorPort = 0;
+                
+        }
 }
