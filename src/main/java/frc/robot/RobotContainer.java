@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.Swerve;
-import frc.robot.autos.*;
+import frc.robot.autos.exampleAuto;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -20,6 +20,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final XboxController controller = new XboxController(0);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -33,9 +34,16 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
 
-
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        configureDefaultCommands();
+        configureButtonBindings();
+    }
+
+    /**
+     * Configure default commands for subsystems
+     */
+    private void configureDefaultCommands() {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -45,9 +53,6 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
-
-        // Configure the button bindings
-        configureButtonBindings();
     }
 
     /**
@@ -58,7 +63,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        controller.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(), s_Swerve));
+        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
     }
 
     /**
@@ -67,7 +72,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
         return new exampleAuto(s_Swerve);
     }
 }
