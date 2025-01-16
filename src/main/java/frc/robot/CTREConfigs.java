@@ -2,13 +2,15 @@ package frc.robot;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class CTREConfigs {
     public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
     public TalonFXConfiguration swerveDriveFXConfig = new TalonFXConfiguration();
     public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
 
-    public CTREConfigs() {
+    public CTREConfigs(){
         /** Swerve CANCoder Configuration */
         swerveCANcoderConfig.MagnetSensor.SensorDirection = Constants.Swerve.cancoderInvert;
 
@@ -24,6 +26,8 @@ public final class CTREConfigs {
         /* Current Limiting */
         swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.angleEnableCurrentLimit;
         swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.angleCurrentLimit;
+        swerveAngleFXConfig.CurrentLimits.StatorCurrentLimitEnable = Constants.Swerve.angleEnableStatorCurrentLimit;
+        swerveAngleFXConfig.CurrentLimits.StatorCurrentLimit = Constants.Swerve.angleStatorCurrentLimit;
 
         /* PID Config */
         swerveAngleFXConfig.Slot0.kP = Constants.Swerve.angleKP;
@@ -41,6 +45,8 @@ public final class CTREConfigs {
         /* Current Limiting */
         swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.driveEnableCurrentLimit;
         swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.driveCurrentLimit;
+        swerveDriveFXConfig.CurrentLimits.StatorCurrentLimitEnable = Constants.Swerve.driveEnableStatorCurrentLimit;
+        swerveDriveFXConfig.CurrentLimits.StatorCurrentLimit = Constants.Swerve.driveStatorCurrentLimit;
 
         /* PID Config */
         swerveDriveFXConfig.Slot0.kP = Constants.Swerve.driveKP;
@@ -49,9 +55,6 @@ public final class CTREConfigs {
 
         /* Open and Closed Loop Ramping */
         swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = Constants.Swerve.openLoopRamp;
-        swerveDriveFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = Constants.Swerve.openLoopRamp;
-
         swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = Constants.Swerve.closedLoopRamp;
-        swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.Swerve.closedLoopRamp;
     }
 }
