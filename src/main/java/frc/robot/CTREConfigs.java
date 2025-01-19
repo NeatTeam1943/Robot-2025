@@ -2,8 +2,6 @@ package frc.robot;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public final class CTREConfigs {
     public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
@@ -24,15 +22,8 @@ public final class CTREConfigs {
         swerveAngleFXConfig.ClosedLoopGeneral.ContinuousWrap = true;
 
         /* Current Limiting */
-<<<<<<< Updated upstream
-        swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.angleEnableCurrentLimit;
-        swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.angleCurrentLimit;
-        swerveAngleFXConfig.CurrentLimits.StatorCurrentLimitEnable = Constants.Swerve.angleEnableStatorCurrentLimit;
-        swerveAngleFXConfig.CurrentLimits.StatorCurrentLimit = Constants.Swerve.angleStatorCurrentLimit;
-=======
         swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.kAngleEnableCurrentLimit;
         swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.kAngleCurrentLimit;
->>>>>>> Stashed changes
 
         /* PID Config */
         swerveAngleFXConfig.Slot0.kP = Constants.Swerve.kAngleKP;
@@ -48,15 +39,8 @@ public final class CTREConfigs {
         swerveDriveFXConfig.Feedback.SensorToMechanismRatio = Constants.Swerve.kDriveGearRatio;
 
         /* Current Limiting */
-<<<<<<< Updated upstream
-        swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.driveEnableCurrentLimit;
-        swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.driveCurrentLimit;
-        swerveDriveFXConfig.CurrentLimits.StatorCurrentLimitEnable = Constants.Swerve.driveEnableStatorCurrentLimit;
-        swerveDriveFXConfig.CurrentLimits.StatorCurrentLimit = Constants.Swerve.driveStatorCurrentLimit;
-=======
         swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.kDriveEnableCurrentLimit;
         swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.kDriveCurrentLimit;
->>>>>>> Stashed changes
 
         /* PID Config */
         swerveDriveFXConfig.Slot0.kP = Constants.Swerve.kDriveKP;
@@ -64,15 +48,10 @@ public final class CTREConfigs {
         swerveDriveFXConfig.Slot0.kD = Constants.Swerve.kDriveKD;
 
         /* Open and Closed Loop Ramping */
-<<<<<<< Updated upstream
-        swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = Constants.Swerve.openLoopRamp;
-        swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = Constants.Swerve.closedLoopRamp;
-=======
         swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = Constants.Swerve.kOpenLoopRamp;
         swerveDriveFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = Constants.Swerve.kOpenLoopRamp;
 
         swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = Constants.Swerve.kClosedLoopRamp;
         swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.Swerve.kClosedLoopRamp;
->>>>>>> Stashed changes
     }
 }

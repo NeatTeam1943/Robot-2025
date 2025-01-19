@@ -24,15 +24,8 @@ public class Swerve extends SubsystemBase {
     public Pigeon2 gyro;
 
     public Swerve() {
-<<<<<<< Updated upstream
-        gyro = new Pigeon2(Constants.Swerve.pigeonID);
-        Pigeon2Configuration config = new Pigeon2Configuration();
-        config.MountPose.MountPoseYaw = 0; // Adjust if your Pigeon is mounted at an angle
-        gyro.getConfigurator().apply(config);
-=======
         gyro = new Pigeon2(Constants.Swerve.kPigeonID);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
->>>>>>> Stashed changes
         gyro.setYaw(0);
 
         mSwerveMods = new SwerveModule[] {
@@ -41,13 +34,8 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(2, Constants.Swerve.Mod2.kConstants),
             new SwerveModule(3, Constants.Swerve.Mod3.kConstants)
         };
-<<<<<<< Updated upstream
-
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
-=======
                 
          swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(), getModulePositions());
->>>>>>> Stashed changes
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {

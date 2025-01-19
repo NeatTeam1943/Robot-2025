@@ -4,16 +4,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-<<<<<<< Updated upstream
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.exampleAuto;
-=======
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
->>>>>>> Stashed changes
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -25,15 +19,10 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-<<<<<<< Updated upstream
-    private final Joystick driver = new Joystick(0);
-    private final XboxController controller = new XboxController(0);
-=======
     public CommandXboxController m_DriveController = new CommandXboxController(Constants.OperatorConstants.kDriveControllerPort);
     public CommandXboxController m_MechController;
     private final Joystick driver = new Joystick(0);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
->>>>>>> Stashed changes
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -43,13 +32,8 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
-<<<<<<< Updated upstream
-    private final Swerve s_Swerve = new Swerve();
-
-=======
     public  final Swerve s_Swerve = new Swerve();
 	@SuppressWarnings("unused")
     private DriverCommands driverCommands = new DriverCommands(s_Swerve);   
@@ -57,7 +41,6 @@ public class RobotContainer {
     private CoralOutTake m_CoralOutTake;
     private Algea m_Algea;
     private Elevator m_Elevator;
->>>>>>> Stashed changes
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         configureDefaultCommands();
@@ -77,8 +60,6 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
-<<<<<<< Updated upstream
-=======
         m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(), s_Swerve));
         m_MechController = new CommandXboxController(Constants.OperatorConstants.kMechanisemControllerPort);
         m_Algea = new Algea();
@@ -88,7 +69,6 @@ public class RobotContainer {
             
         // Configure the button bindings
         configureButtonBindings();
->>>>>>> Stashed changes
     }
 
     /**
@@ -99,9 +79,6 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-<<<<<<< Updated upstream
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-=======
 
         m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(), s_Swerve));
         m_MechController.y().whileTrue(new CoralTransportCommand(m_Coralintake));
@@ -133,7 +110,6 @@ public class RobotContainer {
 
             
         
->>>>>>> Stashed changes
     }
 
     /**
