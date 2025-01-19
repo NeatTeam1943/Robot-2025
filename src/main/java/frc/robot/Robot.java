@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
     SwerveModuleState desiredState = new SwerveModuleState(2, angle);
 
     System.out.println(Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
-        Constants.Swerve.wheelCircumference));
+        Constants.Swerve.kWheelCircumference));
   }
 
   /**

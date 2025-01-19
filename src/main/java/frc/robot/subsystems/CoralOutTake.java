@@ -9,8 +9,8 @@ public class CoralOutTake {
     private TalonFX m_Motor;
     private DigitalInput m_PhotoSwitch;
     public CoralOutTake(){
-        m_Motor = new TalonFX(Constants.CoralOutTakeConstants.motorPort);
-        m_PhotoSwitch = new DigitalInput(Constants.CoralOutTakeConstants.photoSwitchPort);
+        m_Motor = new TalonFX(Constants.CoralOutTakeConstants.kMotorPort);
+        m_PhotoSwitch = new DigitalInput(Constants.CoralOutTakeConstants.kPhotoSwitchPort);
     }
 
     public boolean PhotoSwitchMode(){
