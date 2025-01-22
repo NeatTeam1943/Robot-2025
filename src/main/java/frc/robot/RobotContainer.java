@@ -19,28 +19,28 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-    public CommandXboxController m_DriveController = new CommandXboxController(Constants.OperatorConstants.kDriveControllerPort);
+    // public CommandXboxController m_DriveController = new CommandXboxController(Constants.OperatorConstants.kDriveControllerPort);
     public CommandXboxController m_MechController;
-    private final Joystick driver = new Joystick(0);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final Joystick driver = new Joystick(Constants.OperatorConstants.kDriveControllerPort);
+    // private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
-    /* Drive Controls */
-    private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
+    // /* Drive Controls */
+    // private final int translationAxis = XboxController.Axis.kLeftY.value;
+    // private final int strafeAxis = XboxController.Axis.kLeftX.value;
+    // private final int rotationAxis = XboxController.Axis.kRightX.value;
     
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
+    // private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
 
     /* Subsystems */
-    public  final Swerve s_Swerve = new Swerve();
-	@SuppressWarnings("unused")
-    private DriverCommands driverCommands = new DriverCommands(s_Swerve);   
+    // public  final Swerve s_Swerve = new Swerve();
+	// @SuppressWarnings("unused")
 	private CoralIntake m_Coralintake;
     private CoralOutTake m_CoralOutTake;
     private Algea m_Algea;
     private Elevator m_Elevator;
+    
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         configureDefaultCommands();
@@ -51,16 +51,15 @@ public class RobotContainer {
      * Configure default commands for subsystems
      */
     private void configureDefaultCommands() {
-        s_Swerve.setDefaultCommand(
-            new TeleopSwerve(
-                s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
-                () -> robotCentric.getAsBoolean()
-            )
-        );
-        m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(), s_Swerve));
+        // s_Swerve.setDefaultCommand(
+        //     new TeleopSwerve(
+        //         s_Swerve, 
+        //         () -> -driver.getRawAxis(translationAxis), 
+        //         () -> -driver.getRawAxis(strafeAxis), 
+        //         () -> -driver.getRawAxis(rotationAxis), 
+        //         () -> robotCentric.getAsBoolean()
+        //     )
+        // );
         m_MechController = new CommandXboxController(Constants.OperatorConstants.kMechanisemControllerPort);
         m_Algea = new Algea();
         m_Coralintake = new CoralIntake();
@@ -79,33 +78,35 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-
-        m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(), s_Swerve));
+        
+        // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(), s_Swerve));
         m_MechController.y().whileTrue(new CoralTransportCommand(m_Coralintake));
         m_MechController.y().whileTrue(new CoralTransportOutTake(m_CoralOutTake));
         m_MechController.x().whileTrue(new CoralOutTakeCommand(m_CoralOutTake));
         m_MechController.a().whileTrue(new AlgeaInCommand(m_Algea));
         m_MechController.b().whileTrue(new AlgeaOutCommand(m_Algea));
         m_MechController.start().onTrue(new ElevatorResetCommand(m_Elevator));
+        m_MechController.back().onTrue(new ElevatorFullExtend(m_Elevator));
+        m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
         
-        if(m_MechController.rightBumper().getAsBoolean()){
-            if(m_MechController.povDown().getAsBoolean()){
-                m_MechController.rightBumper().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator , 1));
-            }
-            else if(m_MechController.povLeft().getAsBoolean()){
-                m_MechController.rightBumper().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator , 2));
-            }
-            else if(m_MechController.povUp().getAsBoolean()){
-                m_MechController.rightBumper().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator , 3));
+        // if(m_MechController.rightBumper().getAsBoolean()){
+        //     if(m_MechController.povDown().getAsBoolean()){
+        //         m_MechController.rightBumper().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator , 1));
+        //     }
+        //     else if(m_MechController.povLeft().getAsBoolean()){
+        //         m_MechController.rightBumper().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator , 2));
+        //     }
+        //     else if(m_MechController.povUp().getAsBoolean()){
+        //         m_MechController.rightBumper().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator , 3));
 
-            }
-            else if(m_MechController.povRight().getAsBoolean()){
-                m_MechController.rightBumper().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator , 4));
-            }
-            else{
-                System.out.println("You are trying to confirm the selected level to the elvator but it seems like there is no selected level");
-            }
-        }
+        //     }
+        //     else if(m_MechController.povRight().getAsBoolean()){
+        //         m_MechController.rightBumper().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator , 4));
+        //     }
+        //     else{
+        //         System.out.println("You are trying to confirm the selected level to the elvator but it seems like there is no selected level");
+        //     }
+        // }
 
 
             
@@ -117,7 +118,7 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
-        return new exampleAuto(s_Swerve);
-    }
+    // public Command getAutonomousCommand() {
+    //     return new exampleAuto(s_Swerve);
+    // }
 }

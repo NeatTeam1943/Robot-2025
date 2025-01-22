@@ -26,7 +26,7 @@ public class ElevatorFullExtend extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.MoveElevator(1);
+    m_Elevator.MoveElevator(0.5);
   }
 
   // Called once the command ends or is interrupted.

@@ -26,7 +26,7 @@ public class AlgeaInCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_AlgeaIn.SetAlgeaSpeed(1);
+    m_AlgeaIn.SetAlgeaSpeed(0.25);
   }
 
   // Called once the command ends or is interrupted.

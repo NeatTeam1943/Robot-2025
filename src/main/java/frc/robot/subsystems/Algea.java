@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,7 +21,6 @@ public class Algea extends SubsystemBase{
     public void SetAlgeaSpeed(double speed) {
         m_motor.set(speed);
     }
-
     public Boolean PhotoSwitchState() {
         return m_photoSwitch.get();
     }

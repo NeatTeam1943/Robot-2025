@@ -5,39 +5,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CoralOutTake;
+import frc.robot.subsystems.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CoralOutTakeCommand extends Command {
-  /** Creates a new CoralOutTakeCommand. */
-  private CoralOutTake m_OutTake;
-  public CoralOutTakeCommand(CoralOutTake outTake) {
-    m_OutTake = outTake;
-    
+public class ElevatorMove extends Command {
+  /** Creates a new ElevatorMove. */
+  Elevator m_Elevator;
+  public ElevatorMove(Elevator elevator) {
+    m_Elevator = elevator;
+    addRequirements(m_Elevator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_OutTake.moveCoral(0);
+    m_Elevator.MoveElevator(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_OutTake.moveCoral(0.25);
+    m_Elevator.MoveElevator(0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_OutTake.moveCoral(0);
+    m_Elevator.MoveElevator(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !m_OutTake.PhotoSwitchMode();
+    return m_Elevator.MagnetSwitchState();
   }
 }

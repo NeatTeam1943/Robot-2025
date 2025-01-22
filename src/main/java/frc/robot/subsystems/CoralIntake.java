@@ -16,11 +16,10 @@ public class CoralIntake extends SubsystemBase{
     
 
     public boolean PhotoSwitchMode(){
-        boolean mode = m_PhotoSwitch.get();
-        return mode;
+        return m_PhotoSwitch.get();
     }
 
-    public void coralTransport(double speed){
+    public void moveCoral(double speed){
         m_Motor.set(speed);
     }
     

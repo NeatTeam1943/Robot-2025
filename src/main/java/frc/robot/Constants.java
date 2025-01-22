@@ -29,10 +29,10 @@ public final class Constants {
                                                 .Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
                 /* Drivetrain Constants */
-                public static final double kTrackWidth = Units.inchesToMeters(21.73); // TODO: This must be tuned to
+                public static final double kTrackWidth = Units.inchesToMeters(27); // TODO: This must be tuned to
                                                                                      // specific
                                                                                      // robot
-                public static final double kWheelBase = Units.inchesToMeters(21.73); // TODO: This must be tuned to
+                public static final double kWheelBase = Units.inchesToMeters(22); // TODO: This must be tuned to
                                                                                     // specific
                                                                                     // robot
                 public static final double kWheelCircumference = kChosenModule.wheelCircumference;
@@ -178,32 +178,33 @@ public final class Constants {
 
         // TODO : CHANGE PORTS TO ANYTHING BELOW HERE OR ROBOT GO BOOOOOOM!!!!!!
         public static final class CoralIntakeConstants{
-                public static final int kPhotoSwitchPort = 0;
-                public static final int kMotorPort = 0;
+                public static final int kPhotoSwitchPort = 7;
+                public static final int kMotorPort = 50;
         }
 
 
         public static final class CoralOutTakeConstants{
-                public static final int kPhotoSwitchPort = 0;
-                public static final int kMotorPort = 0;
+                public static final int kPhotoSwitchPort = 4;
+                public static final int kMotorPort = 51;
         }
 
         public static final class AlgeaConstants {
-                public static final int kMotorPort = 0;
-                public static final int kPhotoSwitchPort = 0;
+                public static final int kMotorPort = 52;
+                public static final int kPhotoSwitchPort = 8;
                 
         }
 
         public static final class ElevatorConstants {
                 public static final int kMagnetSwitchPort = 0;
-                public static final int kRightMotorPort = 0;
-                public static final int kLeftMotorPort = 0;
-                public static final int kBottomLimitSwitchPort = 0;
-                public static final int kTopLimitSwitchPort = 0; 
-                public static final double kL1EncoderValue = 0;
-                public static final double kL2EncoderValue = 0;
-                public static final double kL3EncoderValue = 0;
-                public static final double kL4EncoderValue = 0;
+                public static final int kRightMotorPort = 53;
+                public static final int kLeftMotorPort = 54;
+                public static final int kBottomLimitSwitchPort = 5;
+                public static final int kTopLimitSwitchPort = 6; 
+                public static final double kL1EncoderValue = 1;
+                public static final double kL2EncoderValue = 2;
+                public static final double kL3EncoderValue = 3;
+                public static final double kL4EncoderValue = 5;
+                public static final double kEncoderValueTreshHold = 0.01;
         
                 
         }

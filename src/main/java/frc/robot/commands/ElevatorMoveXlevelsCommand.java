@@ -29,12 +29,7 @@ public class ElevatorMoveXlevelsCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_RequestedLevel> 0){
-      m_Elevator.MoveElevator(1);
-    }
-    else if(m_RequestedLevel<0){
-      m_Elevator.MoveElevator(-1);
-    }
+    m_Elevator.MoveElevator((m_LevelsToMove/Math.abs(m_LevelsToMove))*0.5);
   }
 
   // Called once the command ends or is interrupted.
@@ -46,9 +41,6 @@ public class ElevatorMoveXlevelsCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_Elevator.MagnetSwitchState()){
-      m_LevelsToMove--;
-    }
-    return (m_LevelsToMove == 0);
+    return m_LevelsToMove == 0 || m_Elevator.ElevatorBottomLimitState() || m_Elevator.ElevatorTopLimitState();
   }
 }

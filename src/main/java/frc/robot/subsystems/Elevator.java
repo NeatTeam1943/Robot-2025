@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -22,6 +24,8 @@ public class Elevator extends SubsystemBase {
    public Elevator(){
     m_LeftMotor = new TalonFX(Constants.ElevatorConstants.kLeftMotorPort);
     m_RightMotor = new TalonFX(Constants.ElevatorConstants.kRightMotorPort);
+
+    m_RightMotor.setControl(new Follower(m_LeftMotor.getDeviceID(), true));
     m_MagnetSwitch = new DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
     m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
     m_BottomLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
@@ -31,8 +35,8 @@ public class Elevator extends SubsystemBase {
      L4 =  Constants.ElevatorConstants.kL4EncoderValue;
    } 
    public boolean MagnetSwitchState(){
-    boolean bool = m_MagnetSwitch.get();
-    return bool;
+    System.out.println("Magnet switch {0}" + m_MagnetSwitch.get());
+    return m_MagnetSwitch.get();
 }
 
     public double EncoderValue(){
@@ -45,6 +49,7 @@ public class Elevator extends SubsystemBase {
     int ElevatorLevel = -1;
     double EncValue = EncoderValue();
     boolean MagnetSwitchState = MagnetSwitchState();
+    double encoderValueTreshHold = Constants.ElevatorConstants.kEncoderValueTreshHold;
     if(m_BottomLimitSwitch.get()){
         ElevatorLevel = 0;
     }
@@ -53,13 +58,13 @@ public class Elevator extends SubsystemBase {
     }
     else if(MagnetSwitchState){
         
-        if(EncValue-0.01 < L1 && L1 < EncValue +0.01)
+        if(EncValue-encoderValueTreshHold < L1 && L1 < EncValue +encoderValueTreshHold)
             ElevatorLevel = 1;
-        else if(EncValue-0.01 < L2 && L2 < EncValue +0.01)
+        else if(EncValue-encoderValueTreshHold < L2 && L2 < EncValue +encoderValueTreshHold)
             ElevatorLevel = 2;
-        else if(EncValue-0.01 < L3 && L3 < EncValue +0.01)
+        else if(EncValue-encoderValueTreshHold < L3 && L3 < EncValue +encoderValueTreshHold)
             ElevatorLevel = 3;
-        else if(EncValue-0.01 < L4 && L4 < EncValue +0.01)
+        else if(EncValue-encoderValueTreshHold < L4 && L4 < EncValue +encoderValueTreshHold)
             ElevatorLevel = 4;
         else 
             ElevatorLevel = -1;
@@ -75,21 +80,20 @@ public class Elevator extends SubsystemBase {
    
             
     public boolean ElevatorTopLimitState(){
-        boolean bool  = m_TopLimitSwitch.get();
-        return bool; 
+        System.out.println("Top limit switch is " + m_TopLimitSwitch.get());
+        return m_TopLimitSwitch.get(); 
     }
 
 
     public boolean ElevatorBottomLimitState(){
-        boolean bool = m_BottomLimitSwitch.get();
-        return bool;
+        System.out.println("Low limit switch is " + m_BottomLimitSwitch.get());
+        return m_BottomLimitSwitch.get();
     }
     
     
 
-   public void MoveElevator(int speed){
+   public void MoveElevator(double speed){
     m_LeftMotor.set(speed);
-    m_RightMotor.set(speed);
    }
 
 

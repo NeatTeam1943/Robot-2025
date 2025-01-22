@@ -20,24 +20,24 @@ public class CoralTransportOutTake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_OutTransport.coralOut(0);
+    m_OutTransport.moveCoral(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_OutTransport.coralOut(0.1);
+    m_OutTransport.moveCoral(0.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_OutTransport.coralOut(0);
+    m_OutTransport.moveCoral(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_OutTransport.PhotoSwitchMode();
+    return !m_OutTransport.PhotoSwitchMode();
   }
 }
