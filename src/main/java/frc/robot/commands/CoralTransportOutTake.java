@@ -11,6 +11,7 @@ import frc.robot.subsystems.CoralOutTake;
 public class CoralTransportOutTake extends Command {
   /** Creates a new CoralTransport(OutTake). */
   CoralOutTake m_OutTransport;
+  int m_timer;
   public CoralTransportOutTake(CoralOutTake outTransport) {
     m_OutTransport = outTransport;
     addRequirements(m_OutTransport);
@@ -20,13 +21,19 @@ public class CoralTransportOutTake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_timer = 0;
     m_OutTransport.moveCoral(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_OutTransport.moveCoral(0.1);
+    if(m_timer < 25){ // 5 ticks == 0.1 sec
+      m_timer++;
+    }
+    else {
+      m_OutTransport.moveCoral(0.05);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +45,6 @@ public class CoralTransportOutTake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !m_OutTransport.PhotoSwitchMode();
+    return m_OutTransport.PhotoSwitchMode();
   }
 }

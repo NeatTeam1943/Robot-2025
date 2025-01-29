@@ -15,26 +15,26 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
         public static final double kStickDeadband = 0.1;
 
-
-        public static final class OperatorConstants{
+        public static final class OperatorConstants {
                 public static final int kDriveControllerPort = 0;
                 public static final int kMechanisemControllerPort = 1;
         }
+
         public static final class Swerve {
                 public static final int kPigeonID = 1;
 
                 public static final COTSTalonFXSwerveConstants kChosenModule = // TODO: This must be tuned to specific
-                                                                              // robot
+                                                                               // robot
                                 COTSTalonFXSwerveConstants.SDS.MK4i
                                                 .Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
                 /* Drivetrain Constants */
                 public static final double kTrackWidth = Units.inchesToMeters(27); // TODO: This must be tuned to
-                                                                                     // specific
-                                                                                     // robot
+                                                                                   // specific
+                                                                                   // robot
                 public static final double kWheelBase = Units.inchesToMeters(22); // TODO: This must be tuned to
-                                                                                    // specific
-                                                                                    // robot
+                                                                                  // specific
+                                                                                  // robot
                 public static final double kWheelCircumference = kChosenModule.wheelCircumference;
 
                 /*
@@ -104,9 +104,6 @@ public final class Constants {
                 public static final NeutralModeValue kAngleNeutralMode = NeutralModeValue.Coast;
                 public static final NeutralModeValue kDriveNeutralMode = NeutralModeValue.Brake;
 
-        /* Neutral Modes */
-        public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
-        public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
                 /* Module Specific Constants */
                 /* Front Left Module - Module 0 */
                 // A1
@@ -155,6 +152,146 @@ public final class Constants {
                                         kAngleMotorID,
                                         kCanCoderID, kAngleOffset);
                 }
+
+                public static int getKpigeonid() {
+                        return kPigeonID;
+                }
+
+                public static COTSTalonFXSwerveConstants getKchosenmodule() {
+                        return kChosenModule;
+                }
+
+                public static double getKtrackwidth() {
+                        return kTrackWidth;
+                }
+
+                public static double getKwheelbase() {
+                        return kWheelBase;
+                }
+
+                public static double getKwheelcircumference() {
+                        return kWheelCircumference;
+                }
+
+                public static SwerveDriveKinematics getKswervekinematics() {
+                        return kSwerveKinematics;
+                }
+
+                public static double getKdrivegearratio() {
+                        return kDriveGearRatio;
+                }
+
+                public static double getKanglegearratio() {
+                        return kAngleGearRatio;
+                }
+
+                public static InvertedValue getKanglemotorinvert() {
+                        return kAngleMotorInvert;
+                }
+
+                public static InvertedValue getKdrivemotorinvert() {
+                        return kDriveMotorInvert;
+                }
+
+                public static SensorDirectionValue getKcancoderinvert() {
+                        return kCancoderInvert;
+                }
+
+                public static int getKanglecurrentlimit() {
+                        return kAngleCurrentLimit;
+                }
+
+                public static int getKanglecurrentthreshold() {
+                        return kAngleCurrentThreshold;
+                }
+
+                public static double getKanglecurrentthresholdtime() {
+                        return kAngleCurrentThresholdTime;
+                }
+
+                public static boolean isKangleenablecurrentlimit() {
+                        return kAngleEnableCurrentLimit;
+                }
+
+                public static int getKdrivecurrentlimit() {
+                        return kDriveCurrentLimit;
+                }
+
+                public static int getKdrivecurrentthreshold() {
+                        return kDriveCurrentThreshold;
+                }
+
+                public static double getKdrivecurrentthresholdtime() {
+                        return kDriveCurrentThresholdTime;
+                }
+
+                public static boolean isKdriveenablecurrentlimit() {
+                        return kDriveEnableCurrentLimit;
+                }
+
+                public static double getKopenloopramp() {
+                        return kOpenLoopRamp;
+                }
+
+                public static double getKclosedloopramp() {
+                        return kClosedLoopRamp;
+                }
+
+                public static double getKanglekp() {
+                        return kAngleKP;
+                }
+
+                public static double getKangleki() {
+                        return kAngleKI;
+                }
+
+                public static double getKanglekd() {
+                        return kAngleKD;
+                }
+
+                public static double getKdrivekp() {
+                        return kDriveKP;
+                }
+
+                public static double getKdriveki() {
+                        return kDriveKI;
+                }
+
+                public static double getKdrivekd() {
+                        return kDriveKD;
+                }
+
+                public static double getKdrivekf() {
+                        return kDriveKF;
+                }
+
+                public static double getKdriveks() {
+                        return kDriveKS;
+                }
+
+                public static double getKdrivekv() {
+                        return kDriveKV;
+                }
+
+                public static double getKdriveka() {
+                        return kDriveKA;
+                }
+
+                public static double getKmaxspeed() {
+                        return kMaxSpeed;
+                }
+
+                public static double getKmaxangularvelocity() {
+                        return kMaxAngularVelocity;
+                }
+
+                public static NeutralModeValue getKangleneutralmode() {
+                        return kAngleNeutralMode;
+                }
+
+                public static NeutralModeValue getKdriveneutralmode() {
+                        return kDriveNeutralMode;
+                }
         }
 
         public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be
@@ -170,42 +307,44 @@ public final class Constants {
 
                 /* Constraint for the motion profilied robot angle controller */
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
-                                kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared); 
-
+                                kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
         }
 
-
         // TODO : CHANGE PORTS TO ANYTHING BELOW HERE OR ROBOT GO BOOOOOOM!!!!!!
-        public static final class CoralIntakeConstants{
+        public static final class CoralIntakeConstants {
                 public static final int kPhotoSwitchPort = 7;
                 public static final int kMotorPort = 50;
         }
 
-
-        public static final class CoralOutTakeConstants{
-                public static final int kPhotoSwitchPort = 4;
+        public static final class CoralOutTakeConstants {
+                public static final int kPhotoSwitchPort = 6;
                 public static final int kMotorPort = 51;
         }
 
         public static final class AlgeaConstants {
                 public static final int kMotorPort = 52;
-                public static final int kPhotoSwitchPort = 8;
-                
+                public static final int kPhotoSwitchPort = 4;
+
+        }
+
+        public static final class MotorCurrentLimits {
+
+                public static final int kSupplyCurrentLimit = 40;
+                public static final boolean kSupplyCurrentLimitEnable = true;
         }
 
         public static final class ElevatorConstants {
                 public static final int kMagnetSwitchPort = 0;
                 public static final int kRightMotorPort = 53;
                 public static final int kLeftMotorPort = 54;
-                public static final int kBottomLimitSwitchPort = 5;
-                public static final int kTopLimitSwitchPort = 6; 
-                public static final double kL1EncoderValue = 1;
-                public static final double kL2EncoderValue = 2;
-                public static final double kL3EncoderValue = 3;
-                public static final double kL4EncoderValue = 5;
-                public static final double kEncoderValueTreshHold = 0.01;
-        
-                
+                public static final int kBottomLimitSwitchPort = 1;
+                public static final int kTopLimitSwitchPort = 2;
+                public static final double kL1EncoderValue = 0.2;
+                public static final double kL2EncoderValue = 0.4;
+                public static final double kL3EncoderValue = 0.6;
+                public static final double kL4EncoderValue = 0.8;
+                public static final double kEncoderValueTreshHold = 0.1;
+
         }
 }

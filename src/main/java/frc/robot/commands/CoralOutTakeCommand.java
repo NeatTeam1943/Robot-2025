@@ -11,9 +11,11 @@ import frc.robot.subsystems.CoralOutTake;
 public class CoralOutTakeCommand extends Command {
   /** Creates a new CoralOutTakeCommand. */
   private CoralOutTake m_OutTake;
+
   public CoralOutTakeCommand(CoralOutTake outTake) {
     m_OutTake = outTake;
-    
+    addRequirements(m_OutTake);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

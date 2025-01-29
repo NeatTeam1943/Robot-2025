@@ -26,13 +26,14 @@ public class ElevatorResetCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.MoveElevator(-0.5);
+    m_Elevator.MoveElevator(-0.05);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_Elevator.MoveElevator(0);
+    m_Elevator.elevatorLevelSetter(0);
   }
 
   // Returns true when the command should end.

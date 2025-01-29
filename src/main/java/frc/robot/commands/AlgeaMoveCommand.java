@@ -8,11 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Algea;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AlgeaInCommand extends Command {
+public class AlgeaMoveCommand extends Command {
   /** Creates a new AlgeaInCommand. */
   Algea m_AlgeaIn;
-  public AlgeaInCommand(Algea algea) {
+  int m_Direction;
+
+  public AlgeaMoveCommand(Algea algea, int Direction) {
     m_AlgeaIn = algea;
+    m_Direction = Direction;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_AlgeaIn);
   }
@@ -26,7 +29,7 @@ public class AlgeaInCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_AlgeaIn.SetAlgeaSpeed(0.25);
+    m_AlgeaIn.SetAlgeaSpeed(0.25 * m_Direction);
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +41,10 @@ public class AlgeaInCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_AlgeaIn.PhotoSwitchState();
+    if (m_Direction == -1) {
+      return !m_AlgeaIn.PhotoSwitchState();
+    } else {
+      return m_AlgeaIn.PhotoSwitchState();
+    }
   }
 }

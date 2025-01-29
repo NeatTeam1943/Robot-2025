@@ -11,8 +11,10 @@ import frc.robot.subsystems.CoralIntake;
 public class CoralTransportCommand extends Command {
   /** Creates a new CoralTransportCommand. */
   CoralIntake m_Intake;
+
   public CoralTransportCommand(CoralIntake intake) {
     m_Intake = intake;
+    addRequirements(m_Intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -37,7 +39,7 @@ public class CoralTransportCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
-    return !m_Intake.PhotoSwitchMode();
+
+    return m_Intake.PhotoSwitchMode();
   }
 }
