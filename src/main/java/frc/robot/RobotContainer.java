@@ -113,10 +113,10 @@ public class RobotContainer {
                 .onTrue(/* TODO : add Xmove here as before starting */ new CoralOutTakeCommand(m_CoralOutTake)
                         .andThen(new ElevatorResetCommand(m_Elevator)));
         // if(m_MechController.rightBumper().getAsBoolean()){
-        m_MechController.povDown().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator, 1));
-        m_MechController.povLeft().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator, 2));
-        m_MechController.povUp().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator, 3));
-        m_MechController.povRight().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator, 4));
+        m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 1));
+        m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 2));
+        m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 3));
+        m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 4));
         // }
 
     }
