@@ -32,17 +32,18 @@ public class ElevatorMoveToLevelXCommand extends Command {
   @Override
   public void initialize() {
     m_Elevator.MoveElevator(0);
-
     m_StartingBottomLimitSwithState = m_Elevator.ElevatorBottomLimitState();
     m_StaringTopLimitSwitchState = m_Elevator.ElevatorTopLimitState();
     m_LastMagnetSwitchState = m_Elevator.MagnetSwitchState();
 
-    m_LevelsToMove = m_Elevator.elevatorLevelGetter() - m_RequestedLevel;
+    m_LevelsToMove =   m_RequestedLevel -  m_Elevator.elevatorLevelGetter();
+    System.out.println(m_LevelsToMove + "levels to move");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println(m_LevelsToMove);
     if (m_LevelsToMove != 0) {
       m_Elevator.MoveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * 0.05);
       if (m_Elevator.MagnetSwitchState() && !m_LastMagnetSwitchState) {
@@ -58,17 +59,22 @@ public class ElevatorMoveToLevelXCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("end, interpted: " + interrupted);
     m_Elevator.MoveElevator(0);
-    m_Elevator.elevatorLevelSetter(m_RequestedLevel);
+    if(!interrupted){
+      m_Elevator.elevatorLevelSetter(m_RequestedLevel);
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_StaringTopLimitSwitchState) {
-      return m_LevelsToMove == 0 || m_Elevator.ElevatorBottomLimitState();
-    } else if (m_StartingBottomLimitSwithState) {
+    
+    
+    if (m_StartingBottomLimitSwithState) {
       return m_LevelsToMove == 0 || m_Elevator.ElevatorTopLimitState();
+    } else if (m_StaringTopLimitSwitchState) {
+      return m_LevelsToMove == 0 || m_Elevator.ElevatorBottomLimitState();
     } else
       return m_LevelsToMove == 0 || m_Elevator.ElevatorBottomLimitState()
           || m_Elevator.ElevatorTopLimitState();

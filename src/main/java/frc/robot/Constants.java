@@ -318,13 +318,13 @@ public final class Constants {
         }
 
         public static final class CoralOutTakeConstants {
-                public static final int kPhotoSwitchPort = 6;
+                public static final int kPhotoSwitchPort = 4;
                 public static final int kMotorPort = 51;
         }
 
         public static final class AlgeaConstants {
                 public static final int kMotorPort = 52;
-                public static final int kPhotoSwitchPort = 4;
+                public static final int kPhotoSwitchPort = 6;
 
         }
 

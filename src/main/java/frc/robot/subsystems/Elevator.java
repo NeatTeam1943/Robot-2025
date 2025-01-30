@@ -7,6 +7,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorCurrentLimits;
@@ -14,7 +15,7 @@ import frc.robot.Constants.MotorCurrentLimits;
 public class Elevator extends SubsystemBase {
     private TalonFX m_LeftMotor;
     private TalonFX m_RightMotor;
-    public DigitalInput m_MagnetSwitch;
+    private DigitalInput m_MagnetSwitch;
     private DigitalInput m_TopLimitSwitch;
     private DigitalInput m_BottomLimitSwitch;
     private int m_ElevatorLevel;
@@ -101,5 +102,6 @@ public class Elevator extends SubsystemBase {
     public void MoveElevator(double speed) {
         m_LeftMotor.set(speed);
     }
+
 
 }

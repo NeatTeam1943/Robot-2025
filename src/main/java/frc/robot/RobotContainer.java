@@ -77,7 +77,7 @@ public class RobotContainer {
         m_Elevator = new Elevator();
 
         // Configure the button bindings
-        configureButtonBindings();
+        
     }
 
     /**
@@ -117,7 +117,7 @@ public class RobotContainer {
         m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 2));
         m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 3));
         m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 4));
-        // }
+        //
 
     }
 
