@@ -97,14 +97,10 @@ public class RobotContainer {
 
         // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(),
         // s_Swerve));
-        m_MechController.y().whileTrue(
-                new CoralTransportCommand(m_Coralintake).alongWith(new CoralTransportOutTake(m_CoralOutTake)));
+        m_MechController.y().whileTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 1).andThen(
+                new CoralTransportCommand(m_Coralintake).alongWith(new CoralTransportOutTake(m_CoralOutTake))));
         m_MechController.x().whileTrue(new CoralOutTakeCommand(m_CoralOutTake));
-        // m_MechController.y().whileTrue(Commands.sequence(
-        // new CoralTransportCommand(m_Coralintake);
-        // new WaitCommand(0.5);
-        // new
-        // ));
+
         m_MechController.a().whileTrue(new AlgeaMoveCommand(m_Algea, 1));
         m_MechController.b().whileTrue(new AlgeaMoveCommand(m_Algea, -1));
 
@@ -113,15 +109,15 @@ public class RobotContainer {
         m_MechController.back().onTrue(new ElevatorFullExtend(m_Elevator));
         // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
         // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
-        m_MechController.rightBumper()
-                .onTrue(/* TODO : add Xmove here as before starting */new CoralOutTakeCommand(m_CoralOutTake)
-                                .andThen(new ElevatorResetCommand(m_Elevator)));
+        m_MechController.rightBumper(
+                .onTrue(/* TODO : add Xmove here as before starting */ new CoralOutTakeCommand(m_CoralOutTake)
+                        .andThen(new ElevatorMoveToLevelXCommand(m_Elevator , 1).alongWith(new TempCommand(m_Algea))));
         // if(m_MechController.rightBumper().getAsBoolean()){
-        m_MechController.povDown().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator, 1));
-        m_MechController.povLeft().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator, 2));
-        m_MechController.povUp().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator, 3));
-        m_MechController.povRight().onTrue(new ElevatorMoveXlevelsCommand(m_Elevator, 4));
-
+        m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 1).alongWith(new TempCommand(m_Algea)));
+        m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 2));
+        m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 3));
+        m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 4));
+        //
         m_MechController.leftBumper().whileTrue(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1));
         m_MechController.rightBumper().whileTrue(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, -1));
         // }
