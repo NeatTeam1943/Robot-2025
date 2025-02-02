@@ -1,28 +1,31 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.*;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.AlgeaMoveCommand;
+import frc.robot.commands.AlgeaRotatorAxisCommand;
+import frc.robot.commands.CoralOutTakeCommand;
+import frc.robot.commands.CoralTransportCommand;
+import frc.robot.commands.CoralTransportOutTake;
+import frc.robot.commands.ElevatorFullExtend;
+import frc.robot.commands.ElevatorMoveXlevelsCommand;
+import frc.robot.commands.ElevatorResetCommand;
+import frc.robot.subsystems.Algea;
+import frc.robot.subsystems.AlgeaRotatorAxis;
+import frc.robot.subsystems.CoralIntake;
+import frc.robot.subsystems.CoralOutTake;
+import frc.robot.subsystems.Elevator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
- * subsystems, commands, and button mappings) should be declared here.
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
     /* Controllers */
     // public CommandXboxController m_DriveController = new
     // CommandXboxController(Constants.OperatorConstants.kDriveControllerPort);
@@ -48,9 +51,11 @@ public class RobotContainer {
     private CoralOutTake m_CoralOutTake;
     private Algea m_Algea;
     private Elevator m_Elevator;
+    private AlgeaRotatorAxis m_AlgeaRotatorAxis;
 
     /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
+     * The container for the robot. Contains subsystems, OI devices, and
+     * commands.
      */
     public RobotContainer() {
         configureDefaultCommands();
@@ -75,17 +80,16 @@ public class RobotContainer {
         m_Coralintake = new CoralIntake();
         m_CoralOutTake = new CoralOutTake();
         m_Elevator = new Elevator();
+        m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
 
         // Configure the button bindings
-
     }
 
     /**
      * Use this method to define your button->command mappings. Buttons can be
-     * created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-     * it to a {@link
+     * created by instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+     * passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
@@ -105,7 +109,7 @@ public class RobotContainer {
         m_MechController.back().onTrue(new ElevatorFullExtend(m_Elevator));
         // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
         // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
-        m_MechController.rightBumper()
+        m_MechController.rightBumper(
                 .onTrue(/* TODO : add Xmove here as before starting */ new CoralOutTakeCommand(m_CoralOutTake)
                         .andThen(new ElevatorMoveToLevelXCommand(m_Elevator , 1).alongWith(new TempCommand(m_Algea))));
         // if(m_MechController.rightBumper().getAsBoolean()){
@@ -114,7 +118,9 @@ public class RobotContainer {
         m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 3));
         m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 4));
         //
-
+        m_MechController.leftBumper().whileTrue(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1));
+        m_MechController.rightBumper().whileTrue(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, -1));
+        // }
     }
 
     /**
