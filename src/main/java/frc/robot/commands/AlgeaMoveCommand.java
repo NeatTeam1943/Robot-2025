@@ -10,8 +10,8 @@ import frc.robot.subsystems.Algea;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgeaMoveCommand extends Command {
   /** Creates a new AlgeaInCommand. */
-  Algea m_AlgeaIn;
-  int m_Direction;
+  private Algea m_AlgeaIn;
+  private int m_Direction;
 
   public AlgeaMoveCommand(Algea algea, int Direction) {
     m_AlgeaIn = algea;

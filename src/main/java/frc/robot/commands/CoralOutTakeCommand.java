@@ -11,9 +11,11 @@ import frc.robot.subsystems.CoralOutTake;
 public class CoralOutTakeCommand extends Command {
   /** Creates a new CoralOutTakeCommand. */
   private CoralOutTake m_OutTake;
+  private double m_speed;
 
-  public CoralOutTakeCommand(CoralOutTake outTake) {
+  public CoralOutTakeCommand(CoralOutTake outTake, double speed) {
     m_OutTake = outTake;
+    m_speed = speed;
     addRequirements(m_OutTake);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,7 +30,7 @@ public class CoralOutTakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_OutTake.moveCoral(0.25);
+    m_OutTake.moveCoral(m_speed);
   }
 
   // Called once the command ends or is interrupted.

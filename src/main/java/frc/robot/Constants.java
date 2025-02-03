@@ -26,9 +26,8 @@ public final class Constants {
 
         public static final int kPigeonID = 1;
 
-        public static final COTSTalonFXSwerveConstants kChosenModule
-                = // TODO: This must be tuned to specific
-                // robot
+        public static final COTSTalonFXSwerveConstants kChosenModule = // TODO: This must be tuned to specific
+                                                                       // robot
                 COTSTalonFXSwerveConstants.SDS.MK4i
                         .Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
@@ -42,9 +41,9 @@ public final class Constants {
         public static final double kWheelCircumference = kChosenModule.wheelCircumference;
 
         /*
-                 * Swerve Kinematics
-                 * No need to ever change this unless you are not doing a traditional
-                 * rectangular/square 4 module swerve
+         * Swerve Kinematics
+         * No need to ever change this unless you are not doing a traditional
+         * rectangular/square 4 module swerve
          */
         public static final SwerveDriveKinematics kSwerveKinematics = new SwerveDriveKinematics(
                 new Translation2d(kWheelBase / 2.0, kTrackWidth / 2.0),
@@ -75,9 +74,9 @@ public final class Constants {
         public static final boolean kDriveEnableCurrentLimit = true;
 
         /*
-                 * These values are used by the drive falcon to ramp in open loop and closed
-                 * loop driving.
-                 * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc
+         * These values are used by the drive falcon to ramp in open loop and closed
+         * loop driving.
+         * We found a small open loop ramp (0.25) helps with tread wear, tipping, etc
          */
         public static final double kOpenLoopRamp = 0.25;
         public static final double kClosedLoopRamp = 0.0;
@@ -113,7 +112,7 @@ public final class Constants {
         public static final NeutralModeValue kDriveNeutralMode = NeutralModeValue.Brake;
 
         /* Module Specific Constants */
- /* Front Left Module - Module 0 */
+        /* Front Left Module - Module 0 */
         // A1
         public static final class Mod0 { // TODO: This must be tuned to specific robot
 
@@ -324,17 +323,14 @@ public final class Constants {
 
     }
 
-    // TODO : CHANGE PORTS TO ANYTHING BELOW HERE OR ROBOT GO BOOOOOOM!!!!!!
-    public static final class CoralIntakeConstants {
-
-        public static final int kPhotoSwitchPort = 7;
-        public static final int kMotorPort = 55;
-    }
-
+    // TODO : CHANGE PORTS AND VALUES TO ANYTHING BELOW HERE OR ROBOT GO
+    // BOOOOOOM!!!!!!
     public static final class CoralOutTakeConstants {
 
         public static final int kPhotoSwitchPort = 6;
         public static final int kMotorPort = 50;
+        public static final double kCoralOutSpeed = 0.1;
+        public static final double kCoralInSpeed = 0.05;
     }
 
     public static final class AlgeaConstants {
@@ -365,11 +361,11 @@ public final class Constants {
 
     }
 
-    public static final class AlgeaRotatorAxis {
+    public static final class AlgeaRotatorAxisConstants {
 
-        public static final int kRotatorLimitSwitchTopPort = 5;
-        public static final int kRotatorLimitSwitchBottomPort = 3;
-        public static final int kRotatorMotorPort = 54;
+        public static final int kTopLimitSwichPort = 5;
+        public static final int kBottomLimitSwitchPort = 3;
+        public static final int kMotorPort = 54;
         public static final double kEncoderValueForElevatorReset = 5;
         public static final double kEncoderValueForElevatorL1 = 10;
         public static final double kEncoderValueLimit = 50;

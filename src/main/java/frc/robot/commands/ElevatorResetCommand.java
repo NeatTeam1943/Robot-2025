@@ -10,7 +10,8 @@ import frc.robot.subsystems.Elevator;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorResetCommand extends Command {
   /** Creates a new ElevatorResetCommand. */
-  Elevator m_Elevator;
+  private Elevator m_Elevator;
+
   public ElevatorResetCommand(Elevator elevator) {
     m_Elevator = elevator;
     addRequirements(m_Elevator);

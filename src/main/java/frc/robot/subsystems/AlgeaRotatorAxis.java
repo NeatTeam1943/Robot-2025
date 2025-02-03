@@ -17,36 +17,37 @@ import frc.robot.Constants.MotorCurrentLimits;
  */
 public class AlgeaRotatorAxis extends SubsystemBase {
 
-    private DigitalInput m_RotatorLimitSwitchTop;
-    private DigitalInput m_RotatorLimitSwitchBottom;
-    private TalonFX m_RotatorMotor;
+    private DigitalInput m_TopLimitSwitch;
+    private DigitalInput m_BottomLimitSwitch;
+    private TalonFX m_Motor;
 
     public AlgeaRotatorAxis() {
-        m_RotatorMotor = new TalonFX(Constants.AlgeaRotatorAxis.kRotatorMotorPort);
-        m_RotatorLimitSwitchTop = new DigitalInput(Constants.AlgeaRotatorAxis.kRotatorLimitSwitchTopPort);
-        m_RotatorLimitSwitchBottom = new DigitalInput(Constants.AlgeaRotatorAxis.kRotatorLimitSwitchBottomPort);
+        m_Motor = new TalonFX(Constants.AlgeaRotatorAxisConstants.kMotorPort);
+        m_TopLimitSwitch = new DigitalInput(Constants.AlgeaRotatorAxisConstants.kTopLimitSwichPort);
+        m_BottomLimitSwitch = new DigitalInput(
+                Constants.AlgeaRotatorAxisConstants.kBottomLimitSwitchPort);
         TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
-        m_RotatorMotor.getConfigurator().apply(talonFXConfiguration);
+        m_Motor.getConfigurator().apply(talonFXConfiguration);
         limitConfigs.SupplyCurrentLimit = MotorCurrentLimits.kSupplyCurrentLimit;
         limitConfigs.SupplyCurrentLimitEnable = MotorCurrentLimits.kSupplyCurrentLimitEnable;
 
     }
 
-    public double EncoderValueGetter(){
-        return m_RotatorMotor.getRotorPosition().getValueAsDouble();
+    public double EncoderValueGetter() {
+        return m_Motor.getRotorPosition().getValueAsDouble();
     }
 
     public void AlgeaRotatorAxisMove(double speed) {
-        m_RotatorMotor.set(speed);
+        m_Motor.set(speed);
     }
 
     public boolean TopLimitSwitchGetter() {
-        return m_RotatorLimitSwitchTop.get();
+        return m_TopLimitSwitch.get();
     }
 
     public boolean BottomLimitSwitchGetter() {
-        return m_RotatorLimitSwitchBottom.get();
+        return m_BottomLimitSwitch.get();
     }
 
 }
