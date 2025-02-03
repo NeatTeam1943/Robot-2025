@@ -33,6 +33,10 @@ public class AlgeaRotatorAxis extends SubsystemBase {
 
     }
 
+    public double EncoderValueGetter(){
+        return m_RotatorMotor.getRotorPosition().getValueAsDouble();
+    }
+
     public void AlgeaRotatorAxisMove(double speed) {
         m_RotatorMotor.set(speed);
     }

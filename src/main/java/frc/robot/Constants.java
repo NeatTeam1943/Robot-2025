@@ -328,18 +328,18 @@ public final class Constants {
     public static final class CoralIntakeConstants {
 
         public static final int kPhotoSwitchPort = 7;
-        public static final int kMotorPort = 50;
+        public static final int kMotorPort = 55;
     }
 
     public static final class CoralOutTakeConstants {
 
         public static final int kPhotoSwitchPort = 6;
-        public static final int kMotorPort = 51;
+        public static final int kMotorPort = 50;
     }
 
     public static final class AlgeaConstants {
 
-        public static final int kMotorPort = 52;
+        public static final int kMotorPort = 51;
         public static final int kPhotoSwitchPort = 4;
 
     }
@@ -353,8 +353,8 @@ public final class Constants {
     public static final class ElevatorConstants {
 
         public static final int kMagnetSwitchPort = 0;
-        public static final int kRightMotorPort = 53;
-        public static final int kLeftMotorPort = 54;
+        public static final int kRightMotorPort = 52;
+        public static final int kLeftMotorPort = 53;
         public static final int kBottomLimitSwitchPort = 1;
         public static final int kTopLimitSwitchPort = 2;
         public static final double kL1EncoderValue = 0.2;
@@ -369,7 +369,10 @@ public final class Constants {
 
         public static final int kRotatorLimitSwitchTopPort = 5;
         public static final int kRotatorLimitSwitchBottomPort = 3;
-        public static final int kRotatorMotorPort = 55;
+        public static final int kRotatorMotorPort = 54;
+        public static final double kEncoderValueForElevatorReset = 5;
+        public static final double kEncoderValueForElevatorL1 = 10;
+        public static final double kEncoderValueLimit = 50;
 
     }
 }
