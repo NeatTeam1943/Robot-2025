@@ -11,7 +11,7 @@ import frc.robot.commands.ElevatorMoveToLevelXCommand;
 import frc.robot.commands.ElevatorResetCommand;
 import frc.robot.subsystems.Algea;
 import frc.robot.subsystems.AlgeaRotatorAxis;
-import frc.robot.subsystems.CoralOutTake;
+import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LedController;
 
@@ -45,7 +45,7 @@ public class RobotContainer {
         /* Subsystems */
         // public final Swerve s_Swerve = new Swerve();
         // @SuppressWarnings("unused")
-        private CoralOutTake m_CoralOutTake;
+        private Coral m_CoralOutTake;
         private Algea m_Algea;
         private Elevator m_Elevator;
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
@@ -58,7 +58,7 @@ public class RobotContainer {
         public RobotContainer() {
                 m_MechController = new CommandXboxController(Constants.OperatorConstants.kMechanisemControllerPort);
                 m_Algea = new Algea();
-                m_CoralOutTake = new CoralOutTake();
+                m_CoralOutTake = new Coral();
                 m_Elevator = new Elevator();
                 m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
                 m_LedController = new LedController();
@@ -96,9 +96,9 @@ public class RobotContainer {
                 // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(),
                 // s_Swerve));
                 m_MechController.y().whileTrue((new CoralOutTakeCommand(m_CoralOutTake,
-                                Constants.CoralOutTakeConstants.kCoralInSpeed, m_LedController)));
+                                Constants.CoralConstants.kCoralInSpeed, m_LedController)));
                 m_MechController.x().whileTrue(new CoralOutTakeCommand(m_CoralOutTake,
-                                Constants.CoralOutTakeConstants.kCoralOutSpeed, m_LedController));
+                                Constants.CoralConstants.kCoralOutSpeed, m_LedController));
 
                 m_MechController.a().whileTrue(new AlgeaMoveCommand(m_Algea, 1));
                 m_MechController.b().whileTrue(new AlgeaMoveCommand(m_Algea, -1));
@@ -111,13 +111,10 @@ public class RobotContainer {
                                                                 Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorReset)));
                 m_MechController.back()
                                 .onTrue(/* TODO : add Xmove here as before starting */ new CoralOutTakeCommand(
-                                                m_CoralOutTake, Constants.CoralOutTakeConstants.kCoralOutSpeed,
-                                                m_LedController)
-                                                .andThen(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController)
-                                                                .alongWith(
-                                                                                new AlgeaRotatorAxisCommand(
-                                                                                                m_AlgeaRotatorAxis, 1,
-                                                                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1))));
+                                                m_CoralOutTake, Constants.CoralConstants.kCoralOutSpeed, m_LedController)
+                                                .andThen(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController).alongWith(
+                                                                new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
+                                                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1))));
                 // if(m_MechController.rightBumper().getAsBoolean()){
                 m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController)
                                 .alongWith(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,

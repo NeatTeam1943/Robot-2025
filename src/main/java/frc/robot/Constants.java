@@ -325,10 +325,11 @@ public final class Constants {
 
     // TODO : CHANGE PORTS AND VALUES TO ANYTHING BELOW HERE OR ROBOT GO
     // BOOOOOOM!!!!!!
-    public static final class CoralOutTakeConstants {
+    public static final class CoralConstants {
 
         public static final int kPhotoSwitchPort = 6;
-        public static final int kMotorPort = 50;
+        public static final int kLeftMotorPort = 50;
+        public static final int kRightMotorPort = 55;
         public static final double kCoralOutSpeed = 0.1;
         public static final double kCoralInSpeed = 0.05;
     }
