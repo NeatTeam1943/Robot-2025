@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,7 +24,6 @@ public class CoralOutTake extends SubsystemBase {
         MotionMagicConfigs motionMagicConfigs = talonFXConfiguration.MotionMagic;
 
         m_Motor.getConfigurator().apply(talonFXConfiguration);
-
         limitConfigs.SupplyCurrentLimit = MotorCurrentLimits.kSupplyCurrentLimit;
         limitConfigs.SupplyCurrentLimitEnable = MotorCurrentLimits.kSupplyCurrentLimitEnable;
 

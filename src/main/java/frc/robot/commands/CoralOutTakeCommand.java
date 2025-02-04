@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LedController;
+import frc.robot.subsystems.LedController.BlinkinPattern;
 import frc.robot.Constants;
 import frc.robot.subsystems.CoralOutTake;
 
@@ -42,9 +43,9 @@ public class CoralOutTakeCommand extends Command {
   public void end(boolean interrupted) {
     m_OutTake.moveCoral(0);
     if (!m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralOutTakeConstants.kCoralOutSpeed) {
-      m_LedController.LedColorSetter(Constants.LedConstants.kDefualtColor);
+      m_LedController.DefualtColor();
     } else if (m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralOutTakeConstants.kCoralInSpeed) {
-      m_LedController.LedColorSetter(Constants.LedConstants.kCoralInColor);
+      m_LedController.DefualtColor();
     }
     if (interrupted) {
       System.out.println("interupted is true");

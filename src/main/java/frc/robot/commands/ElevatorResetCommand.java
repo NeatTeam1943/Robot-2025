@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LedController;
+import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorResetCommand extends Command {
@@ -26,7 +27,7 @@ public class ElevatorResetCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_LedController.LedColorSetter(Constants.LedConstants.kMovingElevatorColor);
+    m_LedController.LedColorSetter(BlinkinPattern.RanbowRainbowPalette);
     m_Elevator.MoveElevator(0);
   }
 
@@ -39,10 +40,10 @@ public class ElevatorResetCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(!interrupted){
-      m_LedController.LedColorSetter(Constants.LedConstants.kAtWantedLevelColor);
-    }
     m_Elevator.MoveElevator(0);
+    if(!interrupted){
+      m_LedController.LedColorSetter(BlinkinPattern.HotPink);
+    }
     m_Elevator.elevatorLevelSetter(0);
   }
 

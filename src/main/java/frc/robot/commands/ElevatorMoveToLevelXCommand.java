@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LedController;
+import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorMoveToLevelXCommand extends Command {
@@ -35,7 +36,7 @@ public class ElevatorMoveToLevelXCommand extends Command {
 
   @Override
   public void initialize() {
-    m_LedController.LedColorSetter(Constants.LedConstants.kMovingElevatorColor);
+    m_LedController.LedColorSetter(BlinkinPattern.RanbowRainbowPalette);
     m_Elevator.MoveElevator(0);
     m_StartingBottomLimitSwithState = m_Elevator.ElevatorBottomLimitState();
     m_StaringTopLimitSwitchState = m_Elevator.ElevatorTopLimitState();
@@ -68,7 +69,7 @@ public class ElevatorMoveToLevelXCommand extends Command {
     m_Elevator.MoveElevator(0);
     if (!interrupted) {
       m_Elevator.elevatorLevelSetter(m_RequestedLevel);
-      m_LedController.LedColorSetter(Constants.LedConstants.kAtWantedLevelColor);
+      m_LedController.LedColorSetter(BlinkinPattern.HotPink);
     }
   }
 
