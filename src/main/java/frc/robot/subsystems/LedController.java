@@ -20,8 +20,6 @@ public class LedController extends SubsystemBase {
     m_blinkin = new Spark(Constants.LedConstants.kBlinkinControllerPort);
   }
 
-  double m_color;
-
   public enum BlinkinPattern {
     /*
      * Fixed Palette Pattern
@@ -107,18 +105,18 @@ public class LedController extends SubsystemBase {
     }
   };
 
-  BlinkinPattern m_CurrentPattern;
+  BlinkinPattern m_CurrentPattern = BlinkinPattern.White;
+  double m_color = m_CurrentPattern.value;
 
   public void LedColorSetter(BlinkinPattern pattern) {
     m_CurrentPattern = pattern;
     m_color = (m_CurrentPattern.value);
   }
 
-  public void DefualtColor(){
-    if(DriverStation.getAlliance().get() == Alliance.Red){
+  public void DefualtColor() {
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
       LedColorSetter(BlinkinPattern.Red);
-    }
-    else if(DriverStation.getAlliance().get() == Alliance.Blue){
+    } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
       LedColorSetter(BlinkinPattern.Blue);
     }
   }

@@ -68,7 +68,9 @@ public class ElevatorMoveToLevelXCommand extends Command {
     System.out.println("end, interpted: " + interrupted);
     m_Elevator.MoveElevator(0);
     if (!interrupted) {
-      m_Elevator.elevatorLevelSetter(m_RequestedLevel);
+      if(m_LevelsToMove == 0){
+        m_Elevator.elevatorLevelSetter(m_RequestedLevel);
+      }
       m_LedController.LedColorSetter(BlinkinPattern.HotPink);
     }
   }

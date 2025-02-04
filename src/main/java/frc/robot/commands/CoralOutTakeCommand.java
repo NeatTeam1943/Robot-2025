@@ -45,10 +45,7 @@ public class CoralOutTakeCommand extends Command {
     if (!m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralOutTakeConstants.kCoralOutSpeed) {
       m_LedController.DefualtColor();
     } else if (m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralOutTakeConstants.kCoralInSpeed) {
-      m_LedController.DefualtColor();
-    }
-    if (interrupted) {
-      System.out.println("interupted is true");
+      m_LedController.LedColorSetter(BlinkinPattern.White);
     }
   }
 
