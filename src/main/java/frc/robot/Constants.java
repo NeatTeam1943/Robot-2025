@@ -371,4 +371,12 @@ public final class Constants {
         public static final double kEncoderValueLimit = 50;
 
     }
+
+    public static final class LedConstants {
+        public static final int kBlinkinControllerPort = 0;
+        public static final double kDefualtColor = 0.85;
+        public static final double kMovingElevatorColor = -0.99;
+        public static final double kAtWantedLevelColor = 0.57;
+        public static final double kCoralInColor = 0.93;
+    }
 }

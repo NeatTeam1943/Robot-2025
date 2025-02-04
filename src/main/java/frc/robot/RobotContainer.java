@@ -13,6 +13,7 @@ import frc.robot.subsystems.Algea;
 import frc.robot.subsystems.AlgeaRotatorAxis;
 import frc.robot.subsystems.CoralOutTake;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.LedController;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -48,6 +49,7 @@ public class RobotContainer {
         private Algea m_Algea;
         private Elevator m_Elevator;
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
+        private LedController m_LedController;
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and
@@ -59,6 +61,7 @@ public class RobotContainer {
                 m_CoralOutTake = new CoralOutTake();
                 m_Elevator = new Elevator();
                 m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
+                m_LedController = new LedController();
                 configureDefaultCommands();
                 configureButtonBindings();
         }
@@ -93,34 +96,35 @@ public class RobotContainer {
                 // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(),
                 // s_Swerve));
                 m_MechController.y().whileTrue((new CoralOutTakeCommand(m_CoralOutTake,
-                                Constants.CoralOutTakeConstants.kCoralInSpeed)));
+                                Constants.CoralOutTakeConstants.kCoralInSpeed, m_LedController)));
                 m_MechController.x().whileTrue(new CoralOutTakeCommand(m_CoralOutTake,
-                                Constants.CoralOutTakeConstants.kCoralOutSpeed));
+                                Constants.CoralOutTakeConstants.kCoralOutSpeed, m_LedController));
 
                 m_MechController.a().whileTrue(new AlgeaMoveCommand(m_Algea, 1));
                 m_MechController.b().whileTrue(new AlgeaMoveCommand(m_Algea, -1));
 
                 // m_MechController.b().whileTrue(new AlgeaMoveCommand(m_Algea, -1));
                 m_MechController.start()
-                                .onTrue(new ElevatorResetCommand(m_Elevator).alongWith(new AlgeaRotatorAxisCommand(
-                                                m_AlgeaRotatorAxis, 1,
-                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorReset)));
-                m_MechController.back().onTrue(new ElevatorFullExtend(m_Elevator));
-                // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
-                // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
-                m_MechController.rightBumper()
+                                .onTrue(new ElevatorResetCommand(m_Elevator, m_LedController)
+                                                .alongWith(new AlgeaRotatorAxisCommand(
+                                                                m_AlgeaRotatorAxis, 1,
+                                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorReset)));
+                m_MechController.back()
                                 .onTrue(/* TODO : add Xmove here as before starting */ new CoralOutTakeCommand(
-                                                m_CoralOutTake, Constants.CoralOutTakeConstants.kCoralOutSpeed)
-                                                .andThen(new ElevatorMoveToLevelXCommand(m_Elevator, 1).alongWith(
-                                                                new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
-                                                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1))));
+                                                m_CoralOutTake, Constants.CoralOutTakeConstants.kCoralOutSpeed,
+                                                m_LedController)
+                                                .andThen(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController)
+                                                                .alongWith(
+                                                                                new AlgeaRotatorAxisCommand(
+                                                                                                m_AlgeaRotatorAxis, 1,
+                                                                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1))));
                 // if(m_MechController.rightBumper().getAsBoolean()){
-                m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 1)
+                m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController)
                                 .alongWith(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
                                                 Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1)));
-                m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 2));
-                m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 3));
-                m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 4));
+                m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 2, m_LedController));
+                m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
+                m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 4, m_LedController));
                 //
                 m_MechController.leftBumper().whileTrue(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
                                 Constants.AlgeaRotatorAxisConstants.kEncoderValueLimit));
