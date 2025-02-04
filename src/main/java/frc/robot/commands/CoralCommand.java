@@ -12,13 +12,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Coral;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CoralOutTakeCommand extends Command {
+public class CoralCommand extends Command {
   /** Creates a new CoralOutTakeCommand. */
   private Coral m_OutTake;
   private double m_speed;
   private LedController m_LedController;
 
-  public CoralOutTakeCommand(Coral outTake, double speed, LedController ledController) {
+  public CoralCommand(Coral outTake,double speed, LedController ledController) {
     m_LedController = ledController;
     m_OutTake = outTake;
     m_speed = speed;

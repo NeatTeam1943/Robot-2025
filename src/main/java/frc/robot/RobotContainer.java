@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AlgeaMoveCommand;
 import frc.robot.commands.AlgeaRotatorAxisCommand;
-import frc.robot.commands.CoralOutTakeCommand;
+import frc.robot.commands.CoralCommand;
 import frc.robot.commands.ElevatorFullExtend;
 import frc.robot.commands.ElevatorMoveToLevelXCommand;
 import frc.robot.commands.ElevatorResetCommand;
@@ -95,9 +95,9 @@ public class RobotContainer {
 
                 // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(),
                 // s_Swerve));
-                m_MechController.y().whileTrue((new CoralOutTakeCommand(m_Coral,
+                m_MechController.y().whileTrue((new CoralCommand(m_Coral,
                                 Constants.CoralConstants.kCoralInSpeed, m_LedController)));
-                m_MechController.x().whileTrue(new CoralOutTakeCommand(m_Coral,
+                m_MechController.x().whileTrue(new CoralCommand(m_Coral,
                                 Constants.CoralConstants.kCoralOutSpeed, m_LedController));
 
                 m_MechController.a().whileTrue(new AlgeaMoveCommand(m_Algea, 1));
@@ -111,7 +111,7 @@ public class RobotContainer {
                 // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
                 // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
                 m_MechController.back()
-                                .onTrue(/* TODO : add Xmove here as before starting */ new CoralOutTakeCommand(
+                                .onTrue(/* TODO : add Xmove here as before starting */ new CoralCommand(
                                                 m_Coral, Constants.CoralConstants.kCoralOutSpeed, m_LedController)
                                                 .andThen(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController).alongWith(
                                                                 new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
