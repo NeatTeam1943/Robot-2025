@@ -12,15 +12,15 @@ public class AlgeaRotatorAxisCommand extends Command {
     /**
      * Creates a new AlgeaRotatroAxis.
      */
-    AlgeaRotatorAxis m_AlgeaRotatorAxis;
-    int m_RotatorDirection;
-    double m_RequestedOpening;
+    private AlgeaRotatorAxis m_AlgeaRotatorAxis;
+    private int m_RotatorDirection;
+    private double m_RequestedOpening;
 
     public AlgeaRotatorAxisCommand(AlgeaRotatorAxis rotatorAxis, int direction, double requestedOpening) {
         m_AlgeaRotatorAxis = rotatorAxis;
         m_RotatorDirection = direction;
         m_RequestedOpening = requestedOpening;
-         addRequirements(m_AlgeaRotatorAxis);
+        addRequirements(m_AlgeaRotatorAxis);
         // Use addRequirements() here to declare subsystem dependencies.
 
     }
@@ -49,7 +49,8 @@ public class AlgeaRotatorAxisCommand extends Command {
         if (m_RotatorDirection == -1) {
             return m_AlgeaRotatorAxis.TopLimitSwitchGetter();
         } else {
-            return m_AlgeaRotatorAxis.BottomLimitSwitchGetter() || m_AlgeaRotatorAxis.EncoderValueGetter() >= m_RequestedOpening ;
+            return m_AlgeaRotatorAxis.BottomLimitSwitchGetter()
+                    || m_AlgeaRotatorAxis.EncoderValueGetter() >= m_RequestedOpening;
         }
     }
 }

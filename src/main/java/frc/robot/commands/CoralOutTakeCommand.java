@@ -5,16 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LedController;
+import frc.robot.subsystems.LedController.BlinkinPattern;
+import frc.robot.Constants;
 import frc.robot.subsystems.CoralOutTake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralOutTakeCommand extends Command {
   /** Creates a new CoralOutTakeCommand. */
   private CoralOutTake m_OutTake;
+  private double m_speed;
+  private LedController m_LedController;
 
-  public CoralOutTakeCommand(CoralOutTake outTake) {
+  public CoralOutTakeCommand(CoralOutTake outTake, double speed, LedController ledController) {
+    m_LedController = ledController;
     m_OutTake = outTake;
-    addRequirements(m_OutTake);
+    m_speed = speed;
+    addRequirements(m_OutTake, m_LedController);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,18 +35,29 @@ public class CoralOutTakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_OutTake.moveCoral(0.25);
+    m_OutTake.moveCoral(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_OutTake.moveCoral(0);
+    if (!m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralOutTakeConstants.kCoralOutSpeed) {
+      m_LedController.DefualtColor();
+    } else if (m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralOutTakeConstants.kCoralInSpeed) {
+      m_LedController.LedColorSetter(BlinkinPattern.White);
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !m_OutTake.PhotoSwitchMode();
+    if (m_speed == Constants.CoralOutTakeConstants.kCoralInSpeed) {
+      return m_OutTake.PhotoSwitchMode();
+    } else if (m_speed == Constants.CoralOutTakeConstants.kCoralOutSpeed) {
+      return !m_OutTake.PhotoSwitchMode();
+    } else {
+      return false;
+    }
   }
 }
