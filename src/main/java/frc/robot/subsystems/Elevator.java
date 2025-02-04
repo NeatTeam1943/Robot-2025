@@ -25,7 +25,7 @@ public class Elevator extends SubsystemBase {
         m_MagnetSwitch = new DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
         m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
         m_BottomLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
-        m_RightMotor.setControl(new Follower(m_LeftMotor.getDeviceID(), true));
+        m_RightMotor.setControl(new Follower(m_LeftMotor.getDeviceID(), false));
 
         TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
