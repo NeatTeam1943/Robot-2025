@@ -11,19 +11,24 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorCurrentLimits;
 
-public class CoralOutTake extends SubsystemBase {
-    private TalonFX m_Motor;
+public class Coral extends SubsystemBase {
+    private TalonFX m_LeftMotor;
+    private TalonFX m_RightMotor;
     private DigitalInput m_PhotoSwitch;
 
-    public CoralOutTake() {
-        m_Motor = new TalonFX(Constants.CoralOutTakeConstants.kMotorPort);
-        m_PhotoSwitch = new DigitalInput(Constants.CoralOutTakeConstants.kPhotoSwitchPort);
+    public Coral() {
+        m_LeftMotor = new TalonFX(Constants.CoralConstants.kLeftMotorPort);
+        m_RightMotor = new TalonFX(Constants.CoralConstants.kRightMotorPort);
+        m_PhotoSwitch = new DigitalInput(Constants.CoralConstants.kPhotoSwitchPort);
+        m_RightMotor.setControl(new Follower(m_LeftMotor.getDeviceID(), true));
 
         TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
         MotionMagicConfigs motionMagicConfigs = talonFXConfiguration.MotionMagic;
 
-        m_Motor.getConfigurator().apply(talonFXConfiguration);
+        m_LeftMotor.getConfigurator().apply(talonFXConfiguration);
+        m_RightMotor.getConfigurator().apply(talonFXConfiguration);
+
         limitConfigs.SupplyCurrentLimit = MotorCurrentLimits.kSupplyCurrentLimit;
         limitConfigs.SupplyCurrentLimitEnable = MotorCurrentLimits.kSupplyCurrentLimitEnable;
 
@@ -34,6 +39,6 @@ public class CoralOutTake extends SubsystemBase {
     }
 
     public void moveCoral(double speed) {
-        m_Motor.set(speed);
+        m_LeftMotor.set(speed);
     }
 }
