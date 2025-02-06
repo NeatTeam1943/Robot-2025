@@ -31,6 +31,7 @@ public class CoralCommand extends Command {
   @Override
   public void initialize() {
     m_OutTake.moveCoral(0);
+    System.out.println(m_speed  + " = m _ speed");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +43,7 @@ public class CoralCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println(m_OutTake.PhotoSwitchMode());
     m_OutTake.moveCoral(0);
     if (!m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralConstants.kCoralOutSpeed) {
       m_LedController.DefualtColor();
