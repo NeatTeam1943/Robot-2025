@@ -7,7 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "pppp"
+            "pathName": "RunAway1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 7.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RunAway2"
           }
         }
       ]
