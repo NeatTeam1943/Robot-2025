@@ -53,40 +53,14 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
 
-        // AutoBuilder.configure(
-        // this::getPose,
-        // zeroHeading(), // Method to reset odometry (will be called if your auto has a
-        // starting pose)
-        // this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT
-        // RELATIVE
-        // (speeds, feedforwards) -> runPureVelocity(speeds), // Method that will drive
-        // the robot given ROBOT
-        // // RELATIVE ChassisSpeeds. Also optionally outputs
-        // // individual module feedforwards
-        // new PPHolonomicDriveController( // PPHolonomicController is the built in path
-        // following controller for
-        // // holonomic drive trains
-        // new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-        // new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
-        // ),
-        // Constants.Swerve.ppConfig, // The robot configuration
-        // () -> {
-        // var alliance = DriverStation.getAlliance();
-        // if (alliance.isPresent()) {
-        // return alliance.get() == DriverStation.Alliance.Red;
-        // }
-        // return false;
-        // },
-        // this // Reference to this subsystem to set requirements
-        // );
         AutoBuilder.configure(
                 this::getPose,
                 this::setPose,
                 this::getRobotRelativeSpeeds,
                 this::runPureVelocity,
                 new PPHolonomicDriveController(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(5.0, 0.0, 0.0)),
+                        new PIDConstants(0.0, 0.0, 0.0),
+                        new PIDConstants(0.0, 0.0, 0.0)),
                 Constants.Swerve.ppConfig,
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this);
@@ -149,6 +123,13 @@ public class Swerve extends SubsystemBase {
 
     public ChassisSpeeds getRobotRelativeSpeeds() {
         return kinematics.toChassisSpeeds(getModuleStates());
+    }
+
+    public void driveRobotRelative(ChassisSpeeds speeds) {
+        ChassisSpeeds fieldSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond,
+                Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble()));
+        driveRobotRelative(fieldSpeeds);
     }
 
     public void runPureVelocity(ChassisSpeeds speeds) {
