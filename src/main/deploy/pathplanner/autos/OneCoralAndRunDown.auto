@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RunAwayUp1"
+            "pathName": "OneCoralDown1"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 7.0
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RunAwayUp2"
+            "pathName": "OneCoralDown2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RunAwayFromMiddelToDown2"
           }
         }
       ]

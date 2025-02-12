@@ -5,24 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "BestCoralUp1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "OneL1Up2"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 7.0
@@ -31,7 +13,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RunAway2"
+            "pathName": "RunAwayDown1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RunAwayFromMiddelToDown2"
           }
         }
       ]

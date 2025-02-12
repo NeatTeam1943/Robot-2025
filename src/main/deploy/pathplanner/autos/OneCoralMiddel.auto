@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BestBottomStart"
+            "pathName": "CoralMiddel1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BestBttomStart 2"
+            "pathName": "OneCoralMiddel2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 7.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BestBottomStart3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BestBottomStart4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BestBottomStart 5"
+            "pathName": "RunAwayUp2"
           }
         }
       ]
