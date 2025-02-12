@@ -76,6 +76,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    switch (m_robotContainer.autoChooser.getSelected()) {
+      case "autoChooserTesting":
+        
+        SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserTesting);
+        break;
+
+      default:
+      case "autoChooserGame":
+        SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserGame);
+        break;
+    }
   }
 
   /**

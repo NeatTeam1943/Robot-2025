@@ -39,9 +39,9 @@ public class Swerve extends SubsystemBase {
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID);
-        Pigeon2Configuration config2 = new Pigeon2Configuration();
-        config2.MountPose.MountPoseYaw = 0; // Adjust if your Pigeon is mounted at an angle
-        gyro.getConfigurator().apply(config2);
+        Pigeon2Configuration config = new Pigeon2Configuration();
+        config.MountPose.MountPoseYaw = -90; // Adjust if your Pigeon is mounted at an angle
+        gyro.getConfigurator().apply(config);
         gyro.setYaw(0);
 
         mSwerveMods = new SwerveModule[] {
@@ -53,32 +53,6 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
 
-        // AutoBuilder.configure(
-        // this::getPose,
-        // zeroHeading(), // Method to reset odometry (will be called if your auto has a
-        // starting pose)
-        // this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT
-        // RELATIVE
-        // (speeds, feedforwards) -> runPureVelocity(speeds), // Method that will drive
-        // the robot given ROBOT
-        // // RELATIVE ChassisSpeeds. Also optionally outputs
-        // // individual module feedforwards
-        // new PPHolonomicDriveController( // PPHolonomicController is the built in path
-        // following controller for
-        // // holonomic drive trains
-        // new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-        // new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
-        // ),
-        // Constants.Swerve.ppConfig, // The robot configuration
-        // () -> {
-        // var alliance = DriverStation.getAlliance();
-        // if (alliance.isPresent()) {
-        // return alliance.get() == DriverStation.Alliance.Red;
-        // }
-        // return false;
-        // },
-        // this // Reference to this subsystem to set requirements
-        // );
         AutoBuilder.configure(
                 this::getPose,
                 this::setPose,

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.8021126760563368,
-        "y": 0.6802816901408437
+        "x": 0.6809566048034935,
+        "y": 1.3992157648744534
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4943338185986743,
-        "y": 1.3794689876512716
+        "x": 1.373177747345831,
+        "y": 2.0984030623848815
       },
       "isLocked": false,
       "linkedName": "EndOfCoralDown2"
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 53.90171603289197
+    "rotation": 54.0624077145398
   },
   "useDefaultConstraints": true
 }
