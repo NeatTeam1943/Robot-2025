@@ -219,20 +219,61 @@ public final class Constants {
                 public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
                                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
         }
+    // TODO : CHANGE PORTS AND VALUES TO ANYTHING BELOW HERE OR ROBOT GO
+    // BOOOOOOM!!!!!!
+    public static final class CoralConstants {
 
-        // TODO : CHANGE PORTS TO ANYTHING BELOW HERE OR ROBOT GO BOOOOOOM!!!!!!
-        public static final class CoralIntakeConstants {
-                public static final int photoSwitchPort = 0;
-                public static final int motorPort = 0;
-        }
+        public static final int kPhotoSwitchPort = 4;
+        public static final int kLeftMotorPort = 50;
+        public static final int kRightMotorPort = 51;
+        public static final double kCoralOutSpeed = -0.7;
+        public static final double kCoralInSpeed = -0.1;
+    }
 
-        public static final class CoralOutTakeConstants {
-                public static final int photoSwitchPort = 0;
-                public static final int motorPort = 0;
-        }
+    public static final class AlgeaConstants {
 
-        public static final class AlgeaConstants {
-                public static final int motorPort = 0;
+        public static final int kMotorPort = 55;
+        public static final int kPhotoSwitchPort = 6;
 
-        }
+    }
+
+    public static final class MotorCurrentLimits {
+
+        public static final int kSupplyCurrentLimit = 40;
+        public static final boolean kSupplyCurrentLimitEnable = true;
+    }
+
+    public static final class ElevatorConstants {
+
+        public static final int kMagnetSwitchPort = 0;
+        public static final int kRightMotorPort = 52;
+        public static final int kLeftMotorPort = 53;
+        public static final int kBottomLimitSwitchPort = 1;
+        public static final int kTopLimitSwitchPort = 2;
+        public static final double kL1EncoderValue = 0.2;
+        public static final double kL2EncoderValue = 0.4;
+        public static final double kL3EncoderValue = 0.6;
+        public static final double kL4EncoderValue = 0.8;
+        public static final double kEncoderValueTreshHold = 0.1;
+
+    }
+
+    public static final class AlgeaRotatorAxisConstants {
+
+        public static final int kTopLimitSwichPort = 5;
+        public static final int kBottomLimitSwitchPort = 3;
+        public static final int kMotorPort = 54;
+        public static final double kEncoderValueForElevatorReset = 5;
+        public static final double kEncoderValueForElevatorL1 = 10;
+        public static final double kEncoderValueLimit = 50;
+
+    }
+
+    public static final class LedConstants {
+        public static final int kBlinkinControllerPort = 0;
+        public static final double kDefualtColor = 0.85;
+        public static final double kMovingElevatorColor = -0.99;
+        public static final double kAtWantedLevelColor = 0.57;
+        public static final double kCoralInColor = 0.93;
+    }
 }

@@ -27,6 +27,7 @@
       }
     },
   ],
+  "editor.formatOnSave": true,
   "java.test.defaultConfig": "WPIlibUnitTests",
   "java.import.gradle.annotationProcessing.enabled": false,
   "java.completion.favoriteStaticMembers": [
