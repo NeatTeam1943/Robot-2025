@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.570334507042254,
-        "y": 4.79031690140845
+        "x": 7.5593080842144955,
+        "y": 4.717124972793798
       },
       "isLocked": false,
       "linkedName": "StartOfMiddel"
@@ -20,8 +20,8 @@
         "y": 7.398063380281689
       },
       "prevControl": {
-        "x": 7.556161971830986,
-        "y": 7.114612676056338
+        "x": 7.539743031343288,
+        "y": 6.862589302343654
       },
       "nextControl": null,
       "isLocked": false,

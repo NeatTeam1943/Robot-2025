@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.570334507042254,
-        "y": 1.332218309859153
+        "x": 6.926809894246723,
+        "y": 0.6552353975062271
       },
       "isLocked": false,
       "linkedName": "EndOfRunDownFromMiddel"
@@ -20,8 +20,8 @@
         "y": 0.722799295774646
       },
       "prevControl": {
-        "x": 1.0226232394366184,
-        "y": 0.2125880281690128
+        "x": 1.5096057088176964,
+        "y": 0.7251056098048428
       },
       "nextControl": null,
       "isLocked": false,
