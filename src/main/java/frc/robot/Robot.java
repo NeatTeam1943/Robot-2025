@@ -67,6 +67,8 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    Constants.Swerve.maxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
+    SmartDashboard.getString("Max Speed", String.valueOf(Constants.Swerve.maxSpeed));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -78,7 +80,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     switch (m_robotContainer.autoChooser.getSelected()) {
       case "autoChooserTesting":
-        
+
         SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserTesting);
         break;
 
@@ -117,13 +119,11 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    Constants.Swerve.maxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
     System.out.println("max speed is: " + Constants.Swerve.maxSpeed);
   }
 

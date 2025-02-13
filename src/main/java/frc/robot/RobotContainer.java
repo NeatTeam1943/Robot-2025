@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -26,7 +27,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
+    public final Swerve s_Swerve = new Swerve();
 
     /* Path Planner */
     public SendableChooser<String> autoChooser;
@@ -83,6 +84,7 @@ public class RobotContainer {
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
 
+        CameraServer.startAutomaticCapture("camera", 0);
     }
 
     public Command getAutonomousCommand() {
