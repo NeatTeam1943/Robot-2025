@@ -16,7 +16,6 @@ import frc.lib.util.SwerveModuleConstants;
 public class SwerveModule {
     public int moduleNumber;
     private Rotation2d angleOffset;
-
     private TalonFX mAngleMotor;
     private TalonFX mDriveMotor;
     private CANcoder angleEncoder;
@@ -95,12 +94,16 @@ public class SwerveModule {
     }
 
     public SwerveModuleState getState() {
-        double velocity = Conversions.RPSToMPS(mDriveMotor.getVelocity().getValueAsDouble(), Constants.Swerve.kWheelCircumference);
+        double velocity = Conversions.RPSToMPS(mDriveMotor.getVelocity().getValueAsDouble(),
+                Constants.Swerve.wheelCircumference);
+      
         Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
         return new SwerveModuleState(velocity, angle);
     }
+
     public SwerveModulePosition getPosition() {
-        double distance = Conversions.rotationsToMeters(mDriveMotor.getPosition().getValueAsDouble(), Constants.Swerve.kWheelCircumference);
+        double distance = Conversions.rotationsToMeters(mDriveMotor.getPosition().getValueAsDouble(),
+                Constants.Swerve.wheelCircumference);
         Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
         return new SwerveModulePosition(distance, angle);
     }

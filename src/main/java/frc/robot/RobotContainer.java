@@ -1,8 +1,17 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AlgeaMoveCommand;
@@ -28,13 +37,56 @@ import frc.robot.subsystems.Swerve;
  */
 public class RobotContainer {
 
-        /* Drive Controls */
-        private final int translationAxis = XboxController.Axis.kLeftX.value;
-        private final int strafeAxis = XboxController.Axis.kLeftY.value;
-        private final int rotationAxis = XboxController.Axis.kRightX.value;
-        private final Joystick driver = new Joystick(0);
+    /**
+     * Configure default commands for subsystems
+     */
+    private void configureDefaultCommands() {
+        s_Swerve.setDefaultCommand(
+                new TeleopSwerve(
+                        s_Swerve,
+                        () -> driver.getRawAxis(strafeAxis),
+                        () -> driver.getRawAxis(translationAxis),
+                        () -> -driver.getRawAxis(rotationAxis),
+                        () -> robotCentric.getAsBoolean()));
+    }
 
-        public CommandXboxController m_MechController;
+
+    private void autoSelector() {
+        autoChooser = new SendableChooser<String>();
+        autoChooserGame = new SendableChooser<PathPlannerAuto>();
+        autoChooserTesting = new SendableChooser<PathPlannerAuto>();
+
+        autoChooserTesting.setDefaultOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
+        autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
+        autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
+        autoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
+
+        autoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
+        autoChooserGame.addOption("BestBottomStart", new PathPlannerAuto("BestBottomStart"));
+        autoChooserGame.addOption("WorstBottomStart", new PathPlannerAuto("WorstBottomStart"));
+        autoChooserGame.addOption("BottomPassLine", new PathPlannerAuto("BottomPassLine"));
+        autoChooserGame.addOption("MaxL1", new PathPlannerAuto("MaxL1"));
+        autoChooserGame.addOption("BestCoralUp", new PathPlannerAuto("BestCoralUp"));
+        autoChooserGame.addOption("To Riff", new PathPlannerAuto("BestBottom4 (To Riff no S)"));
+
+        autoChooser.setDefaultOption("Auto Chooser Game", "autoChooserGame");
+        autoChooser.setDefaultOption("Auto Chooser Testing", "autoChooserTesting");
+
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+
+        CameraServer.startAutomaticCapture("camera", 0);
+    }
+
+    public Command getAutonomousCommand() {
+        switch (autoChooser.getSelected()) {
+            case "autoChooserTesting":
+                return autoChooserTesting.getSelected();
+
+            default:
+            case "autoChooserGame":
+                return autoChooserGame.getSelected();
+        }
+    }
 
         /* Driver Buttons */
         private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kA.value);
@@ -46,16 +98,6 @@ public class RobotContainer {
         /**
          * Configure default commands for subsystems
          */
-        private void configureDefaultCommands() {
-                s_Swerve.setDefaultCommand(
-                                new TeleopSwerve(
-                                                s_Swerve,
-                                                () -> driver.getRawAxis(translationAxis),
-                                                () -> -driver.getRawAxis(strafeAxis),
-                                                () -> -driver.getRawAxis(rotationAxis),
-                                                () -> robotCentric.getAsBoolean()));
-        }
-
         /* Subsystems */
         // public final Swerve s_Swerve = new Swerve();
         // @SuppressWarnings("unused")
@@ -78,8 +120,28 @@ public class RobotContainer {
                 m_LedController = new LedController();
                 configureDefaultCommands();
                 configureButtonBindings();
-        }
+        /* Drive Controls */
+        private final int translationAxis = XboxController.Axis.kLeftX.value;
+        private final int strafeAxis = XboxController.Axis.kLeftY.value;
+        private final int rotationAxis = XboxController.Axis.kRightX.value;
+        private final Joystick driver = new Joystick(0);
 
+        public CommandXboxController m_MechController;
+    /* Subsystems */
+    public final Swerve s_Swerve = new Swerve();
+
+    /* Path Planner */
+    public SendableChooser<String> autoChooser;
+    public SendableChooser<PathPlannerAuto> autoChooserGame;
+    public SendableChooser<PathPlannerAuto> autoChooserTesting;
+          
+        configureDefaultCommands();
+        configureButtonBindings();
+        autoSelector();
+
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
         /**
          * Use this method to define your button->command mappings. Buttons can be
          * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -90,7 +152,7 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 /* Driver Buttons */
-
+                 zeroGyro.whileTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
                 // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(),
                 // s_Swerve));
                 m_MechController.y().whileTrue((new CoralCommand(m_Coral,
@@ -139,4 +201,5 @@ public class RobotContainer {
         // public Command getAutonomousCommand() {
         // return new exampleAuto(s_Swerve);
         // }
+
 }
