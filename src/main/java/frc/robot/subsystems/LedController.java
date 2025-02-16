@@ -118,6 +118,8 @@ public class LedController extends SubsystemBase {
       LedColorSetter(BlinkinPattern.Red);
     } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
       LedColorSetter(BlinkinPattern.Blue);
+    } else {
+      LedColorSetter(BlinkinPattern.GREEN);
     }
   }
 

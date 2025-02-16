@@ -416,9 +416,8 @@ public final class Constants {
     public static final class CoralConstants {
 
         public static final int kPhotoSwitchPort = 4;
-        public static final int kLeftMotorPort = 50;
-        public static final int kRightMotorPort = 51;
-        public static final double kCoralOutSpeed = -0.7;
+        public static final int kMotorPort = 9;
+        public static final double kCoralOutSpeed = -0.3;
         public static final double kCoralInSpeed = -0.1;
     }
 
