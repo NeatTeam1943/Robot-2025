@@ -156,9 +156,9 @@ public class RobotContainer {
                 // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(),
                 // s_Swerve));
                 m_MechController.y().whileTrue((new CoralCommand(m_Coral,
-                                Constants.CoralConstants.kCoralInSpeed, m_LedController)));
+                                true, m_LedController)));
                 m_MechController.x().whileTrue(new CoralCommand(m_Coral,
-                                Constants.CoralConstants.kCoralOutSpeed, m_LedController));
+                                false, m_LedController));
 
                 m_MechController.a().whileTrue(new AlgeaMoveCommand(m_Algea, 1));
                 m_MechController.b().whileTrue(new AlgeaMoveCommand(m_Algea, -1));
@@ -173,7 +173,7 @@ public class RobotContainer {
                 // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
                 m_MechController.back()
                                 .onTrue(/* TODO : add Xmove here as before starting */ new CoralCommand(
-                                                m_Coral, Constants.CoralConstants.kCoralOutSpeed, m_LedController)
+                                                m_Coral, false, m_LedController)
                                                 .andThen(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController)
                                                                 .alongWith(
                                                                                 new AlgeaRotatorAxisCommand(

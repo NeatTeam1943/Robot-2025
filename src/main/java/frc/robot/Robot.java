@@ -44,6 +44,8 @@ public class Robot extends TimedRobot {
 
     System.out.println(Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
         Constants.Swerve.kWheelCircumference));
+
+    SmartDashboard.setDefaultString("DB/String 0", "4.5");
   }
 
   /**
@@ -70,12 +72,12 @@ public class Robot extends TimedRobot {
     Constants.Swerve.kMaxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
     SmartDashboard.getString("Max Speed", String.valueOf(Constants.Swerve.kMaxSpeed));
   }
-
+  
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
   }
-
+  
   @Override
   public void disabledPeriodic() {
     switch (m_robotContainer.autoChooser.getSelected()) {
@@ -90,7 +92,7 @@ public class Robot extends TimedRobot {
         break;
     }
   }
-
+  
   /**
    * This autonomous runs the autonomous command selected by your
    * {@link RobotContainer} class.
@@ -98,18 +100,18 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
   }
-
+  
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
   }
-
+  
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -120,10 +122,11 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
   }
-
+  
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    Constants.Swerve.maxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
     System.out.println("max speed is: " + Constants.Swerve.kMaxSpeed);
   }
 
