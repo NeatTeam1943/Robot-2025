@@ -1,38 +1,39 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorCurrentLimits;
 
 public class Elevator extends SubsystemBase {
-    private TalonFX m_LeftMotor;
-    private TalonFX m_RightMotor;
+    private VictorSPX m_MasterMotor;
+    private VictorSPX m_FollowerMotor;
+    private RelativeEncoder m_Encoder;
     private DigitalInput m_MagnetSwitch;
     private DigitalInput m_TopLimitSwitch;
     private DigitalInput m_BottomLimitSwitch;
     private int m_ElevatorLevel;
 
     public Elevator() {
-        m_LeftMotor = new TalonFX(Constants.ElevatorConstants.kLeftMotorPort);
-        m_RightMotor = new TalonFX(Constants.ElevatorConstants.kRightMotorPort);
+        m_MasterMotor = new VictorSPX(Constants.ElevatorConstants.kLeftMotorPort);
+        m_FollowerMotor = new VictorSPX(Constants.ElevatorConstants.kRightMotorPort);
         m_MagnetSwitch = new DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
         m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
         m_BottomLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
-        m_RightMotor.setControl(new Follower(m_LeftMotor.getDeviceID(), false));
+        m_FollowerMotor.follow(m_MasterMotor, FollowerType.AuxOutput1);
 
-        TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
-        MotionMagicConfigs motionMagicConfigs = talonFXConfiguration.MotionMagic;
-
-        m_LeftMotor.getConfigurator().apply(talonFXConfiguration);
-        m_RightMotor.getConfigurator().apply(talonFXConfiguration);
 
         limitConfigs.SupplyCurrentLimit = MotorCurrentLimits.kSupplyCurrentLimit;
         limitConfigs.SupplyCurrentLimitEnable = MotorCurrentLimits.kSupplyCurrentLimitEnable;
@@ -45,8 +46,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public double EncoderValue() {
-        return (m_LeftMotor.getRotorPosition().getValueAsDouble()
-                + (-1 * m_RightMotor.getRotorPosition().getValueAsDouble())) / 2;
+        return (m_Encoder.getPosition());
     }
 
     public boolean Inthreshold(Double EncoderLvlVal) {
@@ -99,7 +99,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public void MoveElevator(double speed) {
-        m_LeftMotor.set(speed);
+        m_MasterMotor.set(VictorSPXControlMode.PercentOutput, speed);
     }
 
 }
