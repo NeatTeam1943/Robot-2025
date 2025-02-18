@@ -4,51 +4,54 @@
 
 package frc.robot.commands;
 
-
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.LedController;
-import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorResetCommand extends Command {
-  /** Creates a new ElevatorResetCommand. */
+public class MoveEleveatorTestMagnetHieght extends Command {
+  /** Creates a new MoveEleveatorTestMagnetHieght. */
   private Elevator m_Elevator;
-  private LedController m_LedController;
-  public ElevatorResetCommand(Elevator elevator , LedController ledController) {
-    m_LedController = ledController;
+  private XboxController m_Controller;
+
+  public MoveEleveatorTestMagnetHieght(Elevator elevator, XboxController controller) {
+    m_Controller = controller;
     m_Elevator = elevator;
-    addRequirements(m_Elevator , m_LedController);
+    addRequirements(m_Elevator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
+
+  double m_Speed;
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_LedController.LedColorSetter(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.MoveElevator(Constants.ElevatorConstants.kStallSpeed);
+    m_Speed = Constants.ElevatorConstants.kStallSpeed;
+    m_Elevator.MoveElevator(m_Speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.MoveElevator(-0.05);
+    m_Speed = Math.abs(m_Controller.getLeftTriggerAxis()
+        - m_Controller.getRightTriggerAxis()) > Constants.ElevatorConstants.kStallSpeed
+            ? m_Controller.getLeftTriggerAxis() - m_Controller.getRightTriggerAxis()
+            : Constants.ElevatorConstants.kStallSpeed;
+    m_Elevator.MoveElevator(m_Speed);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Elevator.MoveElevator(Constants.ElevatorConstants.kStallSpeed);
-    if(!interrupted){
-      m_LedController.LedColorSetter(BlinkinPattern.HotPink);
-    }
-    m_Elevator.elevatorLevelSetter(0);
+    m_Speed = Constants.ElevatorConstants.kStallSpeed;
+    m_Elevator.MoveElevator(m_Speed);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.ElevatorBottomLimitState();
+    return m_Elevator.ElevatorBottomLimitState() || m_Elevator.ElevatorTopLimitState();
   }
 }

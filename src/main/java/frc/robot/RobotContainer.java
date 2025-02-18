@@ -3,7 +3,6 @@ package frc.robot;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,16 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AlgeaMoveCommand;
-import frc.robot.commands.AlgeaRotatorAxisCommand;
-import frc.robot.commands.CoralCommand;
-import frc.robot.commands.ElevatorFullExtend;
-import frc.robot.commands.ElevatorMoveToLevelXCommand;
-import frc.robot.commands.ElevatorResetCommand;
-import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Algea;
 import frc.robot.subsystems.AlgeaRotatorAxis;
 import frc.robot.subsystems.Coral;
@@ -40,21 +30,23 @@ public class RobotContainer {
         /**
          * Configure default commands for subsystems
          */
-        
+
         private void configureDefaultCommands() {
+                System.out.println("we got defualt");
                 s_Swerve.setDefaultCommand(
                                 new TeleopSwerve(
                                                 s_Swerve,
-                                                () -> driver.getRawAxis(strafeAxis),
-                                                () -> driver.getRawAxis(translationAxis),
-                                                () -> -driver.getRawAxis(rotationAxis),
+                                                () -> m_DriveController.getRawAxis(strafeAxis),
+                                                () -> m_DriveController.getRawAxis(translationAxis),
+                                                () -> -m_DriveController.getRawAxis(rotationAxis),
                                                 () -> robotCentric.getAsBoolean()));
+                m_Elevator.setDefaultCommand(new MoveEleveatorTestMagnetHieght(m_Elevator, m_DriveController));
         }
-        
-                /* Path Planner */
-                public SendableChooser<String> autoChooser;
-                public SendableChooser<PathPlannerAuto> autoChooserGame;
-                public SendableChooser<PathPlannerAuto> autoChooserTesting;
+
+        /* Path Planner */
+        public SendableChooser<String> autoChooser;
+        public SendableChooser<PathPlannerAuto> autoChooserGame;
+        public SendableChooser<PathPlannerAuto> autoChooserTesting;
 
         private void autoSelector() {
                 autoChooser = new SendableChooser<String>();
@@ -95,11 +87,10 @@ public class RobotContainer {
         }
 
         /* Driver Buttons */
-        private final Joystick driver;
+        private final XboxController m_DriveController;
         private final JoystickButton zeroGyro;
         private final JoystickButton robotCentric;
         public CommandXboxController m_MechController;
-
 
         /**
          * Configure default commands for subsystems
@@ -107,9 +98,9 @@ public class RobotContainer {
         /* Subsystems */
         private final Swerve s_Swerve;
         private Coral m_Coral;
-        private Algea m_Algea;
+        // private Algea m_Algea;
         private Elevator m_Elevator;
-        private AlgeaRotatorAxis m_AlgeaRotatorAxis;
+        // private AlgeaRotatorAxis m_AlgeaRotatorAxis;
         private LedController m_LedController;
 
         /**
@@ -120,13 +111,12 @@ public class RobotContainer {
         private final int rotationAxis;
         private final int strafeAxis;
         private final int translationAxis;
+
         public RobotContainer() {
                 m_MechController = new CommandXboxController(Constants.OperatorConstants.kMechanisemControllerPort);
-                driver = new Joystick(Constants.OperatorConstants.kDriverControllerPort);
-                zeroGyro = new JoystickButton(driver, XboxController.Button.kA.value);
-                robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-                configureDefaultCommands();
-                configureButtonBindings();
+                m_DriveController = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
+                zeroGyro = new JoystickButton(m_DriveController, XboxController.Button.kA.value);
+                robotCentric = new JoystickButton(m_DriveController, XboxController.Button.kLeftBumper.value);
                 /* Drive Controls */
                 translationAxis = XboxController.Axis.kLeftX.value;
                 strafeAxis = XboxController.Axis.kLeftY.value;
@@ -136,10 +126,9 @@ public class RobotContainer {
                 s_Swerve = new Swerve();
                 m_Coral = new Coral();
                 m_Elevator = new Elevator();
+                m_LedController = new LedController();
                 // m_Algea = new Algea();
                 // m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
-                m_LedController = new LedController();
-
 
                 configureDefaultCommands();
                 configureButtonBindings();
@@ -158,6 +147,7 @@ public class RobotContainer {
          * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
          */
         private void configureButtonBindings() {
+                System.out.println("we got binds");
                 /* Driver Buttons */
                 zeroGyro.whileTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
                 // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(),
@@ -167,36 +157,39 @@ public class RobotContainer {
                 m_MechController.x().whileTrue(new CoralCommand(m_Coral,
                                 false, m_LedController));
 
-                m_MechController.a().whileTrue(new AlgeaMoveCommand(m_Algea, 1));
-                m_MechController.b().whileTrue(new AlgeaMoveCommand(m_Algea, -1));
+                // m_MechController.a().whileTrue(new AlgeaMoveCommand(m_Algea, 1));
+                // m_MechController.b().whileTrue(new AlgeaMoveCommand(m_Algea, -1));
 
                 // m_MechController.b().whileTrue(new AlgeaMoveCommand(m_Algea, -1));
                 m_MechController.start()
-                                .onTrue(new ElevatorResetCommand(m_Elevator, m_LedController)
-                                                .alongWith(new AlgeaRotatorAxisCommand(
-                                                                m_AlgeaRotatorAxis, 1,
-                                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorReset)));
+                                .onTrue(new ElevatorResetCommand(m_Elevator, m_LedController));
+                // .alongWith(new AlgeaRotatorAxisCommand(
+                // m_AlgeaRotatorAxis, 1,
+                // Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorReset)));
                 // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
                 // m_MechController.rightBumper().onTrue(new ElevatorMove(m_Elevator));
                 m_MechController.back()
                                 .onTrue(/* TODO : add Xmove here as before starting */ new CoralCommand(
                                                 m_Coral, false, m_LedController)
-                                                .andThen(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController)
-                                                                .alongWith(
-                                                                                new AlgeaRotatorAxisCommand(
-                                                                                                m_AlgeaRotatorAxis, 1,
-                                                                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1))));
+                                                .andThen(new ElevatorMoveToLevelXCommand(m_Elevator, 1,
+                                                                m_LedController)));
+                // .alongWith(
+                // new AlgeaRotatorAxisCommand(
+                // m_AlgeaRotatorAxis, 1,
+                // Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1))));
                 // if(m_MechController.rightBumper().getAsBoolean()){
-                m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController)
-                                .alongWith(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
-                                                Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1)));
+                m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController));
+                // .alongWith(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
+                // Constants.AlgeaRotatorAxisConstants.kEncoderValueForElevatorL1)));
                 m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 2, m_LedController));
                 m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
                 m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommand(m_Elevator, 4, m_LedController));
-                //
-                m_MechController.leftBumper().whileTrue(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
-                                Constants.AlgeaRotatorAxisConstants.kEncoderValueLimit));
-                m_MechController.rightBumper().whileTrue(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, -1, 0));
+                // //
+                // m_MechController.leftBumper().whileTrue(new
+                // AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, 1,
+                // Constants.AlgeaRotatorAxisConstants.kEncoderValueLimit));
+                // m_MechController.rightBumper().whileTrue(new
+                // AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, -1, 0));
                 // }
         }
 

@@ -58,9 +58,9 @@ public class CoralCommand extends Command {
   @Override
   public boolean isFinished() {
     if (!m_isIintake) {
-      return m_coral.PhotoSwitchMode();
-    } else if (m_isIintake) {
       return !m_coral.PhotoSwitchMode();
+    } else if (m_isIintake) {
+      return m_coral.PhotoSwitchMode();
     } else {
       return false;
     }

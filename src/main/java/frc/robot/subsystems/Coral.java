@@ -18,7 +18,7 @@ public class Coral extends SubsystemBase {
     }
 
     public boolean PhotoSwitchMode() {
-        return !m_PhotoSwitch.get();
+        return m_PhotoSwitch.get();
     }
 
     public void moveCoral(double speed) {
