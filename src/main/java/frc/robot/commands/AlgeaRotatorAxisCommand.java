@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.commands;
 
+
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AlgeaRotatorAxis;
 
@@ -46,11 +48,6 @@ public class AlgeaRotatorAxisCommand extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (m_RotatorDirection == -1) {
-            return m_AlgeaRotatorAxis.TopLimitSwitchGetter();
-        } else {
-            return m_AlgeaRotatorAxis.BottomLimitSwitchGetter()
-                    || m_AlgeaRotatorAxis.EncoderValueGetter() >= m_RequestedOpening;
-        }
+        return Math.abs(m_AlgeaRotatorAxis.EncoderValueGetter()-m_RequestedOpening) < Constants.AlgeaRotatorAxisConstants.kEncoderValueTreshHold;
     }
 }

@@ -98,10 +98,10 @@ public class RobotContainer {
         /* Subsystems */
         private final Swerve s_Swerve;
         private Coral m_Coral;
-        // private Algea m_Algea;
         private Elevator m_Elevator;
-        // private AlgeaRotatorAxis m_AlgeaRotatorAxis;
+        private AlgeaRotatorAxis m_AlgeaRotatorAxis;
         private LedController m_LedController;
+        // private Algea m_Algea;
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and
@@ -127,9 +127,9 @@ public class RobotContainer {
                 m_Coral = new Coral();
                 m_Elevator = new Elevator();
                 m_LedController = new LedController();
+                m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
                 // m_Algea = new Algea();
-                // m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
-
+                
                 configureDefaultCommands();
                 configureButtonBindings();
                 autoSelector();
