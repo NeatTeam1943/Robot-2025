@@ -34,7 +34,7 @@ public class ElevatorMoveToLevelXCommand extends Command {
   @Override
   public void initialize() {
     m_LedController.LedColorSetter(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.MoveElevator(0);
+    m_Elevator.MoveElevator(Constants.ElevatorConstants.kStallSpeed);
     m_StartingBottomLimitSwithState = m_Elevator.ElevatorBottomLimitState();
     m_StaringTopLimitSwitchState = m_Elevator.ElevatorTopLimitState();
     m_LastMagnetSwitchState = m_Elevator.MagnetSwitchState();
@@ -63,7 +63,7 @@ public class ElevatorMoveToLevelXCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("end, interpted: " + interrupted);
-    m_Elevator.MoveElevator(0);
+    m_Elevator.MoveElevator(Constants.ElevatorConstants.kStallSpeed);
     if (!interrupted) {
       if(m_LevelsToMove == 0){
         m_Elevator.elevatorLevelSetter(m_RequestedLevel);

@@ -28,7 +28,7 @@ public class ElevatorResetCommand extends Command {
   @Override
   public void initialize() {
     m_LedController.LedColorSetter(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.MoveElevator(0);
+    m_Elevator.MoveElevator(Constants.ElevatorConstants.kStallSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,7 +40,7 @@ public class ElevatorResetCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Elevator.MoveElevator(0);
+    m_Elevator.MoveElevator(Constants.ElevatorConstants.kStallSpeed);
     if(!interrupted){
       m_LedController.LedColorSetter(BlinkinPattern.HotPink);
     }
