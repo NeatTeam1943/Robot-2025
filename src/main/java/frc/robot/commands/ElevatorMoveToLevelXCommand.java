@@ -48,7 +48,8 @@ public class ElevatorMoveToLevelXCommand extends Command {
   public void execute() {
     System.out.println(m_LevelsToMove);
     if (m_LevelsToMove != 0) {
-      m_Elevator.MoveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * 0.05);
+      m_Elevator
+          .MoveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * Constants.ElevatorConstants.kElevatorMoveSpeed);
       if (m_Elevator.MagnetSwitchState() && !m_LastMagnetSwitchState) {
         m_LevelsToMove += -1 * (m_LevelsToMove / Math.abs(m_LevelsToMove));
         m_LastMagnetSwitchState = true;
@@ -65,7 +66,7 @@ public class ElevatorMoveToLevelXCommand extends Command {
     System.out.println("end, interpted: " + interrupted);
     m_Elevator.MoveElevator(Constants.ElevatorConstants.kStallSpeed);
     if (!interrupted) {
-      if(m_LevelsToMove == 0){
+      if (m_LevelsToMove == 0) {
         m_Elevator.elevatorLevelSetter(m_RequestedLevel);
       }
       m_LedController.LedColorSetter(BlinkinPattern.HotPink);
