@@ -95,7 +95,7 @@ public class SwerveModule {
 
     public SwerveModuleState getState() {
         double velocity = Conversions.RPSToMPS(mDriveMotor.getVelocity().getValueAsDouble(),
-                Constants.Swerve.wheelCircumference);
+                Constants.Swerve.kWheelCircumference);
       
         Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
         return new SwerveModuleState(velocity, angle);
@@ -103,7 +103,7 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         double distance = Conversions.rotationsToMeters(mDriveMotor.getPosition().getValueAsDouble(),
-                Constants.Swerve.wheelCircumference);
+                Constants.Swerve.kWheelCircumference);
         Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
         return new SwerveModulePosition(distance, angle);
     }

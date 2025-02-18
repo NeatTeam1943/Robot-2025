@@ -126,8 +126,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    Constants.Swerve.maxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
-    System.out.println("max speed is: " + Constants.Swerve.kMaxSpeed);
+    Constants.Swerve.kMaxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
   }
 
   @Override

@@ -37,70 +37,75 @@ import frc.robot.subsystems.Swerve;
  */
 public class RobotContainer {
 
-    /**
-     * Configure default commands for subsystems
-     */
-    private void configureDefaultCommands() {
-        s_Swerve.setDefaultCommand(
-                new TeleopSwerve(
-                        s_Swerve,
-                        () -> driver.getRawAxis(strafeAxis),
-                        () -> driver.getRawAxis(translationAxis),
-                        () -> -driver.getRawAxis(rotationAxis),
-                        () -> robotCentric.getAsBoolean()));
-    }
-
-
-    private void autoSelector() {
-        autoChooser = new SendableChooser<String>();
-        autoChooserGame = new SendableChooser<PathPlannerAuto>();
-        autoChooserTesting = new SendableChooser<PathPlannerAuto>();
-
-        autoChooserTesting.setDefaultOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
-        autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
-        autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
-        autoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
-
-        autoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
-        autoChooserGame.addOption("BestBottomStart", new PathPlannerAuto("BestBottomStart"));
-        autoChooserGame.addOption("WorstBottomStart", new PathPlannerAuto("WorstBottomStart"));
-        autoChooserGame.addOption("BottomPassLine", new PathPlannerAuto("BottomPassLine"));
-        autoChooserGame.addOption("MaxL1", new PathPlannerAuto("MaxL1"));
-        autoChooserGame.addOption("BestCoralUp", new PathPlannerAuto("BestCoralUp"));
-        autoChooserGame.addOption("To Riff", new PathPlannerAuto("BestBottom4 (To Riff no S)"));
-
-        autoChooser.setDefaultOption("Auto Chooser Game", "autoChooserGame");
-        autoChooser.setDefaultOption("Auto Chooser Testing", "autoChooserTesting");
-
-        SmartDashboard.putData("Auto Chooser", autoChooser);
-
-        CameraServer.startAutomaticCapture("camera", 0);
-    }
-
-    public Command getAutonomousCommand() {
-        switch (autoChooser.getSelected()) {
-            case "autoChooserTesting":
-                return autoChooserTesting.getSelected();
-
-            default:
-            case "autoChooserGame":
-                return autoChooserGame.getSelected();
+        /**
+         * Configure default commands for subsystems
+         */
+        
+        private void configureDefaultCommands() {
+                s_Swerve.setDefaultCommand(
+                                new TeleopSwerve(
+                                                s_Swerve,
+                                                () -> driver.getRawAxis(strafeAxis),
+                                                () -> driver.getRawAxis(translationAxis),
+                                                () -> -driver.getRawAxis(rotationAxis),
+                                                () -> robotCentric.getAsBoolean()));
         }
-    }
+        
+                /* Path Planner */
+                public SendableChooser<String> autoChooser;
+                public SendableChooser<PathPlannerAuto> autoChooserGame;
+                public SendableChooser<PathPlannerAuto> autoChooserTesting;
+
+        private void autoSelector() {
+                autoChooser = new SendableChooser<String>();
+                autoChooserGame = new SendableChooser<PathPlannerAuto>();
+                autoChooserTesting = new SendableChooser<PathPlannerAuto>();
+
+                autoChooserTesting.setDefaultOption("Checking OffSet (Be readdy! HellHole)",
+                                new PathPlannerAuto("OffSet"));
+                autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
+                autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
+                autoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
+
+                autoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
+                autoChooserGame.addOption("BestBottomStart", new PathPlannerAuto("BestBottomStart"));
+                autoChooserGame.addOption("WorstBottomStart", new PathPlannerAuto("WorstBottomStart"));
+                autoChooserGame.addOption("BottomPassLine", new PathPlannerAuto("BottomPassLine"));
+                autoChooserGame.addOption("MaxL1", new PathPlannerAuto("MaxL1"));
+                autoChooserGame.addOption("BestCoralUp", new PathPlannerAuto("BestCoralUp"));
+                autoChooserGame.addOption("To Riff", new PathPlannerAuto("BestBottom4 (To Riff no S)"));
+
+                autoChooser.setDefaultOption("Auto Chooser Game", "autoChooserGame");
+                autoChooser.setDefaultOption("Auto Chooser Testing", "autoChooserTesting");
+
+                SmartDashboard.putData("Auto Chooser", autoChooser);
+
+                CameraServer.startAutomaticCapture("camera", 0);
+        }
+
+        public Command getAutonomousCommand() {
+                switch (autoChooser.getSelected()) {
+                        case "autoChooserTesting":
+                                return autoChooserTesting.getSelected();
+
+                        default:
+                        case "autoChooserGame":
+                                return autoChooserGame.getSelected();
+                }
+        }
 
         /* Driver Buttons */
-        private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kA.value);
-        private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+        private final Joystick driver;
+        private final JoystickButton zeroGyro;
+        private final JoystickButton robotCentric;
+        public CommandXboxController m_MechController;
 
-        /* Subsystems */
-        private final Swerve s_Swerve = new Swerve();
 
         /**
          * Configure default commands for subsystems
          */
         /* Subsystems */
-        // public final Swerve s_Swerve = new Swerve();
-        // @SuppressWarnings("unused")
+        private final Swerve s_Swerve;
         private Coral m_Coral;
         private Algea m_Algea;
         private Elevator m_Elevator;
@@ -111,37 +116,39 @@ public class RobotContainer {
          * The container for the robot. Contains subsystems, OI devices, and
          * commands.
          */
+        /* Swerve */
+        private final int rotationAxis;
+        private final int strafeAxis;
+        private final int translationAxis;
         public RobotContainer() {
                 m_MechController = new CommandXboxController(Constants.OperatorConstants.kMechanisemControllerPort);
-                m_Algea = new Algea();
-                m_Coral = new Coral();
-                m_Elevator = new Elevator();
-                m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
-                m_LedController = new LedController();
+                driver = new Joystick(Constants.OperatorConstants.kDriverControllerPort);
+                zeroGyro = new JoystickButton(driver, XboxController.Button.kA.value);
+                robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
                 configureDefaultCommands();
                 configureButtonBindings();
-        /* Drive Controls */
-        private final int translationAxis = XboxController.Axis.kLeftX.value;
-        private final int strafeAxis = XboxController.Axis.kLeftY.value;
-        private final int rotationAxis = XboxController.Axis.kRightX.value;
-        private final Joystick driver = new Joystick(0);
+                /* Drive Controls */
+                translationAxis = XboxController.Axis.kLeftX.value;
+                strafeAxis = XboxController.Axis.kLeftY.value;
+                rotationAxis = XboxController.Axis.kRightX.value;
 
-        public CommandXboxController m_MechController;
-    /* Subsystems */
-    public final Swerve s_Swerve = new Swerve();
+                /* Subsystems */
+                s_Swerve = new Swerve();
+                m_Coral = new Coral();
+                m_Elevator = new Elevator();
+                // m_Algea = new Algea();
+                // m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
+                m_LedController = new LedController();
 
-    /* Path Planner */
-    public SendableChooser<String> autoChooser;
-    public SendableChooser<PathPlannerAuto> autoChooserGame;
-    public SendableChooser<PathPlannerAuto> autoChooserTesting;
-          
-        configureDefaultCommands();
-        configureButtonBindings();
-        autoSelector();
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
+                configureDefaultCommands();
+                configureButtonBindings();
+                autoSelector();
+        }
+
+        /**
+         * The container for the robot. Contains subsystems, OI devices, and commands.
+         */
         /**
          * Use this method to define your button->command mappings. Buttons can be
          * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -152,7 +159,7 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 /* Driver Buttons */
-                 zeroGyro.whileTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+                zeroGyro.whileTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
                 // m_DriveController.a().whileTrue(new RunCommand(() -> s_Swerve.zeroHeading(),
                 // s_Swerve));
                 m_MechController.y().whileTrue((new CoralCommand(m_Coral,
