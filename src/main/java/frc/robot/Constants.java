@@ -280,4 +280,12 @@ public final class Constants {
         public static final double kAtWantedLevelColor = 0.57;
         public static final double kCoralInColor = 0.93;
     }
+
+    public static final class ClimberConstants {
+        public static final int kMotorPort = 8;
+        public static final int kLimitSwitchPort = 2;
+        public static final double kClimberUpSpeed = 0.1;
+        public static final double kClimberDownSpeed = -0.3;
+        public static final double kClimberStallSpeed = -0.05; // this needs to be tune via pid at a later date
+    }
 }
