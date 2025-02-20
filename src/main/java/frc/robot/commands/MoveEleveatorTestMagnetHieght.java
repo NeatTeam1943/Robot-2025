@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
@@ -13,9 +14,9 @@ import frc.robot.subsystems.Elevator;
 public class MoveEleveatorTestMagnetHieght extends Command {
   /** Creates a new MoveEleveatorTestMagnetHieght. */
   private Elevator m_Elevator;
-  private XboxController m_Controller;
+  private CommandXboxController m_Controller;
 
-  public MoveEleveatorTestMagnetHieght(Elevator elevator, XboxController controller) {
+  public MoveEleveatorTestMagnetHieght(Elevator elevator, CommandXboxController controller) {
     m_Controller = controller;
     m_Elevator = elevator;
     addRequirements(m_Elevator);

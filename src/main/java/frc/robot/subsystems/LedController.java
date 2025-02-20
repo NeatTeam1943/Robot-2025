@@ -126,5 +126,5 @@ public class LedController extends SubsystemBase {
   @Override
   public void periodic() {
     m_blinkin.set(m_color);
-    }
+  }
 }

@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
@@ -16,10 +15,11 @@ public class ElevatorResetCommand extends Command {
   /** Creates a new ElevatorResetCommand. */
   private Elevator m_Elevator;
   private LedController m_LedController;
-  public ElevatorResetCommand(Elevator elevator , LedController ledController) {
+
+  public ElevatorResetCommand(Elevator elevator, LedController ledController) {
     m_LedController = ledController;
     m_Elevator = elevator;
-    addRequirements(m_Elevator , m_LedController);
+    addRequirements(m_Elevator, m_LedController);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -40,7 +40,7 @@ public class ElevatorResetCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_Elevator.MoveElevator(Constants.ElevatorConstants.kStallSpeed);
-    if(!interrupted){
+    if (!interrupted) {
       m_LedController.LedColorSetter(BlinkinPattern.HotPink);
     }
     m_Elevator.elevatorLevelSetter(0);
