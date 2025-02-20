@@ -265,12 +265,11 @@ public final class Constants {
 
     public static final class AlgeaRotatorAxisConstants {
 
-        public static final int kTopLimitSwichPort = 5;
-        public static final int kBottomLimitSwitchPort = 3;
         public static final int kMotorPort = 54;
-        public static final double kEncoderValueForElevatorReset = 5;
-        public static final double kEncoderValueForElevatorL1 = 10;
-        public static final double kEncoderValueLimit = 50;
+        public static final double kEncoderValueTreshHold = 0.05;
+        public static final double kFullExtendEncoderValue = 0.25;
+        public static final double kFullyOpenEncoderValue = 0.5;
+        public static final double kEncoderValueLimit = 0.55;
 
     }
 
