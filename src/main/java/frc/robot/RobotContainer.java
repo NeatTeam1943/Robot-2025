@@ -13,6 +13,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Algea;
 import frc.robot.subsystems.AlgeaRotatorAxis;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LedController;
@@ -97,6 +98,7 @@ public class RobotContainer {
         private final Swerve s_Swerve;
         private Coral m_Coral;
         private Elevator m_Elevator;
+        private Climber m_Climber;
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
         private LedController m_LedController;
         // private Algea m_Algea;
@@ -124,6 +126,7 @@ public class RobotContainer {
                 m_Elevator = new Elevator();
                 m_LedController = new LedController();
                 m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
+                m_Climber = new Climber();
                 // m_Algea = new Algea();
 
                 configureDefaultCommands();
@@ -144,7 +147,11 @@ public class RobotContainer {
          */
         private void configureButtonBindings() {
                 /* Driver Buttons */
+                        /*Drive Buttons */
                 m_DriveController.a().whileTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+                m_DriveController.b().whileTrue(new ClimberCommand(m_Climber, true));
+
+                        /* Mech Buttons */
                 m_MechController.y().whileTrue((new CoralCommand(m_Coral, m_LedController)));
                 m_MechController.start()
                                 .onTrue(new ElevatorResetCommand(m_Elevator, m_LedController));
