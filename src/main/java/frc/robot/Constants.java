@@ -251,6 +251,7 @@ public final class Constants {
         public static final int kMagnetSwitchPort = 0;
         public static final int kRightMotorPort = 55;
         public static final int kLeftMotorPort = 54;
+        public static final double kElevatorMoveSpeed = 0.25;
         public static final double kStallSpeed = 0.04;
         public static final int kBottomLimitSwitchPort = 8;
         public static final int kTopLimitSwitchPort = 7;
