@@ -59,6 +59,8 @@ public class RobotContainer {
                 autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
                 autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
                 autoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
+                autoChooserGame.addOption("TestAuto", new PathPlannerAuto("TestAuto"));
+
 
                 // Upper Autos
                 autoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
@@ -86,6 +88,8 @@ public class RobotContainer {
 
                 autoChooser.setDefaultOption("Auto Chooser Game", "autoChooserGame");
                 autoChooser.setDefaultOption("Auto Chooser Testing", "autoChooserTesting");
+
+                // AutoTest
 
                 SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -215,8 +219,4 @@ public class RobotContainer {
          *
          * @return the command to run in autonomous
          */
-        // public Command getAutonomousCommand() {
-        // return new exampleAuto(s_Swerve);
-        // }
-
 }
