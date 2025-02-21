@@ -253,6 +253,8 @@ public final class Constants {
         public static final int kLeftMotorPort = 54;
         public static final double kElevatorMoveSpeed = 0.25;
         public static final double kStallSpeed = 0.04;
+        public static final int kEncoderPortA = 4;
+        public static final int kEncoderPortB = 5;
         public static final int kBottomLimitSwitchPort = 8;
         public static final int kTopLimitSwitchPort = 7;
         public static final double kL1EncoderValue = 0.2;

@@ -15,11 +15,12 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorCurrentLimits;
+import frc.robot.autos.exampleAuto;
 
 public class Elevator extends SubsystemBase {
     private VictorSPX m_MasterMotor;
     private VictorSPX m_FollowerMotor;
-    private RelativeEncoder m_Encoder;
+    private Encoder m_Encoder;
     private DigitalInput m_MagnetSwitch;
     private DigitalInput m_TopLimitSwitch;
     private DigitalInput m_BottomLimitSwitch;
@@ -31,6 +32,7 @@ public class Elevator extends SubsystemBase {
         m_MagnetSwitch = new DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
         m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
         m_BottomLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
+        m_Encoder = new Encoder(Constants.ElevatorConstants.kEncoderPortA , Constants.ElevatorConstants.kEncoderPortB);
         m_FollowerMotor.follow(m_MasterMotor, FollowerType.AuxOutput1);
 
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
@@ -46,7 +48,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public double EncoderValue() {
-        return (m_Encoder.getPosition());
+        return (m_Encoder.getDistance());
     }
 
     public boolean Inthreshold(Double EncoderLvlVal) {

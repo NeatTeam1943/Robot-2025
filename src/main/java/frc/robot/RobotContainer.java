@@ -3,6 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,8 +41,10 @@ public class RobotContainer {
                                                 () -> m_DriveController.getRawAxis(translationAxis),
                                                 () -> -m_DriveController.getRawAxis(rotationAxis),
                                                 () -> m_DriveController.leftBumper().getAsBoolean()));
+                                                
                 m_Elevator.setDefaultCommand(new MoveEleveatorTestMagnetHieght(m_Elevator, m_DriveController));
-                m_AlgeaRotatorAxis.setDefaultCommand(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, m_MechController));
+                // m_AlgeaRotatorAxis.setDefaultCommand(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, m_MechController));
+                m_Climber.setDefaultCommand(new ClimberMoveCommandTest(m_Climber, m_MechController));
         }
 
         /* Path Planner */
@@ -99,7 +102,7 @@ public class RobotContainer {
         private Coral m_Coral;
         private Elevator m_Elevator;
         private Climber m_Climber;
-        private AlgeaRotatorAxis m_AlgeaRotatorAxis;
+        // private AlgeaRotatorAxis m_AlgeaRotatorAxis;
         private LedController m_LedController;
         // private Algea m_Algea;
 
@@ -125,7 +128,7 @@ public class RobotContainer {
                 m_Coral = new Coral();
                 m_Elevator = new Elevator();
                 m_LedController = new LedController();
-                m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
+                // m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
                 m_Climber = new Climber();
                 // m_Algea = new Algea();
 
@@ -150,7 +153,7 @@ public class RobotContainer {
                         /*Drive Buttons */
                 m_DriveController.a().whileTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
                 m_DriveController.b().whileTrue(new ClimberCommand(m_Climber, true));
-
+                
                         /* Mech Buttons */
                 m_MechController.y().whileTrue((new CoralCommand(m_Coral, m_LedController)));
                 m_MechController.start()

@@ -21,7 +21,7 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean LimitSwitchMode() {
-    return !m_LimitSwitch.get();
+    return m_LimitSwitch.get();
   }
 
   public void moveClimber(double speed) {
