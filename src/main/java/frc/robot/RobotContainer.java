@@ -49,6 +49,7 @@ public class RobotContainer {
         public SendableChooser<PathPlannerAuto> autoChooserTesting;
 
         private void autoSelector() {
+                // Test Autos
                 autoChooser = new SendableChooser<String>();
                 autoChooserGame = new SendableChooser<PathPlannerAuto>();
                 autoChooserTesting = new SendableChooser<PathPlannerAuto>();
@@ -58,17 +59,37 @@ public class RobotContainer {
                 autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
                 autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
                 autoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
+                autoChooserGame.addOption("TestAuto", new PathPlannerAuto("TestAuto"));
 
+
+                // Upper Autos
                 autoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
-                autoChooserGame.addOption("BestBottomStart", new PathPlannerAuto("BestBottomStart"));
-                autoChooserGame.addOption("WorstBottomStart", new PathPlannerAuto("WorstBottomStart"));
-                autoChooserGame.addOption("BottomPassLine", new PathPlannerAuto("BottomPassLine"));
-                autoChooserGame.addOption("MaxL1", new PathPlannerAuto("MaxL1"));
+                autoChooserGame.addOption("MaxL1Up", new PathPlannerAuto("MaxL1Up"));
+                autoChooserGame.addOption("OneCoralUp", new PathPlannerAuto("OneCoralUp"));
                 autoChooserGame.addOption("BestCoralUp", new PathPlannerAuto("BestCoralUp"));
-                autoChooserGame.addOption("To Riff", new PathPlannerAuto("BestBottom4 (To Riff no S)"));
+
+                // Down Autos
+                autoChooserGame.addOption("RunAwayDown", new PathPlannerAuto("RunAwayDown"));
+                autoChooserGame.addOption("MaxL1Down", new PathPlannerAuto("MaxL1Down"));
+                autoChooserGame.addOption("OneCoralDown", new PathPlannerAuto("OneCoralDown"));
+                autoChooserGame.addOption("BestCoralDown", new PathPlannerAuto("BestCoralDown"));
+
+                // Middel To Up
+                autoChooserGame.addOption("RunAwayFromMiddelToUp", new PathPlannerAuto("RunAwayFromMiddelToUp"));
+                autoChooserGame.addOption("MaxL1UpFromMiddel", new PathPlannerAuto("MaxL1UpFromMiddel"));
+                autoChooserGame.addOption("OneCoralFromMiddelToUp", new PathPlannerAuto("OneCoralFromMiddelToUp"));
+                autoChooserGame.addOption("BestCoralUpFromMiddel", new PathPlannerAuto("BestCoralUpFromMiddel"));
+
+                // Middel To Down
+                autoChooserGame.addOption("RunAwayFromMiddelToDown", new PathPlannerAuto("RunAwayFromMiddelToDown"));
+                autoChooserGame.addOption("MaxL1DownFromMiddel", new PathPlannerAuto("MaxL1DownFromMiddel"));
+                autoChooserGame.addOption("OneCoralFromMiddelToDown", new PathPlannerAuto("OneCoralFromMiddelToDown"));
+                autoChooserGame.addOption("BestCoralDownFromMiddel", new PathPlannerAuto("BestCoralDownFromMiddel"));
 
                 autoChooser.setDefaultOption("Auto Chooser Game", "autoChooserGame");
                 autoChooser.setDefaultOption("Auto Chooser Testing", "autoChooserTesting");
+
+                // AutoTest
 
                 SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -198,8 +219,4 @@ public class RobotContainer {
          *
          * @return the command to run in autonomous
          */
-        // public Command getAutonomousCommand() {
-        // return new exampleAuto(s_Swerve);
-        // }
-
 }
