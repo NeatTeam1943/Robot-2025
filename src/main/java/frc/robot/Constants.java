@@ -231,6 +231,7 @@ public final class Constants {
         public static final int kMotorPort = 9;
         public static final double kCoralOutSpeed = 0.2;
         public static final double kCoralInSpeed = 0.15;
+
     }
 
     public static final class AlgeaConstants {
@@ -252,7 +253,7 @@ public final class Constants {
         public static final int kRightMotorPort = 55;
         public static final int kLeftMotorPort = 54;
         public static final double kElevatorMoveSpeed = 0.25;
-        public static final double kStallSpeed = 0.04;
+        public static final double kStallSpeed = 0.055;
         public static final int kEncoderPortA = 4;
         public static final int kEncoderPortB = 5;
         public static final int kBottomLimitSwitchPort = 8;
@@ -267,7 +268,7 @@ public final class Constants {
 
     public static final class AlgeaRotatorAxisConstants {
 
-        public static final int kMotorPort = 54;
+        public static final int kMotorPort = 5;
         public static final double kEncoderValueTreshHold = 0.05;
         public static final double kFullExtendEncoderValue = 0.25;
         public static final double kFullyOpenEncoderValue = 0.5;

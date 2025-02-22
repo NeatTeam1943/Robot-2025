@@ -30,7 +30,7 @@ public class ClimberMoveCommandTest extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Climber.moveClimber(m_Controller.getLeftTriggerAxis() - m_Controller.getRightTriggerAxis());
+    m_Climber.moveClimber(m_Controller.getLeftTriggerAxis()- m_Controller.getRightTriggerAxis());
   }
 
   // Called once the command ends or is interrupted.

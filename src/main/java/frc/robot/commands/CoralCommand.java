@@ -23,7 +23,7 @@ public class CoralCommand extends Command {
     m_LedController = ledController;
     m_coral = coral;
     m_IsOutTake = m_coral.PhotoSwitchMode();
-    m_speed = m_IsOutTake ? Constants.CoralConstants.kCoralInSpeed : Constants.CoralConstants.kCoralOutSpeed;
+    m_speed = m_IsOutTake ? Constants.CoralConstants.kCoralOutSpeed : Constants.CoralConstants.kCoralInSpeed;
     addRequirements(m_coral, m_LedController);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -44,12 +44,19 @@ public class CoralCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Interrupted is : " + interrupted);
+    System.out.println("Outake is ; " + m_IsOutTake);
+    System.out.println("Photo Switch mode is :  " + m_coral.PhotoSwitchMode());
     System.out.println(m_coral.PhotoSwitchMode());
     m_coral.moveCoral(0);
     if (m_IsOutTake && !m_coral.PhotoSwitchMode()) {
       m_LedController.DefualtColor();
     } else if (!m_IsOutTake && m_coral.PhotoSwitchMode()) {
-      m_LedController.LedColorSetter(BlinkinPattern.White);
+      m_LedController.ledColorSetter(BlinkinPattern.White);
+    }
+
+    if (!interrupted) {
+      m_IsOutTake = !m_IsOutTake;
     }
   }
 
@@ -60,8 +67,7 @@ public class CoralCommand extends Command {
       return !m_coral.PhotoSwitchMode();
     } else if (!m_IsOutTake) {
       return m_coral.PhotoSwitchMode();
-    } else {
-      return false;
     }
+    return true;
   }
 }

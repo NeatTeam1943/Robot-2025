@@ -108,18 +108,18 @@ public class LedController extends SubsystemBase {
   BlinkinPattern m_CurrentPattern = BlinkinPattern.White;
   double m_color = m_CurrentPattern.value;
 
-  public void LedColorSetter(BlinkinPattern pattern) {
+  public void ledColorSetter(BlinkinPattern pattern) {
     m_CurrentPattern = pattern;
     m_color = (m_CurrentPattern.value);
   }
 
   public void DefualtColor() {
     if (DriverStation.getAlliance().get() == Alliance.Red) {
-      LedColorSetter(BlinkinPattern.Red);
+      ledColorSetter(BlinkinPattern.Red);
     } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      LedColorSetter(BlinkinPattern.Blue);
+      ledColorSetter(BlinkinPattern.Blue);
     } else {
-      LedColorSetter(BlinkinPattern.GREEN);
+      ledColorSetter(BlinkinPattern.GREEN);
     }
   }
 

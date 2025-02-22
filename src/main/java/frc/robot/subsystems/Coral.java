@@ -13,7 +13,7 @@ public class Coral extends SubsystemBase {
 
     public Coral() {
         m_Motor = new SparkMax(Constants.CoralConstants.kMotorPort, MotorType.kBrushless);
-        m_PhotoSwitch = new DigitalInput(Constants.CoralConstants.kPhotoSwitchPort);
+        m_PhotoSwitch = new DigitalInput(9);
 
     }
 

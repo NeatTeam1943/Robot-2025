@@ -30,7 +30,7 @@ public class Algea extends SubsystemBase {
 
     }
 
-    public void SetAlgeaSpeed(double speed) {
+    public void setAlgeaSpeed(double speed) {
         m_motor.set(speed);
     }
 
