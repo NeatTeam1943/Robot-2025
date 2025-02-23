@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -11,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.Algea;
 import frc.robot.subsystems.AlgeaRotatorAxis;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.Elevator;
@@ -120,6 +120,7 @@ public class RobotContainer {
         private final Swerve s_Swerve;
         private Coral m_Coral;
         private Elevator m_Elevator;
+        @SuppressWarnings("unused")
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
         private LedController m_LedController;
         // private Algea m_Algea;
@@ -149,8 +150,16 @@ public class RobotContainer {
                 m_Elevator = new Elevator();
                 m_LedController = new LedController();
                 m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
-                // m_Algea = new Algea();
-                
+                NamedCommands.registerCommand("Coral intake", new CoralCommand(m_Coral, true, m_LedController));                // m_Algea = new Algea();
+                NamedCommands.registerCommand("Coral outake", new CoralCommand(m_Coral, false, m_LedController));
+                NamedCommands.registerCommand("Elevator L1", new ElevatorResetCommand(m_Elevator, m_LedController));
+                NamedCommands.registerCommand("Elevator L2", new ElevatorMoveToLevelXCommand(m_Elevator, 2 , m_LedController));
+                NamedCommands.registerCommand("Elevator L3", new ElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
+                NamedCommands.registerCommand("Elevator L4", new ElevatorFullExtend(m_Elevator));
+
+
+
+
                 configureDefaultCommands();
                 configureButtonBindings();
                 autoSelector();
