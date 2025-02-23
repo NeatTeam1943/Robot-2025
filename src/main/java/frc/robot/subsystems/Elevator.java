@@ -30,6 +30,7 @@ public class Elevator extends SubsystemBase {
         m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
         m_BottomLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
         m_Encoder = new Encoder(Constants.ElevatorConstants.kEncoderPortA, Constants.ElevatorConstants.kEncoderPortB);
+        m_Encoder.setDistancePerPulse(constants.elevator.kTroughBoreRatio);
         m_FollowerMotor.follow(m_MasterMotor, FollowerType.AuxOutput1);
 
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
@@ -50,7 +51,6 @@ public class Elevator extends SubsystemBase {
 
     public void resetEncoderValue() {
         m_Encoder.setDistancePerPulse(0.01);
-        // m_Encoder.getRaw()
         m_Encoder.reset();
     }
 
@@ -62,13 +62,11 @@ public class Elevator extends SubsystemBase {
     }
 
     public int elevatorLevel() {
-        if (m_BottomLimitSwitch.get()) {
-            m_ElevatorLevel = 0;
-        } else if (m_TopLimitSwitch.get()) {
-            m_ElevatorLevel = 5;
-        } else if (magnetSwitchState()) {
-
-            if (inthreshold(Constants.ElevatorConstants.kL1EncoderValue))
+        
+        if(inthreshold(constants.ElevatorConstants.kClosedEncoderValue)){
+            m_Elevator = 0;
+        }
+            else if (inthreshold(Constants.ElevatorConstants.kL1EncoderValue))
                 m_ElevatorLevel = 1;
             else if (inthreshold(Constants.ElevatorConstants.kL2EncoderValue))
                 m_ElevatorLevel = 2;
@@ -137,4 +135,4 @@ public class Elevator extends SubsystemBase {
 
     }
 
-}
+
