@@ -11,44 +11,47 @@ import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorResetCommand extends Command {
-  /** Creates a new ElevatorResetCommand. */
+public class ElevatorMoveToLevelXCommandV2 extends Command {
+  /** Creates a new ElevatorMoveToLevelXCommand. */
   private Elevator m_Elevator;
+  private int m_RequestedLevel;
   private LedController m_LedController;
 
-  public ElevatorResetCommand(Elevator elevator, LedController ledController) {
-    m_LedController = ledController;
+  public ElevatorMoveToLevelXCommandV2(Elevator elevator, int requestedLevel, LedController ledController) {
     m_Elevator = elevator;
-    addRequirements(m_Elevator, m_LedController);
+    m_LedController = ledController;
+    m_RequestedLevel = requestedLevel;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_Elevator, m_LedController);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_LedController.ledColorSetter(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
+    m_Elevator.moveElevator(m_Elevator.getStallSpeed());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.moveElevator(-0.05);
+    int dir = m_Elevator.getMoveDiraction(m_RequestedLevel);
+    if (dir != 0) {
+      m_Elevator.moveElevator(Constants.ElevatorConstants.kElevatorMoveSpeed * dir);
+    } else {
+      m_Elevator.moveElevator(m_Elevator.getStallSpeed());
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
-    if (!interrupted) {
-      m_LedController.ledColorSetter(BlinkinPattern.HotPink);
-    }
-    m_Elevator.elevatorLevelSetter(0);
+    m_Elevator.moveElevator(m_Elevator.getStallSpeed());
+    m_LedController.ledColorSetter(BlinkinPattern.HotPink);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.elevatorBottomLimitState();
+    return m_Elevator.getMoveDiraction(m_RequestedLevel) == 0;
   }
 }

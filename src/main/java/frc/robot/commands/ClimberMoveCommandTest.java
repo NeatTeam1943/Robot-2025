@@ -5,50 +5,43 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.LedController;
-import frc.robot.subsystems.LedController.BlinkinPattern;
+import frc.robot.subsystems.Climber;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorResetCommand extends Command {
-  /** Creates a new ElevatorResetCommand. */
-  private Elevator m_Elevator;
-  private LedController m_LedController;
-
-  public ElevatorResetCommand(Elevator elevator, LedController ledController) {
-    m_LedController = ledController;
-    m_Elevator = elevator;
-    addRequirements(m_Elevator, m_LedController);
+public class ClimberMoveCommandTest extends Command {
+  /** Creates a new ClimberMoveCommandTest. */
+  Climber m_Climber;
+  CommandXboxController m_Controller;
+  public ClimberMoveCommandTest(Climber climber , CommandXboxController controller) {
+    m_Climber = climber;
+    m_Controller = controller;
+    addRequirements(m_Climber);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_LedController.ledColorSetter(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
+    m_Climber.moveClimber(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.moveElevator(-0.05);
+    m_Climber.moveClimber(m_Controller.getLeftTriggerAxis()- m_Controller.getRightTriggerAxis());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
-    if (!interrupted) {
-      m_LedController.ledColorSetter(BlinkinPattern.HotPink);
-    }
-    m_Elevator.elevatorLevelSetter(0);
+    m_Climber.moveClimber(Constants.ClimberConstants.kClimberStallSpeed);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.elevatorBottomLimitState();
+    return false;
   }
 }

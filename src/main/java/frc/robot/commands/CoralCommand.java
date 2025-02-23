@@ -17,13 +17,13 @@ public class CoralCommand extends Command {
   private Coral m_coral;
   private double m_speed;
   private LedController m_LedController;
-  private boolean m_isIintake;
+  private boolean m_IsOutTake;
 
-  public  CoralCommand(Coral coral, boolean isIntake, LedController ledController) {
+  public CoralCommand(Coral coral, LedController ledController) {
     m_LedController = ledController;
     m_coral = coral;
-    m_isIintake = isIntake;
-    m_speed = m_isIintake ? Constants.CoralConstants.kCoralInSpeed : Constants.CoralConstants.kCoralOutSpeed;
+    m_IsOutTake = m_coral.PhotoSwitchMode();
+    m_speed = m_IsOutTake ? Constants.CoralConstants.kCoralOutSpeed : Constants.CoralConstants.kCoralInSpeed;
     addRequirements(m_coral, m_LedController);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -33,7 +33,6 @@ public class CoralCommand extends Command {
   @Override
   public void initialize() {
     m_coral.moveCoral(0);
-    System.out.println(m_speed + " = m _ speed");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,24 +44,30 @@ public class CoralCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Interrupted is : " + interrupted);
+    System.out.println("Outake is ; " + m_IsOutTake);
+    System.out.println("Photo Switch mode is :  " + m_coral.PhotoSwitchMode());
     System.out.println(m_coral.PhotoSwitchMode());
     m_coral.moveCoral(0);
-    if (!m_isIintake && !m_coral.PhotoSwitchMode()) {
+    if (m_IsOutTake && !m_coral.PhotoSwitchMode()) {
       m_LedController.DefualtColor();
-    } else if (m_isIintake && m_coral.PhotoSwitchMode()) {
-      m_LedController.LedColorSetter(BlinkinPattern.White);
+    } else if (!m_IsOutTake && m_coral.PhotoSwitchMode()) {
+      m_LedController.ledColorSetter(BlinkinPattern.White);
+    }
+
+    if (!interrupted) {
+      m_IsOutTake = !m_IsOutTake;
     }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (!m_isIintake) {
+    if (m_IsOutTake) {
       return !m_coral.PhotoSwitchMode();
-    } else if (m_isIintake) {
+    } else if (!m_IsOutTake) {
       return m_coral.PhotoSwitchMode();
-    } else {
-      return false;
     }
+    return true;
   }
 }
