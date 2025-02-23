@@ -4,6 +4,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -23,5 +24,8 @@ public class Coral extends SubsystemBase {
 
     public void moveCoral(double speed) {
         m_Motor.set(speed);
+
+        SmartDashboard.putString("DB/String 5", m_Motor.get() +
+                "");
     }
 }

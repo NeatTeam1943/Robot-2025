@@ -254,8 +254,8 @@ public final class Constants {
         public static final int kLeftMotorPort = 54;
         public static final double kElevatorMoveSpeed = 0.25;
         public static final double kStallSpeed = 0.055;
-        public static final int kEncoderPortA = 4;
-        public static final int kEncoderPortB = 5;
+        public static final int kEncoderPortA = 4; // A = Blue PWM
+        public static final int kEncoderPortB = 5; // B = Yellow PWM
         public static final int kBottomLimitSwitchPort = 8;
         public static final int kTopLimitSwitchPort = 7;
         public static final double kL1EncoderValue = 0.2;
@@ -277,7 +277,7 @@ public final class Constants {
     }
 
     public static final class LedConstants {
-        public static final int kBlinkinControllerPort = 0;
+        public static final int kBlinkinControllerPort = 9;
         public static final double kDefualtColor = 0.85;
         public static final double kMovingElevatorColor = -0.99;
         public static final double kAtWantedLevelColor = 0.57;

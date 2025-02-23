@@ -45,11 +45,11 @@ public class Elevator extends SubsystemBase {
     }
 
     public double encoderValue() {
-        return (m_Encoder.getDistance());
+        return (m_Encoder.get());
     }
 
     public void resetEncoderValue() {
-        m_Encoder.setDistancePerPulse(0.1);
+        m_Encoder.setDistancePerPulse(0.01);
         // m_Encoder.getRaw()
         m_Encoder.reset();
     }
