@@ -120,7 +120,7 @@ public class RobotContainer {
         /* Subsystems */
         private final Swerve m_Swerve;
         private Coral m_Coral;
-        private Elevator m_Elevator;
+        public Elevator m_Elevator;
         private Climber m_Climber;
         @SuppressWarnings("unused")
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
