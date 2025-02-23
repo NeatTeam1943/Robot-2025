@@ -51,6 +51,7 @@ public class MoveEleveatorTestMagnetHieght extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Interrupted is : "  + interrupted  );
     m_Speed = m_Elevator.getStallSpeed();
     m_Elevator.moveElevator(m_Speed);
   }
@@ -58,6 +59,6 @@ public class MoveEleveatorTestMagnetHieght extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.elevatorBottomLimitState() || m_Elevator.elevatorTopLimitState();
+    return false;
   }
 }
