@@ -4,10 +4,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorCurrentLimits;
@@ -17,37 +16,22 @@ import frc.robot.Constants.MotorCurrentLimits;
  */
 public class AlgeaRotatorAxis extends SubsystemBase {
 
-    private DigitalInput m_TopLimitSwitch;
-    private DigitalInput m_BottomLimitSwitch;
-    private TalonFX m_Motor;
+    private SparkMax m_Motor;
 
     public AlgeaRotatorAxis() {
-        m_Motor = new TalonFX(Constants.AlgeaRotatorAxisConstants.kMotorPort);
-        m_TopLimitSwitch = new DigitalInput(Constants.AlgeaRotatorAxisConstants.kTopLimitSwichPort);
-        m_BottomLimitSwitch = new DigitalInput(
-                Constants.AlgeaRotatorAxisConstants.kBottomLimitSwitchPort);
-        TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
+        m_Motor = new SparkMax(Constants.AlgeaRotatorAxisConstants.kMotorPort, MotorType.kBrushless);
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
-        m_Motor.getConfigurator().apply(talonFXConfiguration);
         limitConfigs.SupplyCurrentLimit = MotorCurrentLimits.kSupplyCurrentLimit;
         limitConfigs.SupplyCurrentLimitEnable = MotorCurrentLimits.kSupplyCurrentLimitEnable;
 
     }
 
     public double EncoderValueGetter() {
-        return m_Motor.getRotorPosition().getValueAsDouble();
+        return m_Motor.getAlternateEncoder().getPosition() / 4;
     }
 
     public void AlgeaRotatorAxisMove(double speed) {
         m_Motor.set(speed);
-    }
-
-    public boolean TopLimitSwitchGetter() {
-        return m_TopLimitSwitch.get();
-    }
-
-    public boolean BottomLimitSwitchGetter() {
-        return m_BottomLimitSwitch.get();
     }
 
 }

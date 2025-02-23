@@ -14,15 +14,17 @@ import frc.robot.subsystems.Coral;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralCommand extends Command {
   /** Creates a new CoralOutTakeCommand. */
-  private Coral m_OutTake;
+  private Coral m_coral;
   private double m_speed;
   private LedController m_LedController;
+  private boolean m_IsOutTake;
 
-  public CoralCommand(Coral outTake,double speed, LedController ledController) {
+  public CoralCommand(Coral coral, LedController ledController) {
     m_LedController = ledController;
-    m_OutTake = outTake;
-    m_speed = speed;
-    addRequirements(m_OutTake, m_LedController);
+    m_coral = coral;
+    m_IsOutTake = m_coral.PhotoSwitchMode();
+    m_speed = m_IsOutTake ? Constants.CoralConstants.kCoralOutSpeed : Constants.CoralConstants.kCoralInSpeed;
+    addRequirements(m_coral, m_LedController);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,37 +32,42 @@ public class CoralCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_OutTake.moveCoral(0);
-    System.out.println(m_speed  + " = m _ speed");
+    m_coral.moveCoral(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_OutTake.moveCoral(m_speed);
+    m_coral.moveCoral(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println(m_OutTake.PhotoSwitchMode());
-    m_OutTake.moveCoral(0);
-    if (!m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralConstants.kCoralOutSpeed) {
+    System.out.println("Interrupted is : " + interrupted);
+    System.out.println("Outake is ; " + m_IsOutTake);
+    System.out.println("Photo Switch mode is :  " + m_coral.PhotoSwitchMode());
+    System.out.println(m_coral.PhotoSwitchMode());
+    m_coral.moveCoral(0);
+    if (m_IsOutTake && !m_coral.PhotoSwitchMode()) {
       m_LedController.DefualtColor();
-    } else if (m_OutTake.PhotoSwitchMode() && m_speed == Constants.CoralConstants.kCoralInSpeed) {
-      m_LedController.LedColorSetter(BlinkinPattern.White);
+    } else if (!m_IsOutTake && m_coral.PhotoSwitchMode()) {
+      m_LedController.ledColorSetter(BlinkinPattern.White);
+    }
+
+    if (!interrupted) {
+      m_IsOutTake = !m_IsOutTake;
     }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_speed == Constants.CoralConstants.kCoralInSpeed) {
-      return m_OutTake.PhotoSwitchMode();
-    } else if (m_speed == Constants.CoralConstants.kCoralOutSpeed) {
-      return !m_OutTake.PhotoSwitchMode();
-    } else {
-      return false;
+    if (m_IsOutTake) {
+      return !m_coral.PhotoSwitchMode();
+    } else if (!m_IsOutTake) {
+      return m_coral.PhotoSwitchMode();
     }
+    return true;
   }
 }

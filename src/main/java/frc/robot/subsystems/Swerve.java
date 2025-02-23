@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
 import frc.robot.Constants;
-
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -10,11 +9,15 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -22,21 +25,36 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
+    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(Constants.Swerve.kModuleTranslations);
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.kPigeonID);
-        gyro.getConfigurator().apply(new Pigeon2Configuration());
+        Pigeon2Configuration config = new Pigeon2Configuration();
+        config.MountPose.MountPoseYaw = -90; // Adjust if your Pigeon is mounted at an angle
+        gyro.getConfigurator().apply(config);
         gyro.setYaw(0);
 
         mSwerveMods = new SwerveModule[] {
-                new SwerveModule(0, Constants.Swerve.Mod0.constants),
-                new SwerveModule(1, Constants.Swerve.Mod1.constants),
-                new SwerveModule(2, Constants.Swerve.Mod2.constants),
-                new SwerveModule(3, Constants.Swerve.Mod3.constants)
+                new SwerveModule(0, Constants.Swerve.Mod0.kConstants),
+                new SwerveModule(1, Constants.Swerve.Mod1.kConstants),
+                new SwerveModule(2, Constants.Swerve.Mod2.kConstants),
+                new SwerveModule(3, Constants.Swerve.Mod3.kConstants)
         };
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(),
                 getModulePositions());
+
+        AutoBuilder.configure(
+                this::getPose,
+                this::setPose,
+                this::getRobotRelativeSpeeds,
+                this::runPureVelocity,
+                new PPHolonomicDriveController(
+                        new PIDConstants(5.0, 0.0, 0.0),
+                        new PIDConstants(5.0, 0.0, 0.0)),
+                Constants.Swerve.kPPConfig,
+                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                this);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -59,6 +77,7 @@ public class Swerve extends SubsystemBase {
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
+
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.kMaxSpeed);
 
         for (SwerveModule mod : mSwerveMods) {
@@ -92,6 +111,16 @@ public class Swerve extends SubsystemBase {
 
     public Rotation2d getHeading() {
         return getPose().getRotation();
+    }
+
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        return kinematics.toChassisSpeeds(getModuleStates());
+    }
+
+    public void runPureVelocity(ChassisSpeeds speeds) {
+        var moduleStates = kinematics.toSwerveModuleStates(speeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.Swerve.kMaxSpeed);
+        setModuleStates(moduleStates);
     }
 
     public void setHeading(Rotation2d heading) {

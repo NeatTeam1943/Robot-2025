@@ -16,7 +16,6 @@ import frc.lib.util.SwerveModuleConstants;
 public class SwerveModule {
     public int moduleNumber;
     private Rotation2d angleOffset;
-
     private TalonFX mAngleMotor;
     private TalonFX mDriveMotor;
     private CANcoder angleEncoder;
@@ -26,7 +25,7 @@ public class SwerveModule {
 
     /* drive motor control requests */
     @SuppressWarnings("unused")
-	private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
+    private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
     private final VelocityVoltage driveVelocity = new VelocityVoltage(0);
 
     /* angle motor control requests */
@@ -52,7 +51,7 @@ public class SwerveModule {
     }
 
     @SuppressWarnings("deprecation")
-	public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
         desiredState = SwerveModuleState.optimize(desiredState, getState().angle);
         mAngleMotor.setControl(anglePosition.withPosition(desiredState.angle.getRotations()));
         setSpeed(desiredState, isOpenLoop);
@@ -95,12 +94,16 @@ public class SwerveModule {
     }
 
     public SwerveModuleState getState() {
-        double velocity = Conversions.RPSToMPS(mDriveMotor.getVelocity().getValueAsDouble(), Constants.Swerve.kWheelCircumference);
+        double velocity = Conversions.RPSToMPS(mDriveMotor.getVelocity().getValueAsDouble(),
+                Constants.Swerve.kWheelCircumference);
+
         Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
         return new SwerveModuleState(velocity, angle);
     }
+
     public SwerveModulePosition getPosition() {
-        double distance = Conversions.rotationsToMeters(mDriveMotor.getPosition().getValueAsDouble(), Constants.Swerve.kWheelCircumference);
+        double distance = Conversions.rotationsToMeters(mDriveMotor.getPosition().getValueAsDouble(),
+                Constants.Swerve.kWheelCircumference);
         Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
         return new SwerveModulePosition(distance, angle);
     }

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -11,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.math.Conversions;
-import frc.robot.subsystems.LedController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -42,9 +42,13 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     Rotation2d angle = new Rotation2d(0);
     SwerveModuleState desiredState = new SwerveModuleState(2, angle);
+    m_robotContainer.resetElevator();
 
     System.out.println(Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
         Constants.Swerve.kWheelCircumference));
+
+    // SmartDashboard.setDefaultString("DB/String 0", "0");
+    // SmartDashboard.setDefaultString("DB/String 0", "4.5");
   }
 
   /**
@@ -68,6 +72,14 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    SmartDashboard.putBoolean("DB/LED 0", m_robotContainer.getAlgeaSwtich());
+    SmartDashboard.putString("DB/String 9", m_robotContainer.getThroBore());
+    SmartDashboard.putString("DB/String 8", (m_robotContainer.m_Elevator.m_Encoder.getStopped() + ""));
+
+    // Constants.Swerve.kMaxSpeed =
+    // double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
+    // SmartDashboard.getString("Max Speed",
+    // String.valueOf(Constants.Swerve.kMaxSpeed));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -77,6 +89,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    // switch (m_robotContainer.autoChooser.getSelected()) {
+    // case "autoChooserTesting":
+
+    // SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserTesting);
+    // break;
+
+    // default:
+    // case "autoChooserGame":
+    // SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserGame);
+    // break;
+    // }
   }
 
   /**
@@ -85,7 +108,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -107,14 +130,13 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    Constants.Swerve.maxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
-    System.out.println("max speed is: " + Constants.Swerve.maxSpeed);
+    // Constants.Swerve.kMaxSpeed =
+    // Double.parseDouble(SmartDashboard.getString("DB/String 1", "4.5"));
   }
 
   @Override

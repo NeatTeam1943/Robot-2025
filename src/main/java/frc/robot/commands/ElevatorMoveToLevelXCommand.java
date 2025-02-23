@@ -33,13 +33,13 @@ public class ElevatorMoveToLevelXCommand extends Command {
 
   @Override
   public void initialize() {
-    m_LedController.LedColorSetter(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.MoveElevator(0);
-    m_StartingBottomLimitSwithState = m_Elevator.ElevatorBottomLimitState();
-    m_StaringTopLimitSwitchState = m_Elevator.ElevatorTopLimitState();
-    m_LastMagnetSwitchState = m_Elevator.MagnetSwitchState();
+    m_LedController.ledColorSetter(BlinkinPattern.RanbowRainbowPalette);
+    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
+    m_StartingBottomLimitSwithState = m_Elevator.elevatorBottomLimitState();
+    m_StaringTopLimitSwitchState = m_Elevator.elevatorTopLimitState();
+    m_LastMagnetSwitchState = m_Elevator.magnetSwitchState();
 
-    m_LevelsToMove = m_RequestedLevel - m_Elevator.elevatorLevelGetter();
+    m_LevelsToMove = m_RequestedLevel - m_Elevator.getElevatorLevel();
     System.out.println(m_LevelsToMove + "levels to move");
   }
 
@@ -48,27 +48,29 @@ public class ElevatorMoveToLevelXCommand extends Command {
   public void execute() {
     System.out.println(m_LevelsToMove);
     if (m_LevelsToMove != 0) {
-      m_Elevator.MoveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * 0.05);
-      if (m_Elevator.MagnetSwitchState() && !m_LastMagnetSwitchState) {
+      m_Elevator
+          .moveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * Constants.ElevatorConstants.kElevatorMoveSpeed);
+      if (m_Elevator.magnetSwitchState() && !m_LastMagnetSwitchState) {
         m_LevelsToMove += -1 * (m_LevelsToMove / Math.abs(m_LevelsToMove));
         m_LastMagnetSwitchState = true;
-      } else if (!m_Elevator.MagnetSwitchState()) {
+      } else if (!m_Elevator.magnetSwitchState()) {
         m_LastMagnetSwitchState = false;
       }
+
     } else
-      System.out.println("oops");
+      System.out.println("HELL NAH");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     System.out.println("end, interpted: " + interrupted);
-    m_Elevator.MoveElevator(0);
+    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
     if (!interrupted) {
-      if(m_LevelsToMove == 0){
+      if (m_LevelsToMove == 0) {
         m_Elevator.elevatorLevelSetter(m_RequestedLevel);
       }
-      m_LedController.LedColorSetter(BlinkinPattern.HotPink);
+      m_LedController.ledColorSetter(BlinkinPattern.HotPink);
     }
   }
 
@@ -77,11 +79,11 @@ public class ElevatorMoveToLevelXCommand extends Command {
   public boolean isFinished() {
 
     if (m_StartingBottomLimitSwithState) {
-      return m_LevelsToMove == 0 || m_Elevator.ElevatorTopLimitState();
+      return m_LevelsToMove == 0 || m_Elevator.elevatorTopLimitState();
     } else if (m_StaringTopLimitSwitchState) {
-      return m_LevelsToMove == 0 || m_Elevator.ElevatorBottomLimitState();
+      return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState();
     } else
-      return m_LevelsToMove == 0 || m_Elevator.ElevatorBottomLimitState()
-          || m_Elevator.ElevatorTopLimitState();
+      return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState()
+          || m_Elevator.elevatorTopLimitState();
   }
 }

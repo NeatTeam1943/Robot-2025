@@ -17,9 +17,9 @@ public class TeleopSwerve extends Command {
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
 
-    public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup,
+    public TeleopSwerve(Swerve swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup,
             DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
-        this.s_Swerve = s_Swerve;
+        s_Swerve = swerve;
         addRequirements(s_Swerve);
 
         this.translationSup = translationSup;

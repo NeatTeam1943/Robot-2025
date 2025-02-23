@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.HashMap;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -108,21 +106,23 @@ public class LedController extends SubsystemBase {
   BlinkinPattern m_CurrentPattern = BlinkinPattern.White;
   double m_color = m_CurrentPattern.value;
 
-  public void LedColorSetter(BlinkinPattern pattern) {
+  public void ledColorSetter(BlinkinPattern pattern) {
     m_CurrentPattern = pattern;
     m_color = (m_CurrentPattern.value);
   }
 
   public void DefualtColor() {
     if (DriverStation.getAlliance().get() == Alliance.Red) {
-      LedColorSetter(BlinkinPattern.Red);
+      ledColorSetter(BlinkinPattern.Red);
     } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      LedColorSetter(BlinkinPattern.Blue);
+      ledColorSetter(BlinkinPattern.Blue);
+    } else {
+      ledColorSetter(BlinkinPattern.GREEN);
     }
   }
 
   @Override
   public void periodic() {
     m_blinkin.set(m_color);
-    }
+  }
 }

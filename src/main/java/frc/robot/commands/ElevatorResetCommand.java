@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-import java.lang.constant.Constable;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
@@ -17,32 +15,33 @@ public class ElevatorResetCommand extends Command {
   /** Creates a new ElevatorResetCommand. */
   private Elevator m_Elevator;
   private LedController m_LedController;
-  public ElevatorResetCommand(Elevator elevator , LedController ledController) {
+
+  public ElevatorResetCommand(Elevator elevator, LedController ledController) {
     m_LedController = ledController;
     m_Elevator = elevator;
-    addRequirements(m_Elevator , m_LedController);
+    addRequirements(m_Elevator, m_LedController);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_LedController.LedColorSetter(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.MoveElevator(0);
+    m_LedController.ledColorSetter(BlinkinPattern.RanbowRainbowPalette);
+    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.MoveElevator(-0.05);
+    m_Elevator.moveElevator(-0.05);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Elevator.MoveElevator(0);
-    if(!interrupted){
-      m_LedController.LedColorSetter(BlinkinPattern.HotPink);
+    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
+    if (!interrupted) {
+      m_LedController.ledColorSetter(BlinkinPattern.HotPink);
     }
     m_Elevator.elevatorLevelSetter(0);
   }
@@ -50,6 +49,6 @@ public class ElevatorResetCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.ElevatorBottomLimitState();
+    return m_Elevator.elevatorBottomLimitState();
   }
 }

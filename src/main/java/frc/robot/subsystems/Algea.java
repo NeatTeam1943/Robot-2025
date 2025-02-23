@@ -21,6 +21,7 @@ public class Algea extends SubsystemBase {
 
         TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
+        @SuppressWarnings("unused")
         MotionMagicConfigs motionMagicConfigs = talonFXConfiguration.MotionMagic;
 
         m_motor.getConfigurator().apply(talonFXConfiguration);
@@ -30,7 +31,7 @@ public class Algea extends SubsystemBase {
 
     }
 
-    public void SetAlgeaSpeed(double speed) {
+    public void setAlgeaSpeed(double speed) {
         m_motor.set(speed);
     }
 
