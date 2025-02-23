@@ -11,6 +11,7 @@ import frc.robot.commands.CoralCommand;
 import frc.robot.commands.ElevatorFullExtend;
 import frc.robot.commands.ElevatorMoveToLevelXCommand;
 import frc.robot.commands.ElevatorResetCommand;
+import frc.robot.commands.Tag;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Algea;
 import frc.robot.subsystems.AlgeaRotatorAxis;
@@ -129,6 +130,10 @@ public class RobotContainer {
                                 Constants.AlgeaRotatorAxisConstants.kEncoderValueLimit));
                 m_MechController.rightBumper().whileTrue(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, -1, 0));
                 // }
+                Tag aprilTagCommand = new Tag(s_Swerve);
+                new JoystickButton(driver, XboxController.Button.kB.value).whileTrue(
+                                aprilTagCommand.beforeStarting(() -> aprilTagCommand.setActive(true))
+                                                .finallyDo(() -> aprilTagCommand.setActive(false)));
         }
 
         /**
