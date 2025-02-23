@@ -45,8 +45,7 @@ public class RobotContainer {
                                                 () -> m_DriveController.leftBumper().getAsBoolean()));
 
                 m_Elevator.setDefaultCommand(new MoveEleveatorTestMagnetHieght(m_Elevator, m_MechController));
-                // m_AlgeaRotatorAxis.setDefaultCommand(new
-                // AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, m_MechController));
+                m_AlgeaRotatorAxis.setDefaultCommand(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, m_MechController));
                 m_Climber.setDefaultCommand(new ClimberMoveCommandTest(m_Climber, m_DriveController));
         }
 

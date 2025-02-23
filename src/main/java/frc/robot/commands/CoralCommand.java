@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.LedController.BlinkinPattern;
@@ -23,7 +24,6 @@ public class CoralCommand extends Command {
     m_LedController = ledController;
     m_coral = coral;
     m_IsOutTake = m_coral.PhotoSwitchMode();
-    m_speed = m_IsOutTake ? Constants.CoralConstants.kCoralOutSpeed : Constants.CoralConstants.kCoralInSpeed;
     addRequirements(m_coral, m_LedController);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,12 +32,14 @@ public class CoralCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_speed = m_IsOutTake ? Constants.CoralConstants.kCoralOutSpeed : Constants.CoralConstants.kCoralInSpeed;
     m_coral.moveCoral(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putString("DB/String 4" , String.valueOf(m_speed));
     m_coral.moveCoral(m_speed);
   }
 
