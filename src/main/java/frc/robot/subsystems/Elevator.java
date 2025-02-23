@@ -1,13 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FollowerType;
-import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.controls.Follower;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -55,7 +51,7 @@ public class Elevator extends SubsystemBase {
     public void resetEncoderValue() {
         m_Encoder.setDistancePerPulse(0.1);
         // m_Encoder.getRaw()
-        m_Encoder.reset();  
+        m_Encoder.reset();
     }
 
     public boolean inthreshold(Double EncoderLvlVal) {
@@ -94,6 +90,7 @@ public class Elevator extends SubsystemBase {
     public int getElevatorLevel() {
         return m_ElevatorLevel;
     }
+
     public double getStallSpeed() {
         double stallSpeed = 0;
         if (encoderValue() > getLXEncValue(1)) {
@@ -102,7 +99,7 @@ public class Elevator extends SubsystemBase {
             stallSpeed = 0.04;
         } else if (encoderValue() > getLXEncValue(3)) {
             stallSpeed = 0.05;
-        } 
+        }
         return stallSpeed;
     }
 
