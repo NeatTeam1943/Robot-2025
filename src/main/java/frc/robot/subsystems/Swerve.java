@@ -6,7 +6,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -26,6 +25,7 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
     private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(Constants.Swerve.kModuleTranslations);
+    private boolean twinStickMode = false;
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.kPigeonID);
@@ -43,18 +43,6 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(),
                 getModulePositions());
-
-        AutoBuilder.configure(
-                this::getPose,
-                this::setPose,
-                this::getRobotRelativeSpeeds,
-                this::runPureVelocity,
-                new PPHolonomicDriveController(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(5.0, 0.0, 0.0)),
-                Constants.Swerve.kPPConfig,
-                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-                this);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -64,10 +52,7 @@ public class Swerve extends SubsystemBase {
                         translation.getY(),
                         rotation,
                         getHeading())
-                        : new ChassisSpeeds(
-                                translation.getX(),
-                                translation.getY(),
-                                rotation));
+                        : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.kMaxSpeed);
 
         for (SwerveModule mod : mSwerveMods) {
@@ -75,11 +60,8 @@ public class Swerve extends SubsystemBase {
         }
     }
 
-    /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.kMaxSpeed);
-
         for (SwerveModule mod : mSwerveMods) {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
@@ -134,7 +116,6 @@ public class Swerve extends SubsystemBase {
     }
 
     public Rotation2d getGyroYaw() {
-        // Convert the Pigeon's yaw angle to a Rotation2d
         return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
     }
 
@@ -144,10 +125,30 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    // Lock wheels to X mode
+    public void setXMode() {
+        Rotation2d angle0 = Rotation2d.fromDegrees(45);
+        Rotation2d angle1 = Rotation2d.fromDegrees(-45);
+        Rotation2d angle2 = Rotation2d.fromDegrees(-45);
+        Rotation2d angle3 = Rotation2d.fromDegrees(45);
+        mSwerveMods[0].setDesiredState(new SwerveModuleState(0, angle0), false);
+        mSwerveMods[1].setDesiredState(new SwerveModuleState(0, angle1), false);
+        mSwerveMods[2].setDesiredState(new SwerveModuleState(0, angle2), false);
+        mSwerveMods[3].setDesiredState(new SwerveModuleState(0, angle3), false);
+    }
+
+    public void toggleTwinStickMode() {
+        twinStickMode = !twinStickMode;
+        SmartDashboard.putBoolean("TwinStick Mode", twinStickMode);
+    }
+
+    public boolean isTwinStickMode() {
+        return twinStickMode;
+    }
+
     @Override
     public void periodic() {
         swerveOdometry.update(getGyroYaw(), getModulePositions());
-
         for (SwerveModule mod : mSwerveMods) {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());

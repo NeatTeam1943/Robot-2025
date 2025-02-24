@@ -42,7 +42,10 @@ public class RobotContainer {
                                                 () -> m_DriveController.getRawAxis(strafeAxis),
                                                 () -> m_DriveController.getRawAxis(translationAxis),
                                                 () -> -m_DriveController.getRawAxis(rotationAxis),
-                                                () -> m_DriveController.leftBumper().getAsBoolean()));
+                                                () -> m_DriveController.leftBumper().getAsBoolean(),
+                                                () -> m_MechController.getRightX(), // TwinStick X
+                                                () -> m_MechController.getRightY() // TwinStick Y
+                                ));
 
                 m_Elevator.setDefaultCommand(new MoveEleveatorTestMagnetHieght(m_Elevator, m_MechController));
                 m_AlgeaRotatorAxis.setDefaultCommand(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, m_MechController));
@@ -142,11 +145,22 @@ public class RobotContainer {
 
         public String getThroBore() {
                 return m_Elevator.encoderValue() + "";
-                // return m_Coral.PhotoSwitchMode() + "";
         }
 
         public void resetElevator() {
                 m_Elevator.resetEncoderValue();
+        }
+
+        // Coral level selection
+        public SendableChooser<Integer> coralAutoLevelChooser;
+
+        private void configureCoralAutoChooser() {
+                coralAutoLevelChooser = new SendableChooser<>();
+                coralAutoLevelChooser.setDefaultOption("Level 1", 1);
+                coralAutoLevelChooser.addOption("Level 2", 2);
+                coralAutoLevelChooser.addOption("Level 3", 3);
+                coralAutoLevelChooser.addOption("Level 4", 4);
+                SmartDashboard.putData("Coral Auto Level", coralAutoLevelChooser);
         }
 
         public RobotContainer() {
@@ -179,24 +193,19 @@ public class RobotContainer {
                 configureDefaultCommands();
                 configureButtonBindings();
                 autoSelector();
+                configureCoralAutoChooser();
         }
 
-        /**
-         * The container for the robot. Contains subsystems, OI devices, and commands.
-         */
-        /**
-         * Use this method to define your button->command mappings. Buttons can be
-         * created by instantiating a {@link GenericHID} or one of its subclasses
-         * ({@link
-         * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-         * passing it to a {@link
-         * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-         */
         private void configureButtonBindings() {
                 /* Driver Buttons */
                 /* Drive Buttons */
                 m_DriveController.a().whileTrue(new InstantCommand(() -> m_Swerve.zeroHeading()));
                 m_DriveController.b().whileTrue(new ClimberCommand(m_Climber, true));
+                // X Mode on ctrlr X button
+                m_DriveController.x().onTrue(new SwerveXMode(m_Swerve));
+
+                // Toggle TwinStick Mode on ctrlr Y button
+                m_DriveController.y().onTrue(new InstantCommand(() -> m_Swerve.toggleTwinStickMode()));
 
                 /* Mech Buttons */
                 m_MechController.y().whileTrue(new CoralCommand(m_Coral, m_LedController));
@@ -210,7 +219,11 @@ public class RobotContainer {
                 m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 2, m_LedController));
                 m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 3, m_LedController));
                 m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 4, m_LedController));
-                // m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(1);
                 m_MechController.a().onTrue(new RunCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
+                // The Coral Auto Level chooser on mech ctrlr BACK button
+                m_MechController.back().onTrue(new InstantCommand(() -> {
+                        int level = coralAutoLevelChooser.getSelected();
+                        new CoralAutoPlaceCommand(m_Coral, m_LedController, level).schedule();
+                }));
         }
 }
