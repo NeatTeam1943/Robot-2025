@@ -164,7 +164,7 @@ public final class Constants {
             public static final int kDriveMotorID = 11;
             public static final int kAngleMotorID = 12;
             public static final int kCanCoderID = 13;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(52);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(232);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -176,7 +176,7 @@ public final class Constants {
             public static final int kDriveMotorID = 41;
             public static final int kAngleMotorID = 42;
             public static final int kCanCoderID = 43;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(-64.5);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(115.5);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -188,7 +188,7 @@ public final class Constants {
             public static final int kDriveMotorID = 21;
             public static final int kAngleMotorID = 22;
             public static final int kCanCoderID = 23;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(96);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(246);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -200,7 +200,7 @@ public final class Constants {
             public static final int kDriveMotorID = 31;
             public static final int kAngleMotorID = 32;
             public static final int kCanCoderID = 33;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(175.5);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(355.5);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -252,18 +252,20 @@ public final class Constants {
         public static final int kMagnetSwitchPort = 0;
         public static final int kRightMotorPort = 55;
         public static final int kLeftMotorPort = 54;
-        public static final double kElevatorMoveSpeed = 0.25;
+        public static final double kElevatorMoveSpeed = 0.5;
+        public static final double kElevatorSownSpeed = 0.05;
         public static final double kStallSpeed = 0.055;
         public static final int kEncoderPortA = 4; // A = Blue PWM
         public static final int kEncoderPortB = 5; // B = Yellow PWM
         public static final int kBottomLimitSwitchPort = 8;
         public static final int kTopLimitSwitchPort = 7;
-        public static final double kL1EncoderValue = 0.2;
-        public static final double kL2EncoderValue = 0.4;
-        public static final double kL3EncoderValue = 0.6;
-        public static final double kL4EncoderValue = 0.8;
+        public static final double kClosedEncoderValue = 0;
+        public static final double kL1EncoderValue = 1200;
+        public static final double kL2EncoderValue = 2625;
+        public static final double kL3EncoderValue = 5555;
+        public static final double kL4EncoderValue = 186; // TODO: not the real height
         public static final double kEncoderValueTreshHold = 0.1;
-
+        public static final double kTroughBoreRatio = 6 / 2;
     }
 
     public static final class AlgeaRotatorAxisConstants {

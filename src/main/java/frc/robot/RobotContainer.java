@@ -4,15 +4,12 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.AlgeaRotatorAxis;
@@ -39,8 +36,8 @@ public class RobotContainer {
                 m_Swerve.setDefaultCommand(
                                 new TeleopSwerve(
                                                 m_Swerve,
-                                                () -> m_DriveController.getRawAxis(strafeAxis),
-                                                () -> m_DriveController.getRawAxis(translationAxis),
+                                                () -> -m_DriveController.getRawAxis(strafeAxis),
+                                                () -> -m_DriveController.getRawAxis(translationAxis),
                                                 () -> -m_DriveController.getRawAxis(rotationAxis),
                                                 () -> m_DriveController.leftBumper().getAsBoolean()));
 
@@ -60,16 +57,17 @@ public class RobotContainer {
                 autoChooserGame = new SendableChooser<PathPlannerAuto>();
                 autoChooserTesting = new SendableChooser<PathPlannerAuto>();
 
-                autoChooserTesting.setDefaultOption("Checking OffSet (Be readdy! HellHole)",
-                                new PathPlannerAuto("OffSet"));
+                autoChooserTesting.setDefaultOption("Test Auto", new PathPlannerAuto("TestAuto"));
+                autoChooserTesting.addOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
+                autoChooserTesting.addOption("Command Test", new PathPlannerAuto("CommandTestAuto"));
                 autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
                 autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
                 autoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
-                autoChooserGame.addOption("TestAuto", new PathPlannerAuto("TestAuto"));
 
                 // Upper Autos
                 autoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
                 autoChooserGame.addOption("MaxL1Up", new PathPlannerAuto("MaxL1Up"));
+                autoChooserGame.addOption("Forward", new PathPlannerAuto("Forward"));
                 autoChooserGame.addOption("OneCoralUp", new PathPlannerAuto("OneCoralUp"));
                 autoChooserGame.addOption("BestCoralUp", new PathPlannerAuto("BestCoralUp"));
 
@@ -97,6 +95,7 @@ public class RobotContainer {
                 // AutoTest
 
                 SmartDashboard.putData("Auto Chooser", autoChooser);
+
         }
 
         public Command getAutonomousCommand() {
@@ -120,7 +119,7 @@ public class RobotContainer {
         /* Subsystems */
         private final Swerve m_Swerve;
         private Coral m_Coral;
-        private Elevator m_Elevator;
+        public Elevator m_Elevator;
         private Climber m_Climber;
         @SuppressWarnings("unused")
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
@@ -144,6 +143,9 @@ public class RobotContainer {
                 return m_Elevator.encoderValue() + "";
                 // return m_Coral.PhotoSwitchMode() + "";
         }
+        // public double getSpeed() {
+
+        // }
 
         public void resetElevator() {
                 m_Elevator.resetEncoderValue();
@@ -171,9 +173,9 @@ public class RobotContainer {
                 NamedCommands.registerCommand("CoralCommand", new CoralCommand(m_Coral, m_LedController));
                 NamedCommands.registerCommand("Elevator L1", new ElevatorResetCommand(m_Elevator, m_LedController));
                 NamedCommands.registerCommand("Elevator L2",
-                                new ElevatorMoveToLevelXCommand(m_Elevator, 2, m_LedController));
+                                new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 2, m_LedController));
                 NamedCommands.registerCommand("Elevator L3",
-                                new ElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
+                                new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
                 NamedCommands.registerCommand("Elevator L4", new ElevatorFullExtend(m_Elevator));
 
                 configureDefaultCommands();
@@ -206,11 +208,15 @@ public class RobotContainer {
                                 .andThen(new ElevatorResetCommand(m_Elevator,
                                                 m_LedController)));
 
-                m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 1, m_LedController));
-                m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 2, m_LedController));
-                m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 3, m_LedController));
-                m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 4, m_LedController));
+                m_MechController.povDown()
+                                .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 0, m_LedController));
+                m_MechController.povLeft()
+                                .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController));
+                m_MechController.povRight()
+                                .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 2, m_LedController));
+                m_MechController.povUp()
+                                .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
                 // m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(1);
-                m_MechController.a().onTrue(new RunCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
+                m_MechController.a().onTrue(new InstantCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
         }
 }

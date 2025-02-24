@@ -30,9 +30,9 @@ public class Swerve extends SubsystemBase {
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.kPigeonID);
         Pigeon2Configuration config = new Pigeon2Configuration();
-        config.MountPose.MountPoseYaw = -90; // Adjust if your Pigeon is mounted at an angle
+        config.MountPose.MountPoseYaw = 0; // Adjust if your Pigeon is mounted at an angle
         gyro.getConfigurator().apply(config);
-        gyro.setYaw(0);
+        gyro.setYaw(180);
 
         mSwerveMods = new SwerveModule[] {
                 new SwerveModule(0, Constants.Swerve.Mod0.kConstants),

@@ -30,7 +30,7 @@ public class Elevator extends SubsystemBase {
         m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
         m_BottomLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
         m_Encoder = new Encoder(Constants.ElevatorConstants.kEncoderPortA, Constants.ElevatorConstants.kEncoderPortB);
-        m_Encoder.setDistancePerPulse(constants.elevator.kTroughBoreRatio);
+        m_Encoder.setDistancePerPulse(Constants.ElevatorConstants.kTroughBoreRatio);
         m_FollowerMotor.follow(m_MasterMotor, FollowerType.AuxOutput1);
 
         CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
@@ -46,12 +46,12 @@ public class Elevator extends SubsystemBase {
     }
 
     public double encoderValue() {
-        return (m_Encoder.get());
+        return -(m_Encoder.get());
     }
 
     public void resetEncoderValue() {
-        m_Encoder.setDistancePerPulse(0.01);
         m_Encoder.reset();
+        m_Encoder.setDistancePerPulse(Constants.ElevatorConstants.kTroughBoreRatio);
     }
 
     public boolean inthreshold(Double EncoderLvlVal) {
@@ -62,21 +62,18 @@ public class Elevator extends SubsystemBase {
     }
 
     public int elevatorLevel() {
-        
-        if(inthreshold(constants.ElevatorConstants.kClosedEncoderValue)){
-            m_Elevator = 0;
-        }
-            else if (inthreshold(Constants.ElevatorConstants.kL1EncoderValue))
-                m_ElevatorLevel = 1;
-            else if (inthreshold(Constants.ElevatorConstants.kL2EncoderValue))
-                m_ElevatorLevel = 2;
-            else if (inthreshold(Constants.ElevatorConstants.kL3EncoderValue))
-                m_ElevatorLevel = 3;
-            else if (inthreshold(Constants.ElevatorConstants.kL4EncoderValue))
-                m_ElevatorLevel = 4;
-            else
-                m_ElevatorLevel = 0;
-        } else if (encoderValue() > Constants.ElevatorConstants.kL4EncoderValue) {
+
+        if (inthreshold(Constants.ElevatorConstants.kClosedEncoderValue)) {
+            m_ElevatorLevel = 0;
+        } else if (inthreshold(Constants.ElevatorConstants.kL1EncoderValue))
+            m_ElevatorLevel = 1;
+        else if (inthreshold(Constants.ElevatorConstants.kL2EncoderValue))
+            m_ElevatorLevel = 2;
+        else if (inthreshold(Constants.ElevatorConstants.kL3EncoderValue))
+            m_ElevatorLevel = 3;
+        else if (inthreshold(Constants.ElevatorConstants.kL4EncoderValue))
+            m_ElevatorLevel = 4;
+        else if (encoderValue() > Constants.ElevatorConstants.kL4EncoderValue) {
             m_ElevatorLevel = 5;
         } else {
             m_ElevatorLevel = -1;
@@ -91,12 +88,14 @@ public class Elevator extends SubsystemBase {
 
     public double getStallSpeed() {
         double stallSpeed = 0;
-        if (encoderValue() > getLXEncValue(1)) {
-            stallSpeed = 0.02;
-        } else if (encoderValue() > getLXEncValue(2)) {
-            stallSpeed = 0.04;
-        } else if (encoderValue() > getLXEncValue(3)) {
-            stallSpeed = 0.05;
+        if (encoderValue() > getLXEncValue(1) - 300) {
+            stallSpeed = 0.3;
+        } else if (encoderValue() > getLXEncValue(2) - 300) {
+            stallSpeed = 0.3;
+        } else if (encoderValue() > getLXEncValue(3) - 300) {
+            stallSpeed = 0.3;
+        } else if (encoderValue() > getLXEncValue(0) + 200) {
+            stallSpeed = 0.01;
         }
         return stallSpeed;
     }
@@ -114,25 +113,36 @@ public class Elevator extends SubsystemBase {
     }
 
     public void moveElevator(double speed) {
+        // if (speed > 0) {
+        // m_MasterMotor.set(VictorSPXControlMode.PercentOutput, speed);
+        // } else if (speed < 0) {
+        // if (encoderValue() > 5) {
         m_MasterMotor.set(VictorSPXControlMode.PercentOutput, speed);
+        // } else {
+        // m_MasterMotor.set(VictorSPXControlMode.PercentOutput, getStallSpeed());
+        // }
+        // } else {
+        // m_MasterMotor.set(VictorSPXControlMode.PercentOutput, getStallSpeed());
+        // }
     }
 
     private double getLXEncValue(int level) {
-        return Double.parseDouble(SmartDashboard.getString("DB/STRING " + level, "0"));
+        return Double.parseDouble(SmartDashboard.getString("DB/String " + level, "0"));
     }
 
     public int getMoveDiraction(int level) {
-        double currLevel = m_Encoder.getRaw();
+        double currLevel = encoderValue();
         double levelValue = getLXEncValue(level);
 
+        SmartDashboard.putString("DB/String 7", levelValue + "");
+
         if (levelValue > currLevel) {
-            return 1;
-        } else if (levelValue < currLevel) {
             return -1;
+        } else if (levelValue < currLevel) {
+            return 1;
         } else {
             return 0;
         }
 
     }
-
-
+}

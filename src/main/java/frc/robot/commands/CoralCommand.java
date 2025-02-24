@@ -39,7 +39,7 @@ public class CoralCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putString("DB/String 4" , String.valueOf(m_speed));
+    SmartDashboard.putString("DB/String 6" , String.valueOf(m_speed));
     m_coral.moveCoral(m_speed);
   }
 
@@ -47,7 +47,7 @@ public class CoralCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("Interrupted is : " + interrupted);
-    System.out.println("Outake is ; " + m_IsOutTake);
+    System.out.println("Outake is : " + m_IsOutTake);
     System.out.println("Photo Switch mode is :  " + m_coral.PhotoSwitchMode());
     System.out.println(m_coral.PhotoSwitchMode());
     m_coral.moveCoral(0);
