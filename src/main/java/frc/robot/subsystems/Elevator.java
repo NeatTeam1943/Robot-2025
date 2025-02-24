@@ -94,6 +94,8 @@ public class Elevator extends SubsystemBase {
             stallSpeed = 0.3;
         } else if (encoderValue() > getLXEncValue(3) - 300) {
             stallSpeed = 0.3;
+        } else if (encoderValue() > getLXEncValue(4) - 300) {
+            stallSpeed = 0.3;
         } else if (encoderValue() > getLXEncValue(0) + 200) {
             stallSpeed = 0.01;
         }
@@ -127,10 +129,25 @@ public class Elevator extends SubsystemBase {
     }
 
     private double getLXEncValue(int level) {
-        return Double.parseDouble(SmartDashboard.getString("DB/String " + level, "0"));
+        // return Double.parseDouble(SmartDashboard.getString("DB/String " + level,
+        // "0"));
+        switch (level) {
+            case 1:
+                return Constants.ElevatorConstants.kL1EncoderValue;
+
+            case 2:
+                return Constants.ElevatorConstants.kL2EncoderValue;
+
+            case 3:
+                return Constants.ElevatorConstants.kL3EncoderValue;
+
+            case 4:
+            default:
+                return Constants.ElevatorConstants.kL4EncoderValue;
+        }
     }
 
-    public int getMoveDiraction(int level) {
+    public int getMoveDirection(int level) {
         double currLevel = encoderValue();
         double levelValue = getLXEncValue(level);
 

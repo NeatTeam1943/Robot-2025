@@ -34,7 +34,7 @@ public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int Direction = m_Elevator.getMoveDiraction(m_RequestedLevel);
+    int Direction = m_Elevator.getMoveDirection(m_RequestedLevel);
     if (Direction != 0) {
       m_Elevator.moveElevator(-(Constants.ElevatorConstants.kElevatorMoveSpeed * Direction));
     } else {
@@ -52,6 +52,7 @@ public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.getMoveDiraction(m_RequestedLevel) == 0;
+    new StopElevetor(m_LedController);
+    return m_Elevator.getMoveDirection(m_RequestedLevel) == 0;
   }
 }

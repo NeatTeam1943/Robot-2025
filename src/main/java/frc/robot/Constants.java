@@ -252,8 +252,8 @@ public final class Constants {
         public static final int kMagnetSwitchPort = 0;
         public static final int kRightMotorPort = 55;
         public static final int kLeftMotorPort = 54;
-        public static final double kElevatorMoveSpeed = 0.5;
-        public static final double kElevatorSownSpeed = 0.05;
+        public static final double kElevatorMoveSpeed = 0.6;
+        // public static final double kElevatorSownSpeed = 0.05;
         public static final double kStallSpeed = 0.055;
         public static final int kEncoderPortA = 4; // A = Blue PWM
         public static final int kEncoderPortB = 5; // B = Yellow PWM
@@ -263,8 +263,8 @@ public final class Constants {
         public static final double kL1EncoderValue = 1200;
         public static final double kL2EncoderValue = 2625;
         public static final double kL3EncoderValue = 5555;
-        public static final double kL4EncoderValue = 186; // TODO: not the real height
-        public static final double kEncoderValueTreshHold = 0.1;
+        public static final double kL4EncoderValue = 8100; // TODO: not the real height
+        public static final double kEncoderValueTreshHold = 2;
         public static final double kTroughBoreRatio = 6 / 2;
     }
 

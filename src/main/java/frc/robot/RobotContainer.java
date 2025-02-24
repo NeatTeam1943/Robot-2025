@@ -123,7 +123,7 @@ public class RobotContainer {
         private Climber m_Climber;
         @SuppressWarnings("unused")
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
-        private LedController m_LedController;
+        public LedController m_LedController;
         // private Algea m_Algea;
 
         /**
@@ -218,5 +218,6 @@ public class RobotContainer {
                                 .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
                 // m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(1);
                 m_MechController.a().onTrue(new InstantCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
+                m_MechController.back().onTrue(new ReInsert(m_Coral, m_LedController));
         }
 }
