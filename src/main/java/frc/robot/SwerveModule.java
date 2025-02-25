@@ -26,7 +26,7 @@ public class SwerveModule {
     /* drive motor control requests */
     @SuppressWarnings("unused")
     private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
-    private final VelocityVoltage driveVelocity = new VelocityVoltage(0);
+    public final VelocityVoltage driveVelocity = new VelocityVoltage(0);
 
     /* angle motor control requests */
     private final PositionVoltage anglePosition = new PositionVoltage(0);
