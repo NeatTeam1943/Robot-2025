@@ -33,7 +33,7 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
 
   @Override
   public void initialize() {
-    m_LedController.ledColorSetter(BlinkinPattern.RanbowRainbowPalette);
+    m_LedController.setLedColor(BlinkinPattern.RanbowRainbowPalette);
     m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
     m_StartingBottomLimitSwithState = m_Elevator.elevatorBottomLimitState();
     m_StaringTopLimitSwitchState = m_Elevator.elevatorTopLimitState();
@@ -70,7 +70,7 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
       if (m_LevelsToMove == 0) {
         m_Elevator.elevatorLevelSetter(m_RequestedLevel);
       }
-      m_LedController.ledColorSetter(BlinkinPattern.HotPink);
+      m_LedController.setLedColor(BlinkinPattern.HotPink);
     }
   }
 

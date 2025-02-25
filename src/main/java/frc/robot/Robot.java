@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.math.Conversions;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /**
@@ -48,12 +50,7 @@ public class Robot extends TimedRobot {
     System.out.println(Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
         Constants.Swerve.kWheelCircumference));
 
-    // SmartDashboard.setDefaultString("DB/String 1",Constants.ElevatorConstants.kL1EncoderValue + "");
-    // SmartDashboard.setDefaultString("DB/String 2",Constants.ElevatorConstants.kL2EncoderValue + "");
-    // SmartDashboard.setDefaultString("DB/String 3",Constants.ElevatorConstants.kL3EncoderValue + "");
-    // SmartDashboard.setDefaultString("DB/String 4",Constants.ElevatorConstants.kL4EncoderValue + "");
-    // SmartDashboard.setDefaultString("DB/String 0", "0");
-    // SmartDashboard.setDefaultString("DB/String 0", "4.5");
+    
   }
 
   /**
@@ -92,7 +89,15 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    m_robotContainer.m_LedController.ledColorSetter(BlinkinPattern.Orange);
+    // switch (DriverStation) {
+    //   case value:
+        
+    //     break;
+    
+    //   default:
+    //     break;
+    // }
+    // m_robotContainer.m_LedController.ledColorSetter();
   }
 
   @Override
@@ -109,7 +114,6 @@ public class Robot extends TimedRobot {
         break;
     }
   }
-
 
   /**
    * This autonomous runs the autonomous command selected by your
@@ -136,6 +140,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.m_LedController.DefualtColor();
     m_robotContainer.m_Elevator.resetEncoderValue();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();

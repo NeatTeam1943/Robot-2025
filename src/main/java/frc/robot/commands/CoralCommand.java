@@ -39,7 +39,7 @@ public class CoralCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putString("DB/String 6" , String.valueOf(m_speed));
+    SmartDashboard.putString("DB/String 6", String.valueOf(m_speed));
     m_coral.moveCoral(m_speed);
   }
 
@@ -54,7 +54,7 @@ public class CoralCommand extends Command {
     if (m_IsOutTake && !m_coral.PhotoSwitchMode()) {
       m_LedController.DefualtColor();
     } else if (!m_IsOutTake && m_coral.PhotoSwitchMode()) {
-      m_LedController.ledColorSetter(BlinkinPattern.White);
+      m_LedController.setLedColor(BlinkinPattern.White);
     }
 
     if (!interrupted) {

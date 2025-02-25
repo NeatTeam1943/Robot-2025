@@ -38,7 +38,7 @@ public class RobotContainer {
                                                 m_Swerve,
                                                 () -> -m_DriveController.getRawAxis(strafeAxis),
                                                 () -> -m_DriveController.getRawAxis(translationAxis),
-                                                () -> -m_DriveController.getRawAxis(rotationAxis),
+                                                () -> m_DriveController.getRawAxis(rotationAxis),
                                                 () -> m_DriveController.leftBumper().getAsBoolean()));
 
                 m_Elevator.setDefaultCommand(new MoveEleveatorTestMagnetHieght(m_Elevator, m_MechController));
@@ -171,7 +171,7 @@ public class RobotContainer {
                 m_Climber = new Climber();
                 // m_Algea = new Algea();
                 NamedCommands.registerCommand("CoralCommand", new CoralCommand(m_Coral, m_LedController));
-                NamedCommands.registerCommand("Elevator L1", new ElevatorResetCommand(m_Elevator, m_LedController));
+                NamedCommands.registerCommand("Elevator L1", new ResetElevatorCommand(m_Elevator, m_LedController));
                 NamedCommands.registerCommand("Elevator L2",
                                 new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 2, m_LedController));
                 NamedCommands.registerCommand("Elevator L3",
@@ -202,10 +202,10 @@ public class RobotContainer {
 
                 /* Mech Buttons */
                 m_MechController.y().whileTrue(new CoralCommand(m_Coral, m_LedController));
-                m_MechController.start().onTrue(new ElevatorResetCommand(m_Elevator, m_LedController));
+                m_MechController.start().onTrue(new ResetTroughBoreCommand(m_Elevator, m_LedController));
                 m_MechController.x().onTrue(new CoralCommand(
                                 m_Coral, m_LedController)
-                                .andThen(new ElevatorResetCommand(m_Elevator,
+                                .andThen(new ResetElevatorCommand(m_Elevator,
                                                 m_LedController)));
 
                 m_MechController.povDown()

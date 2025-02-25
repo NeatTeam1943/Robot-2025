@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -12,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorCurrentLimits;
-import frc.robot.autos.exampleAuto;
 
 public class Elevator extends SubsystemBase {
     private VictorSPX m_MasterMotor;
@@ -20,7 +18,7 @@ public class Elevator extends SubsystemBase {
     public Encoder m_Encoder;
     private DigitalInput m_MagnetSwitch;
     private DigitalInput m_TopLimitSwitch;
-    private DigitalInput m_BottomLimitSwitch;
+    private DigitalInput m_BottomMagentSwitch;
     private int m_ElevatorLevel;
 
     public Elevator() {
@@ -28,7 +26,7 @@ public class Elevator extends SubsystemBase {
         m_FollowerMotor = new VictorSPX(Constants.ElevatorConstants.kRightMotorPort);
         m_MagnetSwitch = new DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
         m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
-        m_BottomLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
+        m_BottomMagentSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
         m_Encoder = new Encoder(Constants.ElevatorConstants.kEncoderPortA, Constants.ElevatorConstants.kEncoderPortB);
         m_Encoder.setDistancePerPulse(Constants.ElevatorConstants.kTroughBoreRatio);
         m_FollowerMotor.follow(m_MasterMotor, FollowerType.AuxOutput1);
@@ -90,15 +88,21 @@ public class Elevator extends SubsystemBase {
         double stallSpeed = 0;
         if (encoderValue() > getLXEncValue(1) - 300) {
             stallSpeed = 0.3;
+            SmartDashboard.putString("DB/String 4", "1");
         } else if (encoderValue() > getLXEncValue(2) - 300) {
             stallSpeed = 0.3;
-        } else if (encoderValue() > getLXEncValue(3) - 300) {
+            SmartDashboard.putString("DB/String 4", "2");
+        } else if (encoderValue() > getLXEncValue(3) - 100) {
             stallSpeed = 0.3;
+            SmartDashboard.putString("DB/String 4", "3");
         } else if (encoderValue() > getLXEncValue(4) - 300) {
             stallSpeed = 0.3;
+            SmartDashboard.putString("DB/String 4", "4");
         } else if (encoderValue() > getLXEncValue(0) + 200) {
             stallSpeed = 0.01;
+            SmartDashboard.putString("DB/String 4", "0");
         }
+
         return stallSpeed;
     }
 
@@ -111,7 +115,8 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean elevatorBottomLimitState() {
-        return m_BottomLimitSwitch.get();
+        SmartDashboard.putData(m_BottomMagentSwitch);
+        return !m_BottomMagentSwitch.get();
     }
 
     public void moveElevator(double speed) {
@@ -142,8 +147,11 @@ public class Elevator extends SubsystemBase {
                 return Constants.ElevatorConstants.kL3EncoderValue;
 
             case 4:
-            default:
                 return Constants.ElevatorConstants.kL4EncoderValue;
+
+            case 0:
+            default:
+                return 0;
         }
     }
 

@@ -15,6 +15,7 @@ public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   /** Creates a new ElevatorMoveToLevelXCommand. */
   private Elevator m_Elevator;
   private int m_RequestedLevel;
+  private int startingMoveDirecrtion;
   private LedController m_LedController;
 
   public NoLimitSwitchElevatorMoveToLevelXCommand(Elevator elevator, int requestedLevel, LedController ledController) {
@@ -27,8 +28,9 @@ public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
 
   @Override
   public void initialize() {
-    m_LedController.ledColorSetter(BlinkinPattern.RanbowRainbowPalette);
+    m_LedController.setLedColor(BlinkinPattern.RanbowRainbowPalette);
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
+    startingMoveDirecrtion = m_Elevator.getMoveDirection(m_RequestedLevel);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,14 +47,17 @@ public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (m_Elevator.magnetSwitchState()) {
+      m_Elevator.resetEncoderValue();
+    }
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
-    m_LedController.ledColorSetter(BlinkinPattern.HotPink);
+    m_LedController.setLedColor(BlinkinPattern.HotPink);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     new StopElevetor(m_LedController);
-    return m_Elevator.getMoveDirection(m_RequestedLevel) == 0;
+    return m_Elevator.getMoveDirection(m_RequestedLevel) != startingMoveDirecrtion;
   }
 }

@@ -13,16 +13,11 @@ import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
   private SparkMax m_Motor;
-  private DigitalInput m_LimitSwitch;
 
   public Climber() {
     m_Motor = new SparkMax(Constants.ClimberConstants.kMotorPort, MotorType.kBrushless);
-    m_LimitSwitch = new DigitalInput(Constants.ClimberConstants.kLimitSwitchPort);
   }
 
-  public boolean LimitSwitchMode() {
-    return m_LimitSwitch.get();
-  }
 
   public void moveClimber(double speed) {
     m_Motor.set(speed);
