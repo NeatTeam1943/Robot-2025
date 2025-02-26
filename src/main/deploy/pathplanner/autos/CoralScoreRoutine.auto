@@ -1,0 +1,11 @@
+{
+  "name": "CoralScoreRoutine",
+  "version": 1,
+  "paths": [
+    "CoralScoreAuto"
+  ],
+  "events": {
+    "coralPickup": "CoralPickupCommand",
+    "coralScoring": "CoralAutoPlaceCommand"
+  }
+}

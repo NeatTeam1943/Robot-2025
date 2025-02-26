@@ -18,6 +18,72 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double kStickDeadband = 0.1;
 
+    public static final class VisionConstants {
+        public static final String kLimelightName = "limelight-nt";
+        public static final double kCameraOffsetX = 0.00; // gotta check this
+        public static final double kCameraOffsetY = 0.00; // gotta check this
+        public static final double kCameraHeight = 0.00; // gotta check this
+        public static final double kCameraPitchDegrees = 15.0; // gotta check this
+        public static final double kAlignmentThreshold = 2.0;
+        public static final double kTaThreshold = 0.5;
+        public static final double kCoralEjectDuration = 1.5;
+        public static final double kCoralOutSpeed = 0.2;
+        public static final double kRotationDeadband = 0.5;
+        public static final double kMaxRotationSpeed = 0.3;
+        public static final double kMaxApproachSpeed = 0.5;
+
+        public static final int kReefTagIdBlueStation = 1;
+        public static final int kReefTagIdRedStation = 2;
+        public static final int kReefTagIdBlueAmp = 3;
+        public static final int kReefTagIdRedAmp = 4;
+
+        public static final class Level1PID {
+            public static final double kRotationP = 0.025;
+            public static final double kRotationI = 0.001;
+            public static final double kRotationD = 0.001;
+            public static final double kDistanceP = 0.6;
+            public static final double kDistanceI = 0.0;
+            public static final double kDistanceD = 0.01;
+        }
+
+        public static final class Level2PID {
+            public static final double kRotationP = 0.03;
+            public static final double kRotationI = 0.0015;
+            public static final double kRotationD = 0.002;
+            public static final double kDistanceP = 0.5;
+            public static final double kDistanceI = 0.0;
+            public static final double kDistanceD = 0.01;
+        }
+
+        public static final class Level3PID {
+            public static final double kRotationP = 0.03;
+            public static final double kRotationI = 0.0015;
+            public static final double kRotationD = 0.002;
+            public static final double kDistanceP = 0.5;
+            public static final double kDistanceI = 0.0;
+            public static final double kDistanceD = 0.01;
+        }
+
+        public static final class Level4PID {
+            public static final double kRotationP = 0.035;
+            public static final double kRotationI = 0.002;
+            public static final double kRotationD = 0.003;
+            public static final double kDistanceP = 0.4;
+            public static final double kDistanceI = 0.0;
+            public static final double kDistanceD = 0.02;
+        }
+
+        public static final double kL1HeightMeters = 0.45;
+        public static final double kL2HeightMeters = 0.81;
+        public static final double kL3HeightMeters = 1.22;
+        public static final double kL4HeightMeters = 1.83;
+
+        public static final double kL1TargetDistance = 0.6;
+        public static final double kL2TargetDistance = 0.5;
+        public static final double kL3TargetDistance = 0.4;
+        public static final double kL4TargetDistance = 0.3;
+    }
+
     public final class OperatorConstants {
         public static final int kDriverControllerPort = 0;
         public static final int kMechanisemControllerPort = 1;

@@ -19,9 +19,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Vision.LimelightHelpers;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.VecBuilder;
+import frc.robot.Constants.VisionConstants;
 
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
+    private SwerveDrivePoseEstimator poseEstimator;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
     private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(Constants.Swerve.kModuleTranslations);
@@ -43,6 +48,14 @@ public class Swerve extends SubsystemBase {
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(),
                 getModulePositions());
+
+        poseEstimator = new SwerveDrivePoseEstimator(
+                Constants.Swerve.kSwerveKinematics,
+                getGyroYaw(),
+                getModulePositions(),
+                new Pose2d(),
+                VecBuilder.fill(0.1, 0.1, 0.1),
+                VecBuilder.fill(0.5, 0.5, 0.5));
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -89,6 +102,7 @@ public class Swerve extends SubsystemBase {
 
     public void setPose(Pose2d pose) {
         swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
+        poseEstimator.resetPosition(getGyroYaw(), getModulePositions(), pose);
     }
 
     public Rotation2d getHeading() {
@@ -146,13 +160,63 @@ public class Swerve extends SubsystemBase {
         return twinStickMode;
     }
 
+    public void updateOdometryWithVision() {
+        if (!LimelightHelpers.getTV(VisionConstants.kLimelightName)) {
+            return;
+        }
+
+        double[] botpose = LimelightHelpers.getBotPose_wpiBlue(VisionConstants.kLimelightName);
+
+        if (botpose.length < 6 || Double.isNaN(botpose[0]) || Double.isNaN(botpose[1])) {
+            return;
+        }
+
+        double fiducialID = LimelightHelpers.getFiducialID(VisionConstants.kLimelightName);
+        Pose2d visionPose = LimelightHelpers.getBotPose2d_wpiBlue(VisionConstants.kLimelightName);
+
+        double gyroRate = Math.abs(gyro.getAngularVelocityZWorld().getValueAsDouble());
+        if (gyroRate > 180.0) {
+            SmartDashboard.putString("Vision Update", "Rejected - High Rotation");
+            return;
+        }
+
+        double distance = Math.hypot(botpose[0], botpose[1]);
+
+        double xyStdDev = 0.5 + (distance * 0.1);
+
+        poseEstimator.setVisionMeasurementStdDevs(
+                VecBuilder.fill(xyStdDev, xyStdDev, 9999999));
+
+        poseEstimator.addVisionMeasurement(
+                visionPose,
+                LimelightHelpers
+                        .getLatestResults(VisionConstants.kLimelightName).targetingResults.timestamp_LIMELIGHT_publish);
+
+        SmartDashboard.putString("Vision Update", "Applied - Tag ID: " + fiducialID);
+        SmartDashboard.putNumber("Vision Distance", distance);
+    }
+
     @Override
     public void periodic() {
         swerveOdometry.update(getGyroYaw(), getModulePositions());
+
+        poseEstimator.update(getGyroYaw(), getModulePositions());
+
+        updateOdometryWithVision();
+
+        Pose2d currentPose = poseEstimator.getEstimatedPosition();
+        SmartDashboard.putNumber("Robot Pose X", currentPose.getX());
+        SmartDashboard.putNumber("Robot Pose Y", currentPose.getY());
+        SmartDashboard.putNumber("Robot Heading", currentPose.getRotation().getDegrees());
+
         for (SwerveModule mod : mSwerveMods) {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
+    }
+
+    public Pose2d getEstimatedPose() {
+        return poseEstimator.getEstimatedPosition();
     }
 }

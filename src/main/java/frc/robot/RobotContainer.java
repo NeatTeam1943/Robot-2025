@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import frc.robot.Constants.VisionConstants;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
@@ -21,6 +22,7 @@ import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.Swerve;
+import frc.robot.Vision.LimelightHelpers;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -36,16 +38,18 @@ public class RobotContainer {
          */
 
         private void configureDefaultCommands() {
-                m_Swerve.setDefaultCommand(
-                                new TeleopSwerve(
-                                                m_Swerve,
-                                                () -> m_DriveController.getRawAxis(strafeAxis),
-                                                () -> m_DriveController.getRawAxis(translationAxis),
-                                                () -> -m_DriveController.getRawAxis(rotationAxis),
-                                                () -> m_DriveController.leftBumper().getAsBoolean(),
-                                                () -> m_MechController.getRightX(), // TwinStick X
-                                                () -> m_MechController.getRightY() // TwinStick Y
-                                ));
+                TeleopSwerve teleopSwerveCmd = new TeleopSwerve(
+                                m_Swerve,
+                                () -> m_DriveController.getRawAxis(strafeAxis),
+                                () -> m_DriveController.getRawAxis(translationAxis),
+                                () -> -m_DriveController.getRawAxis(rotationAxis),
+                                () -> m_DriveController.leftBumper().getAsBoolean(),
+                                () -> m_MechController.getRightX(),
+                                () -> m_MechController.getRightY());
+
+                m_Swerve.setDefaultCommand(teleopSwerveCmd);
+
+                this.teleopSwerveCommand = teleopSwerveCmd;
 
                 m_Elevator.setDefaultCommand(new MoveEleveatorTestMagnetHieght(m_Elevator, m_MechController));
                 m_AlgeaRotatorAxis.setDefaultCommand(new AlgeaRotatorAxisCommand(m_AlgeaRotatorAxis, m_MechController));
@@ -121,13 +125,14 @@ public class RobotContainer {
          * Configure default commands for subsystems
          */
         /* Subsystems */
-        private final Swerve m_Swerve;
+        private TeleopSwerve teleopSwerveCommand;
+        private final Swerve m_Swerve = new Swerve();
         private Coral m_Coral;
         public Elevator m_Elevator;
         private Climber m_Climber;
         @SuppressWarnings("unused")
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
-        private LedController m_LedController;
+        private final LedController m_led = new LedController();
         // private Algea m_Algea;
 
         /**
@@ -135,6 +140,15 @@ public class RobotContainer {
          * commands.
          */
         /* Swerve */
+        private final CoralAlignCommand m_autoCoralAlignL1 = new CoralAlignCommand(
+                        m_Swerve, m_Coral, m_led, 1, -1);
+        private final CoralAlignCommand m_autoCoralAlignL2 = new CoralAlignCommand(
+                        m_Swerve, m_Coral, m_led, 2, -1);
+        private final CoralAlignCommand m_autoCoralAlignL3 = new CoralAlignCommand(
+                        m_Swerve, m_Coral, m_led, 3, -1);
+        private final CoralAlignCommand m_autoCoralAlignL4 = new CoralAlignCommand(
+                        m_Swerve, m_Coral, m_led, 4, -1);
+
         private final int rotationAxis;
         private final int strafeAxis;
         private final int translationAxis;
@@ -175,19 +189,17 @@ public class RobotContainer {
                 rotationAxis = XboxController.Axis.kRightX.value;
 
                 /* Subsystems */
-                m_Swerve = new Swerve();
                 m_Coral = new Coral();
                 m_Elevator = new Elevator();
-                m_LedController = new LedController();
                 m_AlgeaRotatorAxis = new AlgeaRotatorAxis();
                 m_Climber = new Climber();
                 // m_Algea = new Algea();
-                NamedCommands.registerCommand("CoralCommand", new CoralCommand(m_Coral, m_LedController));
-                NamedCommands.registerCommand("Elevator L1", new ElevatorResetCommand(m_Elevator, m_LedController));
+                NamedCommands.registerCommand("CoralCommand", new CoralCommand(m_Coral, m_led));
+                NamedCommands.registerCommand("Elevator L1", new ElevatorResetCommand(m_Elevator, m_led));
                 NamedCommands.registerCommand("Elevator L2",
-                                new ElevatorMoveToLevelXCommand(m_Elevator, 2, m_LedController));
+                                new ElevatorMoveToLevelXCommand(m_Elevator, 2, m_led));
                 NamedCommands.registerCommand("Elevator L3",
-                                new ElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
+                                new ElevatorMoveToLevelXCommand(m_Elevator, 3, m_led));
                 NamedCommands.registerCommand("Elevator L4", new ElevatorFullExtend(m_Elevator));
 
                 configureDefaultCommands();
@@ -206,24 +218,75 @@ public class RobotContainer {
 
                 // Toggle TwinStick Mode on ctrlr Y button
                 m_DriveController.y().onTrue(new InstantCommand(() -> m_Swerve.toggleTwinStickMode()));
+                m_DriveController.leftStick().onTrue(new InstantCommand(() -> {
+                        teleopSwerveCommand.togglePrecisionMode();
+                        m_led.ledColorSetter(teleopSwerveCommand.isPrecisionMode()
+                                        ? LedController.BlinkinPattern.Blue
+                                        : LedController.BlinkinPattern.Red);
+                }));
+                m_DriveController.rightStick().onTrue(new InstantCommand(() -> {
+                        teleopSwerveCommand.setPrecisionMode(true);
+                        m_led.ledColorSetter(LedController.BlinkinPattern.Blue);
+                }));
+                m_DriveController.rightStick().onFalse(new InstantCommand(() -> {
+                        teleopSwerveCommand.setPrecisionMode(false);
+                        m_led.DefualtColor();
+                }));
+                m_DriveController.rightBumper().onTrue(new InstantCommand(() -> {
+                        if (LimelightHelpers.getTV(VisionConstants.kLimelightName)) {
+                                m_Swerve.updateOdometryWithVision();
+                                SmartDashboard.putString("Vision Update", "Manual Reset Triggered");
+                        }
+                }));
 
                 /* Mech Buttons */
-                m_MechController.y().whileTrue(new CoralCommand(m_Coral, m_LedController));
-                m_MechController.start().onTrue(new ElevatorResetCommand(m_Elevator, m_LedController));
+                m_MechController.y().whileTrue(new CoralCommand(m_Coral, m_led));
+                m_MechController.start().onTrue(new ElevatorResetCommand(m_Elevator, m_led));
                 m_MechController.x().onTrue(new CoralCommand(
-                                m_Coral, m_LedController)
+                                m_Coral, m_led)
                                 .andThen(new ElevatorResetCommand(m_Elevator,
-                                                m_LedController)));
+                                                m_led)));
 
-                m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 1, m_LedController));
-                m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 2, m_LedController));
-                m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 3, m_LedController));
-                m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 4, m_LedController));
+                m_MechController.povDown().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 1, m_led));
+                m_MechController.povLeft().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 2, m_led));
+                m_MechController.povRight().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 3, m_led));
+                m_MechController.povUp().onTrue(new ElevatorMoveToLevelXCommandV2(m_Elevator, 4, m_led));
+
                 m_MechController.a().onTrue(new RunCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
-                // The Coral Auto Level chooser on mech ctrlr BACK button
+
+                m_MechController.leftBumper().and(m_MechController.b()).onTrue(m_autoCoralAlignL1);
+                m_MechController.rightBumper().and(m_MechController.b()).onTrue(m_autoCoralAlignL2);
+                m_MechController.leftBumper().and(m_MechController.y()).onTrue(m_autoCoralAlignL3);
+                m_MechController.rightBumper().and(m_MechController.y()).onTrue(m_autoCoralAlignL4);
+
                 m_MechController.back().onTrue(new InstantCommand(() -> {
                         int level = coralAutoLevelChooser.getSelected();
-                        new CoralAutoPlaceCommand(m_Coral, m_LedController, level).schedule();
+
+                        CoralAlignCommand levelCommand = new CoralAlignCommand(
+                                        m_Swerve, m_Coral, m_led, level, -1);
+
+                        levelCommand.schedule();
+                }));
+
+                m_MechController.b().onTrue(new InstantCommand(() -> {
+                        double elevatorPos = m_Elevator.encoderValue();
+                        int targetLevel;
+
+                        if (elevatorPos <= Constants.ElevatorConstants.kL1EncoderValue
+                                        + Constants.ElevatorConstants.kEncoderValueTreshHold) {
+                                targetLevel = 1;
+                        } else if (elevatorPos <= Constants.ElevatorConstants.kL2EncoderValue
+                                        + Constants.ElevatorConstants.kEncoderValueTreshHold) {
+                                targetLevel = 2;
+                        } else if (elevatorPos <= Constants.ElevatorConstants.kL3EncoderValue
+                                        + Constants.ElevatorConstants.kEncoderValueTreshHold) {
+                                targetLevel = 3;
+                        } else {
+                                targetLevel = 4;
+                        }
+
+                        new CoralAlignCommand(m_Swerve, m_Coral, m_led, targetLevel, -1).schedule();
+                        SmartDashboard.putNumber("Smart Align Level", targetLevel);
                 }));
         }
 }
