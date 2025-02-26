@@ -11,13 +11,14 @@ import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorMoveToLevelXCommandV2 extends Command {
+public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   /** Creates a new ElevatorMoveToLevelXCommand. */
   private Elevator m_Elevator;
   private int m_RequestedLevel;
+  private int startingMoveDirecrtion;
   private LedController m_LedController;
 
-  public ElevatorMoveToLevelXCommandV2(Elevator elevator, int requestedLevel, LedController ledController) {
+  public NoLimitSwitchElevatorMoveToLevelXCommand(Elevator elevator, int requestedLevel, LedController ledController) {
     m_Elevator = elevator;
     m_LedController = ledController;
     m_RequestedLevel = requestedLevel;
@@ -27,16 +28,17 @@ public class ElevatorMoveToLevelXCommandV2 extends Command {
 
   @Override
   public void initialize() {
-    m_LedController.ledColorSetter(BlinkinPattern.RanbowRainbowPalette);
+    m_LedController.setLedColor(BlinkinPattern.RanbowRainbowPalette);
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
+    startingMoveDirecrtion = m_Elevator.getMoveDirection(m_RequestedLevel);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int dir = m_Elevator.getMoveDiraction(m_RequestedLevel);
-    if (dir != 0) {
-      m_Elevator.moveElevator(Constants.ElevatorConstants.kElevatorMoveSpeed * dir);
+    int Direction = m_Elevator.getMoveDirection(m_RequestedLevel);
+    if (Direction != 0) {
+      m_Elevator.moveElevator(-(Constants.ElevatorConstants.kElevatorMoveSpeed * Direction));
     } else {
       m_Elevator.moveElevator(m_Elevator.getStallSpeed());
     }
@@ -45,13 +47,17 @@ public class ElevatorMoveToLevelXCommandV2 extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (m_Elevator.magnetSwitchState()) {
+      m_Elevator.resetEncoderValue();
+    }
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
-    m_LedController.ledColorSetter(BlinkinPattern.HotPink);
+    m_LedController.setLedColor(BlinkinPattern.HotPink);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.getMoveDiraction(m_RequestedLevel) == 0;
+    new StopElevetor(m_LedController);
+    return m_Elevator.getMoveDirection(m_RequestedLevel) != startingMoveDirecrtion;
   }
 }

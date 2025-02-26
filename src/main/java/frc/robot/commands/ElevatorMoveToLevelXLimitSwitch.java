@@ -11,13 +11,13 @@ import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ElevatorMoveToLevelXCommand extends Command {
+public class ElevatorMoveToLevelXLimitSwitch extends Command {
   /** Creates a new ElevatorMoveToLevelXCommand. */
   private Elevator m_Elevator;
   private int m_RequestedLevel;
   private LedController m_LedController;
 
-  public ElevatorMoveToLevelXCommand(Elevator elevator, int requestedLevel, LedController ledController) {
+  public ElevatorMoveToLevelXLimitSwitch(Elevator elevator, int requestedLevel, LedController ledController) {
     m_Elevator = elevator;
     m_LedController = ledController;
     m_RequestedLevel = requestedLevel;
@@ -33,7 +33,7 @@ public class ElevatorMoveToLevelXCommand extends Command {
 
   @Override
   public void initialize() {
-    m_LedController.ledColorSetter(BlinkinPattern.RanbowRainbowPalette);
+    m_LedController.setLedColor(BlinkinPattern.RanbowRainbowPalette);
     m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
     m_StartingBottomLimitSwithState = m_Elevator.elevatorBottomLimitState();
     m_StaringTopLimitSwitchState = m_Elevator.elevatorTopLimitState();
@@ -70,7 +70,7 @@ public class ElevatorMoveToLevelXCommand extends Command {
       if (m_LevelsToMove == 0) {
         m_Elevator.elevatorLevelSetter(m_RequestedLevel);
       }
-      m_LedController.ledColorSetter(BlinkinPattern.HotPink);
+      m_LedController.setLedColor(BlinkinPattern.HotPink);
     }
   }
 

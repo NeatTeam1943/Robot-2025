@@ -12,13 +12,13 @@ import frc.robot.subsystems.Climber;
 public class ClimberCommand extends Command {
     /** Creates a new CoralOutTakeCommand. */
     private Climber m_Climber;
-    private double m_Speed;
+    private double speed;
     private boolean m_IsUp;
 
     public ClimberCommand(Climber climber, boolean isUp) {
         m_Climber = climber;
         m_IsUp = isUp;
-        m_Speed = m_IsUp ? Constants.ClimberConstants.kClimberUpSpeed : Constants.ClimberConstants.kClimberDownSpeed;
+        speed = m_IsUp ? Constants.ClimberConstants.kClimberUpSpeed : Constants.ClimberConstants.kClimberDownSpeed;
         addRequirements(m_Climber);
 
         // Use addRequirements() here to declare subsystem dependencies.
@@ -33,7 +33,7 @@ public class ClimberCommand extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_Climber.moveClimber(m_Speed);
+        m_Climber.moveClimber(speed);
     }
 
     // Called once the command ends or is interrupted.
@@ -45,6 +45,6 @@ public class ClimberCommand extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return m_Climber.LimitSwitchMode();
+        return false;
     }
 }

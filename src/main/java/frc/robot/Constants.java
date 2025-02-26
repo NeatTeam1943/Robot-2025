@@ -27,16 +27,15 @@ public final class Constants {
         public static final int kPigeonID = 1;
         public static final DCMotor kDriveGearbox = DCMotor.getFalcon500(1);
 
-        public static final COTSTalonFXSwerveConstants kChosenModule = // TODO: This must be tuned to specific
-                                                                       // robot
+        public static final COTSTalonFXSwerveConstants kChosenModule = // TODO: This must be tuned to specific robot
                 COTSTalonFXSwerveConstants.SDS.MK4i
                         .Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
         /* Drivetrain Constants */
-        public static final double kTrackWidth = Units.inchesToMeters(21.73); // TODO: This must be tuned to
-                                                                              // specific robot
-        public static final double kWheelBase = Units.inchesToMeters(21.73); // TODO: This must be tuned to
-                                                                             // specific robot
+        public static final double kTrackWidth = Units.inchesToMeters(21.73); // TODO: This must be tuned to specific
+                                                                              // robot
+        public static final double kWheelBase = Units.inchesToMeters(21.73); // TODO: This must be tuned to specific
+                                                                             // robot
         public static final double kWheelCircumference = kChosenModule.wheelCircumference;
 
         /*
@@ -123,35 +122,24 @@ public final class Constants {
         public static final double kDriveKV = 1.51;
         public static final double kDriveKA = 0.27;
         // Angle Motor Stator Current Limiting
-        public static final boolean kAngleEnableStatorCurrentLimit = true; // Enable or disable stator current
-                                                                           // limiting
+        public static final boolean kAngleEnableStatorCurrentLimit = true; // Enable or disable stator current limiting
         public static final double kAngleStatorCurrentLimit = 40.0; // Stator current limit in Amperes
-        public static final double kAngleStatorCurrentThreshold = 45.0; // Threshold current in Amperes to
-                                                                        // trigger limiting
-        public static final double kAngleStatorCurrentThresholdTime = 0.1; // Time in seconds before limiting is
-                                                                           // applied
+        public static final double kAngleStatorCurrentThreshold = 45.0; // Threshold current in Amperes to trigger
+                                                                        // limiting
+        public static final double kAngleStatorCurrentThresholdTime = 0.1; // Time in seconds before limiting is applied
 
         // Drive Motor Stator Current Limiting
-        public static final boolean kDriveEnableStatorCurrentLimit = true; // Enable or disable stator current
-                                                                           // limiting
+        public static final boolean kDriveEnableStatorCurrentLimit = true; // Enable or disable stator current limiting
         public static final double kDriveStatorCurrentLimit = 50.0; // Stator current limit in Amperes
-        public static final double kDriveStatorCurrentThreshold = 55.0; // Threshold current in Amperes to
-                                                                        // trigger limiting
-        public static final double kDriveStatorCurrentThresholdTime = 0.1; // Time in seconds before limiting is
-                                                                           // applied
+        public static final double kDriveStatorCurrentThreshold = 55.0; // Threshold current in Amperes to trigger
+                                                                        // limiting
+        public static final double kDriveStatorCurrentThresholdTime = 0.1; // Time in seconds before limiting is applied
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static double kMaxSpeed = 4.5; // TODO:
-                                              // This
-                                              // must
-                                              // be
-                                              // tuned
-                                              // to
-                                              // specific
-                                              // robot
+        public static double kMaxSpeed = 7;
         /** Radians per Second */
-        public static final double kMaxAngularVelocity = 10.0; // TODO: This must be tuned to specific robot
+        public static final double kMaxAngularVelocity = 10.0;
 
         /* Neutral Modes */
         public static final NeutralModeValue kAngleNeutralMode = NeutralModeValue.Coast;
@@ -159,56 +147,51 @@ public final class Constants {
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
-        // A1
-        public static final class Mod0 { // TODO: This must be tuned to specific robot
-            public static final int kDriveMotorID = 11;
-            public static final int kAngleMotorID = 12;
+        public static final class Mod0 { // A1
+            public static final int kAngleMotorID = 11;
+            public static final int kDriveMotorID = 12;
             public static final int kCanCoderID = 13;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(52);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(232);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
         }
 
         /* Front Right Module - Module 1 */
-        // B2
-        public static final class Mod1 { // TODO: This must be tuned to specific robot
-            public static final int kDriveMotorID = 41;
-            public static final int kAngleMotorID = 42;
+        public static final class Mod1 { // B2
+            public static final int kAngleMotorID = 41;
+            public static final int kDriveMotorID = 42;
             public static final int kCanCoderID = 43;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(-64.5);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(115.5);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
         }
 
         /* Back Left Module - Module 2 */
-        // B1
-        public static final class Mod2 { // TODO: This must be tuned to specific robot
-            public static final int kDriveMotorID = 21;
-            public static final int kAngleMotorID = 22;
+        public static final class Mod2 { // B1
+            public static final int kAngleMotorID = 21;
+            public static final int kDriveMotorID = 22;
             public static final int kCanCoderID = 23;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(96);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(286);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
         }
 
         /* Back Right Module - Module 3 */
-        // A2
-        public static final class Mod3 { // TODO: This must be tuned to specific robot
-            public static final int kDriveMotorID = 31;
-            public static final int kAngleMotorID = 32;
+        public static final class Mod3 { // A2
+            public static final int kAngleMotorID = 31;
+            public static final int kDriveMotorID = 32;
             public static final int kCanCoderID = 33;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(175.5);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(355.5);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
         }
     }
 
-    public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be
-                                              // tuned to specific robot
+    public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
@@ -223,8 +206,6 @@ public final class Constants {
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
 
-    // TODO : CHANGE PORTS AND VALUES TO ANYTHING BELOW HERE OR ROBOT GO
-    // BOOOOOOM!!!!!!
     public static final class CoralConstants {
 
         public static final int kPhotoSwitchPort = 9;
@@ -252,18 +233,20 @@ public final class Constants {
         public static final int kMagnetSwitchPort = 0;
         public static final int kRightMotorPort = 55;
         public static final int kLeftMotorPort = 54;
-        public static final double kElevatorMoveSpeed = 0.25;
+        public static final double kElevatorMoveSpeed = 2;
+        public static final double kElevatorDownSpeed = 0.7;
         public static final double kStallSpeed = 0.055;
         public static final int kEncoderPortA = 4; // A = Blue PWM
         public static final int kEncoderPortB = 5; // B = Yellow PWM
         public static final int kBottomLimitSwitchPort = 8;
         public static final int kTopLimitSwitchPort = 7;
-        public static final double kL1EncoderValue = 0.2;
-        public static final double kL2EncoderValue = 0.4;
-        public static final double kL3EncoderValue = 0.6;
-        public static final double kL4EncoderValue = 0.8;
-        public static final double kEncoderValueTreshHold = 0.1;
-
+        public static final double kClosedEncoderValue = 0;
+        public static final double kL1EncoderValue = 1200;
+        public static final double kL2EncoderValue = 2625;
+        public static final double kL3EncoderValue = 4800;
+        public static final double kL4EncoderValue = 8100; // TODO: not the real height
+        public static final double kEncoderValueTreshHold = 2;
+        public static final double kTroughBoreRatio = 6 / 2;
     }
 
     public static final class AlgeaRotatorAxisConstants {
@@ -289,6 +272,6 @@ public final class Constants {
         public static final int kLimitSwitchPort = 2;
         public static final double kClimberUpSpeed = 0.1;
         public static final double kClimberDownSpeed = -0.3;
-        public static final double kClimberStallSpeed = -0.05; // this needs to be tune via pid at a later date
+        public static final double kClimberStallSpeed = -0.05; // TODO: this needs to be tune via pid at a later date
     }
 }
