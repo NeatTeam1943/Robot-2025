@@ -116,7 +116,7 @@ public class Elevator extends SubsystemBase {
 
     public boolean elevatorBottomLimitState() {
         SmartDashboard.putData(m_BottomMagentSwitch);
-        return !m_BottomMagentSwitch.get();
+        return m_BottomMagentSwitch.get();
     }
 
     public void moveElevator(double speed) {
@@ -125,6 +125,7 @@ public class Elevator extends SubsystemBase {
         // } else if (speed < 0) {
         // if (encoderValue() > 5) {
         m_MasterMotor.set(VictorSPXControlMode.PercentOutput, speed);
+        SmartDashboard.putString("DB/String 2", speed + "");
         // } else {
         // m_MasterMotor.set(VictorSPXControlMode.PercentOutput, getStallSpeed());
         // }

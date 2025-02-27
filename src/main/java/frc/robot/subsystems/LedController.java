@@ -70,6 +70,7 @@ public class LedController extends SubsystemBase {
     StrobeBlue(-0.09),
     StrobeGold(-0.07),
     StrobeWhite(-0.05),
+    NeatTeam(0.51),
     /*
      * Solid color
      */

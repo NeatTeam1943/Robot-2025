@@ -209,7 +209,7 @@ public class RobotContainer {
                                                 m_LedController)));
 
                 m_MechController.povDown()
-                                .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 0, m_LedController));
+                                .onTrue(new ResetElevatorCommand(m_Elevator, m_LedController));
                 m_MechController.povLeft()
                                 .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController));
                 m_MechController.povRight()

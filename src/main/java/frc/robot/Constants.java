@@ -173,7 +173,7 @@ public final class Constants {
             public static final int kAngleMotorID = 21;
             public static final int kDriveMotorID = 22;
             public static final int kCanCoderID = 23;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(286);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(278);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -230,20 +230,20 @@ public final class Constants {
 
     public static final class ElevatorConstants {
 
-        public static final int kMagnetSwitchPort = 0;
+        public static final int kMagnetSwitchPort = 2;
         public static final int kRightMotorPort = 55;
         public static final int kLeftMotorPort = 54;
-        public static final double kElevatorMoveSpeed = 2;
-        public static final double kElevatorDownSpeed = 0.7;
-        public static final double kStallSpeed = 0.055;
+        public static final double kElevatorMoveSpeed = 1;
+        public static final double kElevatorDownSpeed = -0.7;
+        public static final double kStallSpeed = 0.1;
         public static final int kEncoderPortA = 4; // A = Blue PWM
         public static final int kEncoderPortB = 5; // B = Yellow PWM
         public static final int kBottomLimitSwitchPort = 8;
         public static final int kTopLimitSwitchPort = 7;
         public static final double kClosedEncoderValue = 0;
-        public static final double kL1EncoderValue = 1200;
+        public static final double kL1EncoderValue = 1500;
         public static final double kL2EncoderValue = 2625;
-        public static final double kL3EncoderValue = 4800;
+        public static final double kL3EncoderValue = 5200;
         public static final double kL4EncoderValue = 8100; // TODO: not the real height
         public static final double kEncoderValueTreshHold = 2;
         public static final double kTroughBoreRatio = 6 / 2;
@@ -269,7 +269,7 @@ public final class Constants {
 
     public static final class ClimberConstants {
         public static final int kMotorPort = 8;
-        public static final int kLimitSwitchPort = 2;
+        public static final int kLimitSwitchPort = 0;
         public static final double kClimberUpSpeed = 0.1;
         public static final double kClimberDownSpeed = -0.3;
         public static final double kClimberStallSpeed = -0.05; // TODO: this needs to be tune via pid at a later date
