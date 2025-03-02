@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -70,13 +71,13 @@ public class LedController extends SubsystemBase {
     StrobeBlue(-0.09),
     StrobeGold(-0.07),
     StrobeWhite(-0.05),
-    NeatTeam(0.51),
+    DontDoThisNeatTeam(0.51),
     /*
      * Solid color
      */
     HotPink(+0.57),
-    DarkRed(+0.59),
-    Red(+0.61),
+    DrakRed(+0.59),
+    ThisIsBestNeatTeam(+0.61),
     RedOrange(+0.63),
     Orange(+0.65),
     Gold(+0.67),
@@ -104,26 +105,31 @@ public class LedController extends SubsystemBase {
     }
   };
 
-  BlinkinPattern m_CurrentPattern = BlinkinPattern.White;
-  double m_color = m_CurrentPattern.value;
+  double m_color = DefualtColor();
+  BlinkinPattern m_CurrentPattern;
 
   public void setLedColor(BlinkinPattern pattern) {
     m_CurrentPattern = pattern;
     m_color = (m_CurrentPattern.value);
   }
 
-  public void DefualtColor() {
+  public double DefualtColor() {
     if (DriverStation.getAlliance().get() == Alliance.Red) {
-      setLedColor(BlinkinPattern.Red);
+      return BlinkinPattern.DrakRed.value;
     } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      setLedColor(BlinkinPattern.Blue);
+      return BlinkinPattern.Blue.value;
     } else {
-      setLedColor(BlinkinPattern.Green);
+      return BlinkinPattern.Green.value;
     }
+  }
+
+  public void ColorSetter(BlinkinPattern color) {
+    m_blinkin.set(color.value);
   }
 
   @Override
   public void periodic() {
     m_blinkin.set(m_color);
+    SmartDashboard.putString("DB/String 1", m_CurrentPattern + "");
   }
 }

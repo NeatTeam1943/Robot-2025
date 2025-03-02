@@ -50,8 +50,8 @@ public class Swerve extends SubsystemBase {
                 this::getRobotRelativeSpeeds,
                 this::runPureVelocity,
                 new PPHolonomicDriveController(
-                        new PIDConstants(5, 0.0, 0.0),
-                        new PIDConstants(5.9, 0.0, 0.0)),
+                        new PIDConstants(5, 0.5, 0.0), // Velocity - 0.53 (Not good) TODO: tune this to the robot
+                        new PIDConstants(5, 0.5, 0.5)), // Rotation - 4.55 (Not good) TODO: tune this to the robot
                 Constants.Swerve.kPPConfig,
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this);

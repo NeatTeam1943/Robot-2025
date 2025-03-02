@@ -4,17 +4,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.lib.math.Conversions;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -45,12 +40,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     Rotation2d angle = new Rotation2d(0);
     SwerveModuleState desiredState = new SwerveModuleState(2, angle);
-    m_robotContainer.m_Elevator.resetEncoderValue();
 
-    System.out.println(Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
-        Constants.Swerve.kWheelCircumference));
-
-    
   }
 
   /**
@@ -74,31 +64,13 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putBoolean("DB/LED 0", m_robotContainer.getAlgeaSwtich());
-    SmartDashboard.putString("DB/String 9", m_robotContainer.getThroBore());
-    SmartDashboard.putString("DB/String 8", m_robotContainer.m_Elevator.getStallSpeed() + "");
 
-    // SmartDashboard.putString("DB/String 5", m_robotContainer.)
-
-    // Constants.Swerve.kMaxSpeed =
-    // double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
-    // SmartDashboard.getString("Max Speed",
-    // String.valueOf(Constants.Swerve.kMaxSpeed));
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    m_robotContainer.m_LedController.setLedColor(BlinkinPattern.NeatTeam);
-    // switch (DriverStation) {
-    //   case value:
-        
-    //     break;
-    
-    //   default:
-    //     break;
-    // }
-    // m_robotContainer.m_LedController.ledColorSetter();
+    m_robotContainer.NeatTEamLED();
   }
 
   @Override
@@ -123,7 +95,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    m_robotContainer.m_Elevator.resetEncoderValue();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -141,8 +112,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    m_robotContainer.m_LedController.DefualtColor();
-    m_robotContainer.m_Elevator.resetEncoderValue();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -151,8 +120,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    // Constants.Swerve.kMaxSpeed =
-    // Double.parseDouble(SmartDashboard.getString("DB/String 1", "4.5"));
   }
 
   @Override

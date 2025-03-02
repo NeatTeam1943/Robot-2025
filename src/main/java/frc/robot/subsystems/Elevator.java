@@ -39,8 +39,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean magnetSwitchState() {
-        System.out.println("Magnet switch {0}" + !m_MagnetSwitch.get());
-        return !m_MagnetSwitch.get();
+        return m_MagnetSwitch.get();
     }
 
     public double encoderValue() {
@@ -88,19 +87,14 @@ public class Elevator extends SubsystemBase {
         double stallSpeed = 0;
         if (encoderValue() > getLXEncValue(1) - 300) {
             stallSpeed = 0.3;
-            SmartDashboard.putString("DB/String 4", "1");
         } else if (encoderValue() > getLXEncValue(2) - 300) {
             stallSpeed = 0.3;
-            SmartDashboard.putString("DB/String 4", "2");
         } else if (encoderValue() > getLXEncValue(3) - 100) {
             stallSpeed = 0.3;
-            SmartDashboard.putString("DB/String 4", "3");
         } else if (encoderValue() > getLXEncValue(4) - 300) {
             stallSpeed = 0.3;
-            SmartDashboard.putString("DB/String 4", "4");
         } else if (encoderValue() > getLXEncValue(0) + 200) {
             stallSpeed = 0.01;
-            SmartDashboard.putString("DB/String 4", "0");
         }
 
         return stallSpeed;
@@ -115,28 +109,16 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean elevatorBottomLimitState() {
-        SmartDashboard.putData(m_BottomMagentSwitch);
-        return m_BottomMagentSwitch.get();
+        SmartDashboard.putBoolean("DB/LED 0" , m_BottomMagentSwitch.get());
+        return !m_BottomMagentSwitch.get();
     }
 
     public void moveElevator(double speed) {
-        // if (speed > 0) {
-        // m_MasterMotor.set(VictorSPXControlMode.PercentOutput, speed);
-        // } else if (speed < 0) {
-        // if (encoderValue() > 5) {
         m_MasterMotor.set(VictorSPXControlMode.PercentOutput, speed);
         SmartDashboard.putString("DB/String 2", speed + "");
-        // } else {
-        // m_MasterMotor.set(VictorSPXControlMode.PercentOutput, getStallSpeed());
-        // }
-        // } else {
-        // m_MasterMotor.set(VictorSPXControlMode.PercentOutput, getStallSpeed());
-        // }
     }
 
     private double getLXEncValue(int level) {
-        // return Double.parseDouble(SmartDashboard.getString("DB/String " + level,
-        // "0"));
         switch (level) {
             case 1:
                 return Constants.ElevatorConstants.kL1EncoderValue;

@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.AlgeaRotatorAxis;
@@ -18,6 +20,7 @@ import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.LedController.BlinkinPattern;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -119,11 +122,10 @@ public class RobotContainer {
         /* Subsystems */
         private final Swerve m_Swerve;
         private Coral m_Coral;
-        public Elevator m_Elevator;
+        private Elevator m_Elevator;
         private Climber m_Climber;
-        @SuppressWarnings("unused")
         private AlgeaRotatorAxis m_AlgeaRotatorAxis;
-        public LedController m_LedController;
+        private LedController m_LedController;
         // private Algea m_Algea;
 
         /**
@@ -202,7 +204,6 @@ public class RobotContainer {
 
                 /* Mech Buttons */
                 m_MechController.y().whileTrue(new CoralCommand(m_Coral, m_LedController));
-                m_MechController.start().onTrue(new ResetTroughBoreCommand(m_Elevator, m_LedController));
                 m_MechController.x().onTrue(new CoralCommand(
                                 m_Coral, m_LedController)
                                 .andThen(new ResetElevatorCommand(m_Elevator,
@@ -219,5 +220,9 @@ public class RobotContainer {
                 // m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(1);
                 m_MechController.a().onTrue(new InstantCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
                 m_MechController.back().onTrue(new ReInsert(m_Coral, m_LedController));
+        }
+
+        public void NeatTEamLED() {
+                m_LedController.ColorSetter(BlinkinPattern.DontDoThisNeatTeam);
         }
 }

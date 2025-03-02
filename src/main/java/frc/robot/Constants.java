@@ -50,10 +50,10 @@ public final class Constants {
                 new Translation2d(-kWheelBase / 2.0, -kTrackWidth / 2.0));
 
         public static final Translation2d[] kModuleTranslations = new Translation2d[] {
-                new Translation2d(kTrackWidth / 2.0, kWheelBase / 2.0),
-                new Translation2d(kTrackWidth / 2.0, -kWheelBase / 2.0),
-                new Translation2d(-kTrackWidth / 2.0, kWheelBase / 2.0),
-                new Translation2d(-kTrackWidth / 2.0, -kWheelBase / 2.0)
+                new Translation2d(kWheelBase / 2.0, kTrackWidth / 2.0),
+                new Translation2d(kWheelBase / 2.0, -kTrackWidth / 2.0),
+                new Translation2d(-kWheelBase / 2.0, kTrackWidth / 2.0),
+                new Translation2d(-kWheelBase / 2.0, -kTrackWidth / 2.0)
         };
 
         /* Module Gear Ratios */
@@ -68,7 +68,7 @@ public final class Constants {
         public static final SensorDirectionValue kCancoderInvert = kChosenModule.cancoderInvert;
 
         // PathPlanner configuration
-        public static final double kRobotMassKg = 40;
+        public static final double kRobotMassKg = 60;
         public static final double kRobotMOI = 1 / 12.0 * kRobotMassKg * (2 * kTrackWidth * kTrackWidth);
         public static final double kWheelCOF = 1.2;
         public static final double kDriveMotorReduction = 5.96;
@@ -80,12 +80,12 @@ public final class Constants {
                 kRobotMOI,
                 new ModuleConfig(
                         0.02,
-                        10,
+                        3,
                         kWheelCOF,
                         kDriveGearbox.withReduction(kDriveMotorReduction),
-                        100,
+                        60,
                         1),
-                kModuleTranslations);
+                        kModuleTranslations);
 
         /* Swerve Current Limiting */
         public static final int kAngleCurrentLimit = 25;
@@ -238,12 +238,12 @@ public final class Constants {
         public static final double kStallSpeed = 0.1;
         public static final int kEncoderPortA = 4; // A = Blue PWM
         public static final int kEncoderPortB = 5; // B = Yellow PWM
-        public static final int kBottomLimitSwitchPort = 8;
+        public static final int kBottomLimitSwitchPort = 1;
         public static final int kTopLimitSwitchPort = 7;
         public static final double kClosedEncoderValue = 0;
         public static final double kL1EncoderValue = 1500;
         public static final double kL2EncoderValue = 2625;
-        public static final double kL3EncoderValue = 5200;
+        public static final double kL3EncoderValue = 5000;
         public static final double kL4EncoderValue = 8100; // TODO: not the real height
         public static final double kEncoderValueTreshHold = 2;
         public static final double kTroughBoreRatio = 6 / 2;

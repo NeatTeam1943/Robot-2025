@@ -39,11 +39,11 @@ public class ResetElevatorCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
-    if (!interrupted) {
-      m_LedController.setLedColor(BlinkinPattern.Green);
+    m_LedController.setLedColor(BlinkinPattern.Green);
+    if(!interrupted){
       m_Elevator.m_Encoder.reset();
+      
     }
-    // m_Elevator.elevatorLevelSetter(0);
   }
 
   // Returns true when the command should end.
