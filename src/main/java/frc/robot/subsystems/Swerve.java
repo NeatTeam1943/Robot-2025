@@ -50,8 +50,8 @@ public class Swerve extends SubsystemBase {
                 this::getRobotRelativeSpeeds,
                 this::runPureVelocity,
                 new PPHolonomicDriveController(
-                        new PIDConstants(5, 0.5, 0.0), // Velocity - 0.53 (Not good) TODO: tune this to the robot
-                        new PIDConstants(5, 0.5, 0.5)), // Rotation - 4.55 (Not good) TODO: tune this to the robot
+                        new PIDConstants(7, 0.0, 0.0), // Rotation - 0.53 (Not good) TODO: tune this to the robot
+                        new PIDConstants(0.9, 0.0, 0.0)), // Velocity - 4.55 (Not good) TODO: tune this to the robot
                 Constants.Swerve.kPPConfig,
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this);
@@ -75,7 +75,7 @@ public class Swerve extends SubsystemBase {
                 mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
                 double cahnge = 1;// SmartDashboard.getNumber("DB/Slider 0", 0.9);
                 mod.driveVelocity.Velocity /= cahnge;
-                System.out.println(cahnge);
+                // System.out.println(cahnge);
             } else {
                 mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
             }
@@ -116,7 +116,7 @@ public class Swerve extends SubsystemBase {
         swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
     }
 
-    public Rotation2d getHeading() {
+    public Rotation2d getHeading() {  
         return getPose().getRotation();
     }
 

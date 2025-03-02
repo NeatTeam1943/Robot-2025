@@ -50,10 +50,10 @@ public final class Constants {
                 new Translation2d(-kWheelBase / 2.0, -kTrackWidth / 2.0));
 
         public static final Translation2d[] kModuleTranslations = new Translation2d[] {
-                new Translation2d(kWheelBase / 2.0, kTrackWidth / 2.0),
-                new Translation2d(kWheelBase / 2.0, -kTrackWidth / 2.0),
-                new Translation2d(-kWheelBase / 2.0, kTrackWidth / 2.0),
-                new Translation2d(-kWheelBase / 2.0, -kTrackWidth / 2.0)
+                new Translation2d(kTrackWidth / 2.0, kWheelBase / 2.0),
+                new Translation2d(kTrackWidth / 2.0, -kWheelBase / 2.0),
+                new Translation2d(-kTrackWidth / 2.0, kWheelBase / 2.0),
+                new Translation2d(-kTrackWidth / 2.0, -kWheelBase / 2.0)
         };
 
         /* Module Gear Ratios */

@@ -153,6 +153,10 @@ public class RobotContainer {
                 m_Elevator.resetEncoderValue();
         }
 
+        public void getHeading() {
+                System.out.println(m_Swerve.getPose());
+        }
+
         public RobotContainer() {
                 /* Camera */
                 CameraServer.startAutomaticCapture("camera", 0);
@@ -222,7 +226,7 @@ public class RobotContainer {
                 m_MechController.back().onTrue(new ReInsert(m_Coral, m_LedController));
         }
 
-        public void NeatTEamLED() {
+        public void NeatTeamLED() {
                 m_LedController.ColorSetter(BlinkinPattern.DontDoThisNeatTeam);
         }
 }
