@@ -48,10 +48,10 @@ public class Swerve extends SubsystemBase {
                 this::getPose,
                 this::setPose,
                 this::getRobotRelativeSpeeds,
-                this::runPureVelocity,
+                (ChassisSpeeds speeds) -> drive(speeds, false, false),
                 new PPHolonomicDriveController(
-                        new PIDConstants(7, 0.0, 0.0), // Rotation - 0.53 (Not good) TODO: tune this to the robot
-                        new PIDConstants(0.9, 0.0, 0.0)), // Velocity - 4.55 (Not good) TODO: tune this to the robot
+                        new PIDConstants(5, 0, 0), // Rotation - 7 (Not good) TODO: tune this to the robot
+                        new PIDConstants(5, 0, 0)), // Velocity - 0.99 (Not good) TODO: tune this to the robot
                 Constants.Swerve.kPPConfig,
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this);
@@ -63,7 +63,7 @@ public class Swerve extends SubsystemBase {
                         translation.getX(),
                         translation.getY(),
                         rotation,
-                        getHeading())
+                        getGyroYaw())
                         : new ChassisSpeeds(
                                 translation.getX(),
                                 translation.getY(),
@@ -71,22 +71,25 @@ public class Swerve extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.kMaxSpeed);
 
         for (SwerveModule mod : m_SwerveMods) {
-            if (mod == m_SwerveMods[0]) {
-                mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
-                double cahnge = 1;// SmartDashboard.getNumber("DB/Slider 0", 0.9);
-                mod.driveVelocity.Velocity /= cahnge;
-                // System.out.println(cahnge);
-            } else {
-                mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
-            }
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
+        }
+    }
+
+    // Overloaded drive method to accept ChassisSpeeds, used by AutoBuilder.
+    public void drive(ChassisSpeeds speeds, boolean fieldRelative, boolean isOpenLoop) {
+        SwerveModuleState[] swerveModuleStates = Constants.Swerve.kSwerveKinematics.toSwerveModuleStates(
+                fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(speeds, getGyroYaw())
+                        : speeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.kMaxSpeed);
+
+        for (SwerveModule mod : m_SwerveMods) {
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     }
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.kMaxSpeed);
-
         for (SwerveModule mod : m_SwerveMods) {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
@@ -116,7 +119,7 @@ public class Swerve extends SubsystemBase {
         swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
     }
 
-    public Rotation2d getHeading() {  
+    public Rotation2d getHeading() {
         return getPose().getRotation();
     }
 
@@ -125,7 +128,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void runPureVelocity(ChassisSpeeds speeds) {
-        var moduleStates = kinematics.toSwerveModuleStates(speeds);
+        SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.Swerve.kMaxSpeed);
         setModuleStates(moduleStates);
     }
@@ -142,7 +145,7 @@ public class Swerve extends SubsystemBase {
 
     public Rotation2d getGyroYaw() {
         // Convert the Pigeon's yaw angle to a Rotation2d
-        return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
+        return Rotation2d.fromDegrees(-gyro.getYaw().getValueAsDouble());
     }
 
     public void resetModulesToAbsolute() {
