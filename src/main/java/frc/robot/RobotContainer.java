@@ -60,7 +60,7 @@ public class RobotContainer {
                 autoChooserGame = new SendableChooser<PathPlannerAuto>();
                 autoChooserTesting = new SendableChooser<PathPlannerAuto>();
 
-                autoChooserTesting.setDefaultOption("Test Auto", new PathPlannerAuto("TestAuto"));
+                autoChooserTesting.setDefaultOption("Forward", new PathPlannerAuto("Forward"));
                 autoChooserTesting.addOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
                 autoChooserTesting.addOption("Command Test", new PathPlannerAuto("CommandTestAuto"));
                 autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
@@ -228,5 +228,9 @@ public class RobotContainer {
 
         public void NeatTeamLED() {
                 m_LedController.ColorSetter(BlinkinPattern.DontDoThisNeatTeam);
+        }
+
+        public Swerve GetSwerve(){
+                return m_Swerve;
         }
 }
