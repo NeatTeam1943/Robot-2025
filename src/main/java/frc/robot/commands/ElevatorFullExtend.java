@@ -34,7 +34,7 @@ public class ElevatorFullExtend extends Command {
   @Override
   public void end(boolean interrupted) {
     m_Elevator.moveElevator(0);
-    m_Elevator.elevatorLevelSetter(5);
+    // m_Elevator.elevatorLevelSetter(5);
   }
 
   // Returns true when the command should end.

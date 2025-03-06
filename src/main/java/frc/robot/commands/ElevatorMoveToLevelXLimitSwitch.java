@@ -14,13 +14,13 @@ import frc.robot.subsystems.LedController.BlinkinPattern;
 public class ElevatorMoveToLevelXLimitSwitch extends Command {
   /** Creates a new ElevatorMoveToLevelXCommand. */
   private Elevator m_Elevator;
-  private int m_RequestedLevel;
+  // private int m_RequestedLevel;
   private LedController m_LedController;
 
   public ElevatorMoveToLevelXLimitSwitch(Elevator elevator, int requestedLevel, LedController ledController) {
     m_Elevator = elevator;
     m_LedController = ledController;
-    m_RequestedLevel = requestedLevel;
+    // m_RequestedLevel = requestedLevel;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Elevator, m_LedController);
   }
@@ -39,8 +39,8 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
     // m_StaringTopLimitSwitchState = m_Elevator.elevatorTopLimitState();
     // m_LastMagnetSwitchState = m_Elevator.magnetSwitchState();
 
-    m_LevelsToMove = m_RequestedLevel - m_Elevator.getElevatorLevel();
-    System.out.println(m_LevelsToMove + "levels to move");
+    // m_LevelsToMove = m_RequestedLevel - m_Elevator.getElevatorLevel();
+    // System.out.println(m_LevelsToMove + "levels to move");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,7 +68,7 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
     m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
     if (!interrupted) {
       if (m_LevelsToMove == 0) {
-        m_Elevator.elevatorLevelSetter(m_RequestedLevel);
+        // m_Elevator.elevatorLevelSetter(m_RequestedLevel);
       }
       m_LedController.setLedColor(BlinkinPattern.HotPink);
     }

@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.AlgeaRotatorAxis;
@@ -59,11 +57,6 @@ public class RobotContainer {
                 autoChooserGame = new SendableChooser<PathPlannerAuto>();
                 autoChooserTesting = new SendableChooser<PathPlannerAuto>();
 
-<<<<<<< Updated upstream
-                autoChooserTesting.setDefaultOption("Forward", new PathPlannerAuto("Forward"));
-                autoChooserTesting.addOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
-                autoChooserTesting.addOption("Command Test", new PathPlannerAuto("CommandTestAuto"));
-=======
                 autoChooserTesting.setDefaultOption("None", new PathPlannerAuto("None"));
                 
                 // Test Autos
@@ -71,7 +64,6 @@ public class RobotContainer {
                 autoChooserTesting.addOption("Rotation", new PathPlannerAuto("Rotation"));
                 autoChooserTesting.addOption("Rotation and then forword", new PathPlannerAuto("RotThenForword"));
                 autoChooserTesting.addOption("Forword with Rotation", new PathPlannerAuto("ForwordWithRot"));
->>>>>>> Stashed changes
                 autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
                 autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
                 autoChooserTesting.addOption("Test Auto", new PathPlannerAuto("TestAuto"));
@@ -245,5 +237,9 @@ public class RobotContainer {
 
         public Swerve GetSwerve(){
                 return m_Swerve;
+        }
+
+        public Elevator GetEleavotr(){
+                return m_Elevator;
         }
 }
