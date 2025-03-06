@@ -26,18 +26,18 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
   }
 
   // Called when the command is initially scheduled.
-  private boolean m_LastMagnetSwitchState;
-  private boolean m_StartingBottomLimitSwithState;
-  private boolean m_StaringTopLimitSwitchState;
+  // private boolean m_LastMagnetSwitchState;
+  // private boolean m_StartingBottomLimitSwithState;
+  // private boolean m_StaringTopLimitSwitchState;
   private int m_LevelsToMove;
 
   @Override
   public void initialize() {
     m_LedController.setLedColor(BlinkinPattern.RanbowRainbowPalette);
     m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
-    m_StartingBottomLimitSwithState = m_Elevator.elevatorBottomLimitState();
-    m_StaringTopLimitSwitchState = m_Elevator.elevatorTopLimitState();
-    m_LastMagnetSwitchState = m_Elevator.magnetSwitchState();
+    // m_StartingBottomLimitSwithState = m_Elevator.elevatorBottomLimitState();
+    // m_StaringTopLimitSwitchState = m_Elevator.elevatorTopLimitState();
+    // m_LastMagnetSwitchState = m_Elevator.magnetSwitchState();
 
     m_LevelsToMove = m_RequestedLevel - m_Elevator.getElevatorLevel();
     System.out.println(m_LevelsToMove + "levels to move");
@@ -46,19 +46,19 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(m_LevelsToMove);
-    if (m_LevelsToMove != 0) {
-      m_Elevator
-          .moveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * Constants.ElevatorConstants.kElevatorMoveSpeed);
-      if (m_Elevator.magnetSwitchState() && !m_LastMagnetSwitchState) {
-        m_LevelsToMove += -1 * (m_LevelsToMove / Math.abs(m_LevelsToMove));
-        m_LastMagnetSwitchState = true;
-      } else if (!m_Elevator.magnetSwitchState()) {
-        m_LastMagnetSwitchState = false;
-      }
+    // System.out.println(m_LevelsToMove);
+    // if (m_LevelsToMove != 0) {
+    //   m_Elevator
+    //       .moveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * Constants.ElevatorConstants.kElevatorMoveSpeed);
+    //   if (m_Elevator.magnetSwitchState() && !m_LastMagnetSwitchState) {
+    //     m_LevelsToMove += -1 * (m_LevelsToMove / Math.abs(m_LevelsToMove));
+    //     m_LastMagnetSwitchState = true;
+    //   } else if (!m_Elevator.magnetSwitchState()) {
+    //     m_LastMagnetSwitchState = false;
+    //   }
 
-    } else
-      System.out.println("HELL NAH");
+    // } else
+    //   System.out.println("HELL NAH");
   }
 
   // Called once the command ends or is interrupted.
@@ -78,12 +78,13 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
   @Override
   public boolean isFinished() {
 
-    if (m_StartingBottomLimitSwithState) {
-      return m_LevelsToMove == 0 || m_Elevator.elevatorTopLimitState();
-    } else if (m_StaringTopLimitSwitchState) {
-      return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState();
-    } else
-      return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState()
-          || m_Elevator.elevatorTopLimitState();
+    // if (m_StartingBottomLimitSwithState) {
+  //     return m_LevelsToMove == 0 || m_Elevator.elevatorTopLimitState();
+  //   } else if (m_StaringTopLimitSwitchState) {
+  //     return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState();
+  //   } else
+  //     return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState()
+  //         || m_Elevator.elevatorTopLimitState();
+  return false;
   }
 }

@@ -1,0 +1,23 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+<<<<<<< Updated upstream:src/main/deploy/pathplanner/autos/CommandTestAuto.auto
+            "pathName": "Move in a circle"
+=======
+            "pathName": "None"
+>>>>>>> Stashed changes:src/main/deploy/pathplanner/autos/None.auto
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

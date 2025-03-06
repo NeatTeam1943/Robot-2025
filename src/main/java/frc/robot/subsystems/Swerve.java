@@ -50,8 +50,13 @@ public class Swerve extends SubsystemBase {
                 this::getRobotRelativeSpeeds,
                 this::runPureVelocity,
                 new PPHolonomicDriveController(
+<<<<<<< Updated upstream
                         new PIDConstants(5, 0.0, 0.0), // Rotation - 7 (Not good) TODO: tune this to the robot
                         new PIDConstants(5, 0.0, 0.0)), // Velocity - 0.99 (Not good) TODO: tune this to the robot
+=======
+                        new PIDConstants(5, 0, 0), // Rotation - 7 (Not good) TODO: tune this to the robot
+                        new PIDConstants(5, 0, 0)), // Velocity - 0.99 (Not good) TODO: tune this to the robot
+>>>>>>> Stashed changes
                 Constants.Swerve.kPPConfig,
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this);
@@ -143,6 +148,9 @@ public class Swerve extends SubsystemBase {
     public Rotation2d getGyroYaw() {
         // Convert the Pigeon's yaw angle to a Rotation2d
         return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
+    }
+    public void zeroGyro() {
+        gyro.setYaw(0);
     }
 
     public void resetModulesToAbsolute() {

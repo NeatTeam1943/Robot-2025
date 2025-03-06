@@ -47,8 +47,21 @@ public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+<<<<<<< Updated upstream
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
     m_LedController.setLedColor(BlinkinPattern.ThisIsBestNeatTeam);
+=======
+    // if (m_Elevator.magnetSwitchState()) {
+    //   m_Elevator.resetEncoderValue();
+    // }
+    
+    m_Elevator.moveElevator(m_Elevator.getStallSpeed());
+    m_LedController.setLedColor(BlinkinPattern.HotPink);
+    if(m_Elevator.elevatorBottomLimitState()){
+      m_Elevator.resetEncoderValue();
+      m_LedController.setLedColor(BlinkinPattern.Green);
+    }
+>>>>>>> Stashed changes
   }
 
   // Returns true when the command should end.

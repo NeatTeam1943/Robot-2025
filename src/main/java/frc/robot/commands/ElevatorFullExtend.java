@@ -40,6 +40,7 @@ public class ElevatorFullExtend extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.elevatorTopLimitState();
+    return false;
+    // return m_Elevator.elevatorTopLimitState();
   }
 }

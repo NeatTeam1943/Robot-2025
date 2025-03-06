@@ -55,22 +55,32 @@ public class RobotContainer {
         public SendableChooser<PathPlannerAuto> autoChooserTesting;
 
         private void autoSelector() {
-                // Test Autos
                 autoChooser = new SendableChooser<String>();
                 autoChooserGame = new SendableChooser<PathPlannerAuto>();
                 autoChooserTesting = new SendableChooser<PathPlannerAuto>();
 
+<<<<<<< Updated upstream
                 autoChooserTesting.setDefaultOption("Forward", new PathPlannerAuto("Forward"));
                 autoChooserTesting.addOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
                 autoChooserTesting.addOption("Command Test", new PathPlannerAuto("CommandTestAuto"));
+=======
+                autoChooserTesting.setDefaultOption("None", new PathPlannerAuto("None"));
+                
+                // Test Autos
+                autoChooserTesting.addOption("Forward", new PathPlannerAuto("Forward"));
+                autoChooserTesting.addOption("Rotation", new PathPlannerAuto("Rotation"));
+                autoChooserTesting.addOption("Rotation and then forword", new PathPlannerAuto("RotThenForword"));
+                autoChooserTesting.addOption("Forword with Rotation", new PathPlannerAuto("ForwordWithRot"));
+>>>>>>> Stashed changes
                 autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
                 autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
+                autoChooserTesting.addOption("Test Auto", new PathPlannerAuto("TestAuto"));
                 autoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
+                autoChooserTesting.addOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
 
                 // Upper Autos
                 autoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
                 autoChooserGame.addOption("MaxL1Up", new PathPlannerAuto("MaxL1Up"));
-                autoChooserGame.addOption("Forward", new PathPlannerAuto("Forward"));
                 autoChooserGame.addOption("OneCoralUp", new PathPlannerAuto("OneCoralUp"));
                 autoChooserGame.addOption("BestCoralUp", new PathPlannerAuto("BestCoralUp"));
 
@@ -102,12 +112,15 @@ public class RobotContainer {
         }
 
         public Command getAutonomousCommand() {
+                m_Swerve.zeroGyro();
                 switch (autoChooser.getSelected()) {
                         case "autoChooserTesting":
+                                m_Swerve.zeroGyro();
                                 return autoChooserTesting.getSelected();
 
                         default:
                         case "autoChooserGame":
+                                m_Swerve.zeroGyro();
                                 return autoChooserGame.getSelected();
                 }
         }
@@ -120,7 +133,7 @@ public class RobotContainer {
          * Configure default commands for subsystems
          */
         /* Subsystems */
-        private final Swerve m_Swerve;
+        public final Swerve m_Swerve;
         private Coral m_Coral;
         private Elevator m_Elevator;
         private Climber m_Climber;

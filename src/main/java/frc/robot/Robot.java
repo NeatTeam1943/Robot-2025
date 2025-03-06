@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+<<<<<<< Updated upstream
+=======
+  import edu.wpi.first.cameraserver.CameraServer;
+>>>>>>> Stashed changes
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -66,6 +70,13 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     m_robotContainer.getHeading();
     CommandScheduler.getInstance().run();
+<<<<<<< Updated upstream
+=======
+    SmartDashboard.putBoolean("DB/LED 0", m_robotContainer.getAlgeaSwtich());
+    SmartDashboard.putString("DB/String 9", m_robotContainer.getThroBore());
+    SmartDashboard.putString("DB/String 8", m_robotContainer.m_Elevator.getStallSpeed() + "");
+    SmartDashboard.putString("Gyro Yaw:", m_robotContainer.m_Swerve.getGyroYaw().getDegrees() + "");
+>>>>>>> Stashed changes
 
   }
 

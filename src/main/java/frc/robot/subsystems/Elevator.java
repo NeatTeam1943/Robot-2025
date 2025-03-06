@@ -1,54 +1,51 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.FollowerType;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorCurrentLimits;
 
 public class Elevator extends SubsystemBase {
-    private VictorSPX m_MasterMotor;
-    private VictorSPX m_FollowerMotor;
-    public Encoder m_Encoder;
-    private DigitalInput m_MagnetSwitch;
-    private DigitalInput m_TopLimitSwitch;
+    private TalonFX m_MasterMotor;
+    private TalonFX m_FollowerMotor;
     private DigitalInput m_BottomMagentSwitch;
     private int m_ElevatorLevel;
+    
+    // private DigitalInput m_MagnetSwitch;
+    // private DigitalInput m_TopLimitSwitch;
 
     public Elevator() {
-        m_MasterMotor = new VictorSPX(Constants.ElevatorConstants.kLeftMotorPort);
-        m_FollowerMotor = new VictorSPX(Constants.ElevatorConstants.kRightMotorPort);
-        m_MagnetSwitch = new DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
-        m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
+        
+        m_MasterMotor = new TalonFX(Constants.ElevatorConstants.kLeftMotorPort);
+        m_FollowerMotor = new TalonFX(Constants.ElevatorConstants.kRightMotorPort);
         m_BottomMagentSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
-        m_Encoder = new Encoder(Constants.ElevatorConstants.kEncoderPortA, Constants.ElevatorConstants.kEncoderPortB);
-        m_Encoder.setDistancePerPulse(Constants.ElevatorConstants.kTroughBoreRatio);
-        m_FollowerMotor.follow(m_MasterMotor, FollowerType.AuxOutput1);
-
-        CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
-
-        limitConfigs.SupplyCurrentLimit = MotorCurrentLimits.kSupplyCurrentLimit;
-        limitConfigs.SupplyCurrentLimitEnable = MotorCurrentLimits.kSupplyCurrentLimitEnable;
-
+        m_FollowerMotor.setControl(new Follower(m_MasterMotor.getDeviceID(), false));
+        
+        // m_MagnetSwitch = new DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
+        // m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
     }
+<<<<<<< Updated upstream
 
     public boolean magnetSwitchState() {
         return m_MagnetSwitch.get();
     }
 
+=======
+    
+>>>>>>> Stashed changes
     public double encoderValue() {
-        return -(m_Encoder.get());
+        return (Math.abs(m_MasterMotor.getRotorPosition().getValueAsDouble())
+        + Math.abs(m_FollowerMotor.getRotorPosition().getValueAsDouble()) / 2);
     }
-
+    
     public void resetEncoderValue() {
-        m_Encoder.reset();
-        m_Encoder.setDistancePerPulse(Constants.ElevatorConstants.kTroughBoreRatio);
+        m_MasterMotor.setPosition(0);
+        m_FollowerMotor.setPosition(0);
     }
 
     public boolean inthreshold(Double EncoderLvlVal) {
@@ -56,7 +53,7 @@ public class Elevator extends SubsystemBase {
             return true;
         } else
             return false;
-    }
+        }
 
     public int elevatorLevel() {
 
@@ -65,7 +62,7 @@ public class Elevator extends SubsystemBase {
         } else if (inthreshold(Constants.ElevatorConstants.kL1EncoderValue))
             m_ElevatorLevel = 1;
         else if (inthreshold(Constants.ElevatorConstants.kL2EncoderValue))
-            m_ElevatorLevel = 2;
+        m_ElevatorLevel = 2;
         else if (inthreshold(Constants.ElevatorConstants.kL3EncoderValue))
             m_ElevatorLevel = 3;
         else if (inthreshold(Constants.ElevatorConstants.kL4EncoderValue))
@@ -78,7 +75,7 @@ public class Elevator extends SubsystemBase {
         }
         return m_ElevatorLevel;
     }
-
+    
     public int getElevatorLevel() {
         return m_ElevatorLevel;
     }
@@ -96,54 +93,55 @@ public class Elevator extends SubsystemBase {
         } else if (encoderValue() > getLXEncValue(0) + 200) {
             stallSpeed = 0.01;
         }
-
+        
         return stallSpeed;
     }
-
+    
     public void elevatorLevelSetter(int ElevatorLevel) {
         m_ElevatorLevel = ElevatorLevel;
     }
-
-    public boolean elevatorTopLimitState() {
-        return m_TopLimitSwitch.get();
-    }
-
+    
+    
     public boolean elevatorBottomLimitState() {
         SmartDashboard.putBoolean("DB/LED 0" , m_BottomMagentSwitch.get());
         return !m_BottomMagentSwitch.get();
     }
-
+    
     public void moveElevator(double speed) {
+<<<<<<< Updated upstream
         m_MasterMotor.set(VictorSPXControlMode.PercentOutput, speed);
+=======
+        m_MasterMotor.set(speed);
+>>>>>>> Stashed changes
         SmartDashboard.putString("DB/String 2", speed + "");
     }
-
+    
     private double getLXEncValue(int level) {
         switch (level) {
             case 1:
-                return Constants.ElevatorConstants.kL1EncoderValue;
-
+            return Constants.ElevatorConstants.kL1EncoderValue;
+            
             case 2:
-                return Constants.ElevatorConstants.kL2EncoderValue;
-
+            return Constants.ElevatorConstants.kL2EncoderValue;
+            
             case 3:
-                return Constants.ElevatorConstants.kL3EncoderValue;
-
+            return Constants.ElevatorConstants.kL3EncoderValue;
+            
             case 4:
-                return Constants.ElevatorConstants.kL4EncoderValue;
-
+            return Constants.ElevatorConstants.kL4EncoderValue;
+            
             case 0:
             default:
-                return 0;
+            return 0;
         }
     }
-
+    
     public int getMoveDirection(int level) {
         double currLevel = encoderValue();
         double levelValue = getLXEncValue(level);
-
+        
         SmartDashboard.putString("DB/String 7", levelValue + "");
-
+        
         if (levelValue > currLevel) {
             return -1;
         } else if (levelValue < currLevel) {
@@ -151,6 +149,15 @@ public class Elevator extends SubsystemBase {
         } else {
             return 0;
         }
-
+        
     }
-}
+    
+        // public boolean magnetSwitchState() {
+        //     System.out.println("Magnet switch {0}" + !m_MagnetSwitch.get());
+        //     return !m_MagnetSwitch.get();
+        // }
+        
+        // public boolean elevatorTopLimitState() {
+        //     return m_TopLimitSwitch.get();
+        // }
+    }

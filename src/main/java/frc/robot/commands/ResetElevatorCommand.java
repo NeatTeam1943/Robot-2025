@@ -39,10 +39,16 @@ public class ResetElevatorCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
+<<<<<<< Updated upstream
     m_LedController.setLedColor(BlinkinPattern.Green);
     if(!interrupted){
       m_Elevator.m_Encoder.reset();
       
+=======
+    if (!interrupted) {
+      m_LedController.setLedColor(BlinkinPattern.Green);
+      m_Elevator.resetEncoderValue();
+>>>>>>> Stashed changes
     }
   }
 
