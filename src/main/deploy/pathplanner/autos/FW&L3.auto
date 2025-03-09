@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Rotation"
+            "pathName": "FW"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 3.0
+            "name": "Elevator L3"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
+            "name": "CoralCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Reset Elevator"
           }
         }
       ]

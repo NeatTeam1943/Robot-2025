@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -26,6 +27,12 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private static EventLoop m_eventLoop = new EventLoop();
+
+  public static EventLoop getEventLoop() {
+    return m_eventLoop;
+  }
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -63,13 +70,14 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
+    m_eventLoop.poll();
+
     m_robotContainer.getHeading();
     CommandScheduler.getInstance().run();
-    SmartDashboard.putBoolean("DB/LED 0", m_robotContainer.getAlgeaSwtich());
-    SmartDashboard.putString("DB/String 9", m_robotContainer.getThroBore());
+    SmartDashboard.putString("DB/String 9", m_robotContainer.GetEleavotr().encoderValue() + "");
     SmartDashboard.putString("DB/String 8", m_robotContainer.GetEleavotr().getStallSpeed() + "");
     SmartDashboard.putString("Gyro Yaw:", m_robotContainer.GetSwerve().getGyroYaw().getDegrees() + "");
-
+    m_robotContainer.getCoral().printState();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -100,6 +108,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_robotContainer.m_LedController.setToDefault();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -117,6 +126,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.m_LedController.setToDefault();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -125,6 +135,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    SmartDashboard.putString("DB/String 7", m_robotContainer.GetALgea().GetEncoderValue() + "");
   }
 
   @Override

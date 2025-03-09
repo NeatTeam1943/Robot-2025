@@ -22,7 +22,7 @@ public class Elevator extends SubsystemBase {
         m_MasterMotor = new TalonFX(Constants.ElevatorConstants.kLeftMotorPort);
         m_FollowerMotor = new TalonFX(Constants.ElevatorConstants.kRightMotorPort);
         m_BottomMagentSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
-        m_FollowerMotor.setControl(new Follower(m_MasterMotor.getDeviceID(), false));
+        m_FollowerMotor.setControl(new Follower(m_MasterMotor.getDeviceID(), true));
 
         // m_MagnetSwitch = new
         // DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
@@ -42,18 +42,17 @@ public class Elevator extends SubsystemBase {
 
     public double getStallSpeed() {
         double stallSpeed = 0;
-        if (encoderValue() > getEncValue(1) - 300) {
-            stallSpeed = 0.3;
-        } else if (encoderValue() > getEncValue(2) - 300) {
-            stallSpeed = 0.3;
-        } else if (encoderValue() > getEncValue(3) - 100) {
-            stallSpeed = 0.3;
-        } else if (encoderValue() > getEncValue(4) - 300) {
-            stallSpeed = 0.3;
-        } else if (encoderValue() > getEncValue(0) + 200) {
-            stallSpeed = 0.01;
+        if (encoderValue() > getEncValue(0)) {
+            stallSpeed = 0.02;
+        } else if (encoderValue() > getEncValue(3)) {
+            stallSpeed = 0.04;
+        } else if (encoderValue() > getEncValue(4)) {
+            stallSpeed = 0.03;
+        } else if (encoderValue() > getEncValue(2)) {
+            stallSpeed = 0.03;
+        } else if (encoderValue() > getEncValue(1)) {
+            stallSpeed = 0.03;
         }
-
         return stallSpeed;
     }
 
@@ -67,44 +66,48 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putString("DB/String 2", speed + "");
     }
 
-    private double getEncValue(int level) {
+    public double getEncValue(int level) {
         switch (level) {
+            case 0:
+                return 0;
             case 1:
+                // return SmartDashboard.getNumber("DB/Slider 0", 0) * 100;
                 return Constants.ElevatorConstants.kL1EncoderValue;
 
             case 2:
+                // return SmartDashboard.getNumber("DB/Slider 1", 0) * 100;
                 return Constants.ElevatorConstants.kL2EncoderValue;
 
             case 3:
+                // return SmartDashboard.getNumber("DB/Slider 2", 0) * 100;
                 return Constants.ElevatorConstants.kL3EncoderValue;
 
             case 4:
-                return Constants.ElevatorConstants.kL4EncoderValue;
+                // return SmartDashboard.getNumber("DB/Slider 3", 0) * 100;
+                return Constants.AlgeaConstans.kAlgeaEncValue;
 
-            case 0:
             default:
                 return 0;
         }
     }
 
-    public int getMoveDirection(int level) {
-        double currentEncoderValue = encoderValue();
-        double RequestedEncoderValue = getEncValue(level);
+    // public int getMoveDirection(int level) {
+    // double currentEncoderValue = encoderValue();
+    // double RequestedEncoderValue = getEncValue(level);
 
-        SmartDashboard.putString("DB/String 7", RequestedEncoderValue + "");
+    // SmartDashboard.putString("DB/String 7", RequestedEncoderValue + "");
 
-        if (RequestedEncoderValue > currentEncoderValue) {
-            return -1;
-        } else if (RequestedEncoderValue < currentEncoderValue) {
-            return 1;
-        } else {
-            return 0;
-        }
+    // if (RequestedEncoderValue > currentEncoderValue - 3) {
+    // return -1;
+    // } else if (RequestedEncoderValue < currentEncoderValue + 3) {
+    // return 1;
+    // } else {
+    // return 0;
+    // }
 
-    }
+    // }
 
     // public boolean magnetSwitchState() {
-    // System.out.println("Magnet switch {0}" + !m_MagnetSwitch.get());
     // return !m_MagnetSwitch.get();
     // }
 

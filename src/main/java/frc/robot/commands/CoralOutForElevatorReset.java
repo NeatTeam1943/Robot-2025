@@ -38,7 +38,7 @@ public class CoralOutForElevatorReset extends Command {
   @Override
   public void end(boolean interrupted) {
     if (!interrupted) {
-      m_LedController.DefualtColor();
+      m_LedController.setToDefault();
     }
     m_Coral.moveCoral(0);
   }

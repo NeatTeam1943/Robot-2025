@@ -33,7 +33,7 @@ public class MoveEleveatorTestMagnetHieght extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Speed = Math.abs(m_Controller.getLeftY()) > 0.05 ? -m_Controller.getLeftY()
+    m_Speed = Math.abs(m_Controller.getLeftY()) > 0.1 ? -m_Controller.getLeftY()
         : m_Elevator.getStallSpeed();
     m_Elevator.moveElevator(m_Speed);
 

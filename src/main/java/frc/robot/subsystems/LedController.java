@@ -123,6 +123,16 @@ public class LedController extends SubsystemBase {
     }
   }
 
+  public void setToDefault() {
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      setLedColor(BlinkinPattern.DrakRed);
+    } else if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      setLedColor(BlinkinPattern.Blue);
+    } else {
+      setLedColor(BlinkinPattern.Green);
+    }
+  }
+
   public void ColorSetter(BlinkinPattern color) {
     m_blinkin.set(color.value);
   }

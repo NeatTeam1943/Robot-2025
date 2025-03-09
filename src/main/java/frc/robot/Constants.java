@@ -85,7 +85,7 @@ public final class Constants {
                         kDriveGearbox.withReduction(kDriveMotorReduction),
                         60,
                         1),
-                        kModuleTranslations);
+                kModuleTranslations);
 
         /* Swerve Current Limiting */
         public static final int kAngleCurrentLimit = 25;
@@ -209,16 +209,10 @@ public final class Constants {
     public static final class CoralConstants {
 
         public static final int kPhotoSwitchPort = 9;
+        public static final int kIntakePhotoSwitchPort = 8;
         public static final int kMotorPort = 9;
         public static final double kCoralOutSpeed = 0.2;
         public static final double kCoralInSpeed = 0.15;
-
-    }
-
-    public static final class AlgeaConstants {
-
-        public static final int kMotorPort = 55;
-        public static final int kPhotoSwitchPort = 6;
 
     }
 
@@ -233,29 +227,37 @@ public final class Constants {
         public static final int kMagnetSwitchPort = 2;
         public static final int kRightMotorPort = 55;
         public static final int kLeftMotorPort = 54;
-        public static final double kElevatorMoveSpeed = 1;
-        public static final double kElevatorDownSpeed = -0.7;
-        public static final double kStallSpeed = 0.1;
-        public static final int kEncoderPortA = 4; // A = Blue PWM
-        public static final int kEncoderPortB = 5; // B = Yellow PWM
+        public static final double kElevatorMoveSpeed = 0.1;
+        public static final double kElevatorMaxMoveSpeed = 0.5;
+        public static final double kElevatorDownSpeed = -0.3;
+        public static final double kStallSpeed = 0.01;
+        public static final int kEncoderPortA = 4; // A - Blue PWM
+        public static final int kEncoderPortB = 5; // B - Yellow PWM
         public static final int kBottomLimitSwitchPort = 1;
         public static final int kTopLimitSwitchPort = 7;
         public static final double kClosedEncoderValue = 0;
-        public static final double kL1EncoderValue = 1500;
-        public static final double kL2EncoderValue = 2625;
-        public static final double kL3EncoderValue = 5000;
-        public static final double kL4EncoderValue = 8100; // TODO: not the real height
+        public static final double kL1EncoderValue = 10;
+        public static final double kL2EncoderValue = 26;
+        public static final double kL3EncoderValue = 48;
         public static final double kEncoderValueTreshHold = 2;
         public static final double kTroughBoreRatio = 6 / 2;
     }
 
-    public static final class AlgeaRotatorAxisConstants {
+    public static final class AlgeaConstans {
 
-        public static final int kMotorPort = 5;
-        public static final double kEncoderValueTreshHold = 0.05;
+        public static final int kMotorPort = 50;
+        public static final double kClosedStallSpeed = 0.1;
+        public static final double kLowerStallSpeed = 0.1;
+        public static final double kUpperstallSpeed = 0.3;
+        public static final double kEncoderValueTreshHold = 5;
         public static final double kFullExtendEncoderValue = 0.25;
+        public static final double kClosedEncoderValue = 0;
+        public static final double kLowerAlgaeEncoderValue = 1000;
+        public static final double kUpperALgeaEncoderValue = 2500;
         public static final double kFullyOpenEncoderValue = 0.5;
         public static final double kEncoderValueLimit = 0.55;
+        public static final double kAlgeaEncValue = 35;
+        public static final double kOpenSpeed = 0.05;
 
     }
 

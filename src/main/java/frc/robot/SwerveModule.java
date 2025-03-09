@@ -72,16 +72,12 @@ public class SwerveModule {
         // mDriveMotor.setControl(driveVelocity);
         // }
 
-        // System.out.println("Velocity Before" + driveVelocity.Velocity);
-        // System.out.println("FeedForward Before" + driveVelocity.FeedForward);
         driveVelocity.Velocity = Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
                 Constants.Swerve.kWheelCircumference);
         driveVelocity.FeedForward = driveFeedForward.calculate(desiredState.speedMetersPerSecond);
         // driveVelocity.FeedForward = 0;
         mDriveMotor.setControl(driveVelocity);
-        // System.out.println("Velocity After" + driveVelocity.Velocity);
-        // System.out.println("FeedForward After" + driveVelocity.FeedForward);
-
+        
     }
 
     public Rotation2d getCANcoder() {

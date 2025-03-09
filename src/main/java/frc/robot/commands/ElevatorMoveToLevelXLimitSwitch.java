@@ -40,13 +40,11 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
     // m_LastMagnetSwitchState = m_Elevator.magnetSwitchState();
 
     // m_LevelsToMove = m_RequestedLevel - m_Elevator.getElevatorLevel();
-    // System.out.println(m_LevelsToMove + "levels to move");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // System.out.println(m_LevelsToMove);
     // if (m_LevelsToMove != 0) {
     //   m_Elevator
     //       .moveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * Constants.ElevatorConstants.kElevatorMoveSpeed);
@@ -58,13 +56,12 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
     //   }
 
     // } else
-    //   System.out.println("HELL NAH");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("end, interpted: " + interrupted);
+    // System.out.println("end, interpted: " + interrupted);
     m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
     if (!interrupted) {
       if (m_LevelsToMove == 0) {
