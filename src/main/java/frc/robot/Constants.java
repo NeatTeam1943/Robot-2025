@@ -13,8 +13,51 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
+import java.util.Map;
 
 public final class Constants {
+
+  public static final class Coral {
+    public static final int kMotorId = 0;
+
+    public static final int kIntakeSensorPort = 0;
+    public static final int kOuttakeSensorPort = 1;
+
+    public static final double kMotorSpeed = 0.2;
+  }
+
+  public static final class Operator {
+    public static final int kMechanismControllerPort = 0;
+    public static final int kDriveControllerPort = 1;
+  }
+
+  public enum Level {
+    L0,
+    L1,
+    L2,
+    L3;
+  }
+
+  public static final class Elevator {
+    public static final int kMasterMotorId = 1;
+    public static final int kFollowerMotorId = 2;
+
+    public static final int kBottomMagnetSwitchPort = 2;
+
+    public static final Map<Level, Integer> kLevelTargetMeasurements =
+        Map.of(Level.L0, 0, Level.L1, 15, Level.L2, 27, Level.L3, 49);
+
+    public static final double kP = 0.02;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    public static final double kTolerance = 2;
+    public static final double kIRange = 0.2;
+
+    public static final double kMaxUpSpeed = 0.5;
+    public static final double kMaxDownSpeed = -0.3;
+  }
+
   public static final double kStickDeadband = 0.1;
 
   public final class OperatorConstants {

@@ -2,27 +2,40 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.lib.neat.DigitalSensor;
 import frc.robot.Constants;
 
 public class Coral extends SubsystemBase {
-  private SparkMax m_Motor;
-  private DigitalInput m_PhotoSwitch;
+
+  private final SparkMax motor;
+
+  private final DigitalSensor intake;
+  private final DigitalSensor outtake;
 
   public Coral() {
-    m_Motor = new SparkMax(Constants.CoralConstants.kMotorPort, MotorType.kBrushless);
-    m_PhotoSwitch = new DigitalInput(9);
+    motor = new SparkMax(Constants.Coral.kMotorId, MotorType.kBrushless);
+
+    intake = new DigitalSensor(Constants.Coral.kIntakeSensorPort);
+    outtake = new DigitalSensor(Constants.Coral.kOuttakeSensorPort);
   }
 
-  public boolean PhotoSwitchMode() {
-    return m_PhotoSwitch.get();
+  public void configureBindings(final Trigger button) {
+    final Trigger outtakeNeg = outtake.trigger().negate();
+
+    // Intake sensor indicates a coral had entered, but the outtake sensor
+    // doesn't recognize it -> Move coral forward until recognized.
+    intake.trigger().and(outtakeNeg).toggleOnTrue(move().until(outtake));
+
+    // Button is pressed, coral is recognized by outtake sensor
+    // -> Move forward until out (or button isn't pressed anymore).
+    button.and(outtake).whileTrue(move().until(outtakeNeg));
   }
 
-  public void moveCoral(double speed) {
-    m_Motor.set(speed);
-
-    SmartDashboard.putString("DB/String 5", m_Motor.get() + "");
+  private Command move() {
+    return new StartEndCommand(() -> motor.set(Constants.Coral.kMotorSpeed), () -> motor.set(0));
   }
 }
