@@ -6,16 +6,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.LedController.BlinkinPattern;
-import frc.robot.Constants;
-
-import frc.robot.subsystems.Coral;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CoralCommand extends Command {
   /** Creates a new CoralOutTakeCommand. */
   private Coral m_coral;
+
   private double m_speed;
   private LedController m_LedController;
   private boolean m_IsOutTake;
@@ -32,7 +32,10 @@ public class CoralCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_speed = m_IsOutTake ? Constants.CoralConstants.kCoralOutSpeed : Constants.CoralConstants.kCoralInSpeed;
+    m_speed =
+        m_IsOutTake
+            ? Constants.CoralConstants.kCoralOutSpeed
+            : Constants.CoralConstants.kCoralInSpeed;
     m_coral.moveCoral(0);
   }
 

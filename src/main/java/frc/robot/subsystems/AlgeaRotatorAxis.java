@@ -4,34 +4,29 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-
+import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorCurrentLimits;
 
-/**
- * Add your docs here.
- */
+/** Add your docs here. */
 public class AlgeaRotatorAxis extends SubsystemBase {
 
-    private SparkMax m_Motor;
+  private SparkMax m_Motor;
 
-    public AlgeaRotatorAxis() {
-        m_Motor = new SparkMax(Constants.AlgeaRotatorAxisConstants.kMotorPort, MotorType.kBrushless);
-        CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
-        limitConfigs.SupplyCurrentLimit = MotorCurrentLimits.kSupplyCurrentLimit;
-        limitConfigs.SupplyCurrentLimitEnable = MotorCurrentLimits.kSupplyCurrentLimitEnable;
+  public AlgeaRotatorAxis() {
+    m_Motor = new SparkMax(Constants.AlgeaRotatorAxisConstants.kMotorPort, MotorType.kBrushless);
+    CurrentLimitsConfigs limitConfigs = new CurrentLimitsConfigs();
+    limitConfigs.SupplyCurrentLimit = MotorCurrentLimits.kSupplyCurrentLimit;
+    limitConfigs.SupplyCurrentLimitEnable = MotorCurrentLimits.kSupplyCurrentLimitEnable;
+  }
 
-    }
+  public double EncoderValueGetter() {
+    return m_Motor.getAlternateEncoder().getPosition() / 4;
+  }
 
-    public double EncoderValueGetter() {
-        return m_Motor.getAlternateEncoder().getPosition() / 4;
-    }
-
-    public void AlgeaRotatorAxisMove(double speed) {
-        m_Motor.set(speed);
-    }
-
+  public void AlgeaRotatorAxisMove(double speed) {
+    m_Motor.set(speed);
+  }
 }

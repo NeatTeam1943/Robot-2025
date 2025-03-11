@@ -14,11 +14,13 @@ import frc.robot.subsystems.LedController.BlinkinPattern;
 public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   /** Creates a new ElevatorMoveToLevelXCommand. */
   private Elevator m_Elevator;
+
   private int m_RequestedLevel;
   private int startingMoveDirecrtion;
   private LedController m_LedController;
 
-  public NoLimitSwitchElevatorMoveToLevelXCommand(Elevator elevator, int requestedLevel, LedController ledController) {
+  public NoLimitSwitchElevatorMoveToLevelXCommand(
+      Elevator elevator, int requestedLevel, LedController ledController) {
     m_Elevator = elevator;
     m_LedController = ledController;
     m_RequestedLevel = requestedLevel;

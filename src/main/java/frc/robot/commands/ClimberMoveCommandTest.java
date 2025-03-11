@@ -13,8 +13,10 @@ import frc.robot.subsystems.Climber;
 public class ClimberMoveCommandTest extends Command {
   /** Creates a new ClimberMoveCommandTest. */
   Climber m_Climber;
+
   CommandXboxController m_Controller;
-  public ClimberMoveCommandTest(Climber climber , CommandXboxController controller) {
+
+  public ClimberMoveCommandTest(Climber climber, CommandXboxController controller) {
     m_Climber = climber;
     m_Controller = controller;
     addRequirements(m_Climber);
@@ -30,7 +32,7 @@ public class ClimberMoveCommandTest extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Climber.moveClimber(m_Controller.getLeftTriggerAxis()- m_Controller.getRightTriggerAxis());
+    m_Climber.moveClimber(m_Controller.getLeftTriggerAxis() - m_Controller.getRightTriggerAxis());
   }
 
   // Called once the command ends or is interrupted.

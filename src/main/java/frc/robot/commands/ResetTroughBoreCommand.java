@@ -14,6 +14,7 @@ import frc.robot.subsystems.LedController.BlinkinPattern;
 public class ResetTroughBoreCommand extends Command {
   /** Creates a new ResetTroughBoreCommand. */
   private Elevator m_Elevator;
+
   private LedController m_Leds;
 
   public ResetTroughBoreCommand(Elevator elevator, LedController leds) {

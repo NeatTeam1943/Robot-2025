@@ -10,41 +10,42 @@ import frc.robot.subsystems.AlgeaRotatorAxis;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AlgeaRotatorAxisCommand extends Command {
 
-    /**
-     * Creates a new AlgeaRotatroAxis.
-     */
-    private AlgeaRotatorAxis m_AlgeaRotatorAxis;
-    private CommandXboxController m_Controller;
+  /** Creates a new AlgeaRotatroAxis. */
+  private AlgeaRotatorAxis m_AlgeaRotatorAxis;
 
-    public AlgeaRotatorAxisCommand(AlgeaRotatorAxis rotatorAxis, CommandXboxController controller) {
-        m_AlgeaRotatorAxis = rotatorAxis;
-        m_Controller = controller;
-        addRequirements(m_AlgeaRotatorAxis);
-        // Use addRequirements() here to declare subsystem dependencies.
+  private CommandXboxController m_Controller;
 
-    }
-    // Called when the command is initially scheduled.
+  public AlgeaRotatorAxisCommand(AlgeaRotatorAxis rotatorAxis, CommandXboxController controller) {
+    m_AlgeaRotatorAxis = rotatorAxis;
+    m_Controller = controller;
+    addRequirements(m_AlgeaRotatorAxis);
+    // Use addRequirements() here to declare subsystem dependencies.
 
-    @Override
-    public void initialize() {
-        m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(0);
-    }
+  }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-        m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(m_Controller.getRightTriggerAxis() - m_Controller.getLeftTriggerAxis());
-    }
+  // Called when the command is initially scheduled.
 
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-        m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(0);
-    }
+  @Override
+  public void initialize() {
+    m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(0);
+  }
 
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(
+        m_Controller.getRightTriggerAxis() - m_Controller.getLeftTriggerAxis());
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }

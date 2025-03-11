@@ -14,10 +14,12 @@ import frc.robot.subsystems.LedController.BlinkinPattern;
 public class ElevatorMoveToLevelXLimitSwitch extends Command {
   /** Creates a new ElevatorMoveToLevelXCommand. */
   private Elevator m_Elevator;
+
   // private int m_RequestedLevel;
   private LedController m_LedController;
 
-  public ElevatorMoveToLevelXLimitSwitch(Elevator elevator, int requestedLevel, LedController ledController) {
+  public ElevatorMoveToLevelXLimitSwitch(
+      Elevator elevator, int requestedLevel, LedController ledController) {
     m_Elevator = elevator;
     m_LedController = ledController;
     // m_RequestedLevel = requestedLevel;
@@ -49,7 +51,8 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
     // System.out.println(m_LevelsToMove);
     // if (m_LevelsToMove != 0) {
     //   m_Elevator
-    //       .moveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * Constants.ElevatorConstants.kElevatorMoveSpeed);
+    //       .moveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) *
+    // Constants.ElevatorConstants.kElevatorMoveSpeed);
     //   if (m_Elevator.magnetSwitchState() && !m_LastMagnetSwitchState) {
     //     m_LevelsToMove += -1 * (m_LevelsToMove / Math.abs(m_LevelsToMove));
     //     m_LastMagnetSwitchState = true;
@@ -79,12 +82,12 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
   public boolean isFinished() {
 
     // if (m_StartingBottomLimitSwithState) {
-  //     return m_LevelsToMove == 0 || m_Elevator.elevatorTopLimitState();
-  //   } else if (m_StaringTopLimitSwitchState) {
-  //     return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState();
-  //   } else
-  //     return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState()
-  //         || m_Elevator.elevatorTopLimitState();
-  return false;
+    //     return m_LevelsToMove == 0 || m_Elevator.elevatorTopLimitState();
+    //   } else if (m_StaringTopLimitSwitchState) {
+    //     return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState();
+    //   } else
+    //     return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState()
+    //         || m_Elevator.elevatorTopLimitState();
+    return false;
   }
 }

@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,7 +15,6 @@ public class Climber extends SubsystemBase {
   public Climber() {
     m_Motor = new SparkMax(Constants.ClimberConstants.kMotorPort, MotorType.kBrushless);
   }
-
 
   public void moveClimber(double speed) {
     m_Motor.set(speed);

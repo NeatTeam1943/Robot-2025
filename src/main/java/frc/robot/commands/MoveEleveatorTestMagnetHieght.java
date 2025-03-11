@@ -12,6 +12,7 @@ import frc.robot.subsystems.Elevator;
 public class MoveEleveatorTestMagnetHieght extends Command {
   /** Creates a new MoveEleveatorTestMagnetHieght. */
   private Elevator m_Elevator;
+
   private CommandXboxController m_Controller;
 
   public MoveEleveatorTestMagnetHieght(Elevator elevator, CommandXboxController controller) {
@@ -33,16 +34,17 @@ public class MoveEleveatorTestMagnetHieght extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Speed = Math.abs(m_Controller.getLeftY()) > 0.05 ? -m_Controller.getLeftY()
-        : m_Elevator.getStallSpeed();
+    m_Speed =
+        Math.abs(m_Controller.getLeftY()) > 0.05
+            ? -m_Controller.getLeftY()
+            : m_Elevator.getStallSpeed();
     m_Elevator.moveElevator(m_Speed);
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Interrupted is : "  + interrupted  );
+    System.out.println("Interrupted is : " + interrupted);
     m_Speed = m_Elevator.getStallSpeed();
     m_Elevator.moveElevator(m_Speed);
   }

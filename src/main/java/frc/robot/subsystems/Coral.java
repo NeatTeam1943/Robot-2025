@@ -1,31 +1,28 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-
+import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Coral extends SubsystemBase {
-    private SparkMax m_Motor;
-    private DigitalInput m_PhotoSwitch;
+  private SparkMax m_Motor;
+  private DigitalInput m_PhotoSwitch;
 
-    public Coral() {
-        m_Motor = new SparkMax(Constants.CoralConstants.kMotorPort, MotorType.kBrushless);
-        m_PhotoSwitch = new DigitalInput(9);
+  public Coral() {
+    m_Motor = new SparkMax(Constants.CoralConstants.kMotorPort, MotorType.kBrushless);
+    m_PhotoSwitch = new DigitalInput(9);
+  }
 
-    }
+  public boolean PhotoSwitchMode() {
+    return m_PhotoSwitch.get();
+  }
 
-    public boolean PhotoSwitchMode() {
-        return m_PhotoSwitch.get();
-    }
+  public void moveCoral(double speed) {
+    m_Motor.set(speed);
 
-    public void moveCoral(double speed) {
-        m_Motor.set(speed);
-
-        SmartDashboard.putString("DB/String 5", m_Motor.get() +
-                "");
-    }
+    SmartDashboard.putString("DB/String 5", m_Motor.get() + "");
+  }
 }

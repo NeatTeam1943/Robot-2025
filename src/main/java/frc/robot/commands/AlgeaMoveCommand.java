@@ -11,6 +11,7 @@ import frc.robot.subsystems.Algea;
 public class AlgeaMoveCommand extends Command {
   /** Creates a new AlgeaInCommand. */
   private Algea m_AlgeaIn;
+
   private int m_Direction;
 
   public AlgeaMoveCommand(Algea algea, int Direction) {

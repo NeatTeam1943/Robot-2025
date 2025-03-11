@@ -13,6 +13,7 @@ import frc.robot.subsystems.LedController;
 public class CoralOutForElevatorReset extends Command {
   /** Creates a new CoralOutForElevatorReset. */
   private Coral m_Coral;
+
   private LedController m_LedController;
 
   public CoralOutForElevatorReset(Coral coral, LedController ledController) {
