@@ -75,6 +75,8 @@ public class Robot extends TimedRobot {
     m_robotContainer.getHeading();
     CommandScheduler.getInstance().run();
     SmartDashboard.putString("DB/String 9", m_robotContainer.GetEleavotr().encoderValue() + "");
+    SmartDashboard.putString("Elevator Ecoder:", m_robotContainer.GetEleavotr().encoderValue() + "");
+    SmartDashboard.putString("Elevator magent:", m_robotContainer.getElevator().ElevatorBottomMagnetSwitchState() + "");
     SmartDashboard.putString("DB/String 8", m_robotContainer.GetEleavotr().getStallSpeed() + "");
     SmartDashboard.putString("Gyro Yaw:", m_robotContainer.GetSwerve().getGyroYaw().getDegrees() + "");
     m_robotContainer.getCoral().printState();

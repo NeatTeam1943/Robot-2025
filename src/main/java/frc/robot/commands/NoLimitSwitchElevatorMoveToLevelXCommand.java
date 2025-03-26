@@ -37,8 +37,7 @@ private final String dbString = "DB/String 4";
     addRequirements(m_Elevator, m_LedController);
   }
 
-  public NoLimitSwitchElevatorMoveToLevelXCommand(Elevator elevator, double encoderValue,
-      LedController ledController) {
+  public NoLimitSwitchElevatorMoveToLevelXCommand(Elevator elevator, double encoderValue, LedController ledController) {
     m_Elevator = elevator;
     m_LedController = ledController;
     m_RequestedLevel = 0;
@@ -53,7 +52,7 @@ private final String dbString = "DB/String 4";
   private double calculateSpeed() {
     return MathUtil.clamp(
         m_pidController.calculate(m_Elevator.encoderValue()), ElevatorConstants.kElevatorDownSpeed,
-        ElevatorConstants.kElevatorMaxMoveSpeed);
+        ElevatorConstants.kElevatorMaxMoveSpeed) * m_Elevator.Direction();
   }
 
   @Override
@@ -78,6 +77,7 @@ private final String dbString = "DB/String 4";
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putString("DB/String 0", calculateSpeed() + "");
     m_Elevator.moveElevator(calculateSpeed());
 
     SmartDashboard.putString(dbString, "moving to level " + m_RequestedLevel);
@@ -88,11 +88,9 @@ private final String dbString = "DB/String 4";
   @Override
   public void end(boolean interrupted) {
     
-    System.out.println("(" + this.getName() + ") Interrupted is: " + interrupted);
-    if (!interrupted) {
+    if (!interrupted && !m_Elevator.getLimitSwitch()) {
       m_LedController.setLedColor(BlinkinPattern.HotPink);
 
-      SmartDashboard.putString(dbString, "finish level " + m_RequestedLevel);
     }
     if (m_Elevator.ElevatorBottomMagnetSwitchState()) {
       m_Elevator.resetEncoderValue();
@@ -104,7 +102,7 @@ private final String dbString = "DB/String 4";
   @Override
   public boolean isFinished() {
     // new StopElevetor(m_LedController);
-    return m_pidController.atSetpoint();
+    return m_pidController.atSetpoint()  || m_Elevator.ElevatorBottomMagnetSwitchState();
     // return m_Elevator.getMoveDirection(m_RequestedLevel) !=
     // startingMoveDirecrtion;
     // return false;

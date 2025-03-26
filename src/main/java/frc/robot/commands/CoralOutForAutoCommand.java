@@ -5,51 +5,40 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.Elevator;
+import frc.robot.Constants;
+import frc.robot.subsystems.Coral;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class MoveEleveatorTestMagnetHieght extends Command {
-  /** Creates a new MoveEleveatorTestMagnetHieght. */
-  private Elevator m_Elevator;
-  private CommandXboxController m_Controller;
-
-  public MoveEleveatorTestMagnetHieght(Elevator elevator, CommandXboxController controller) {
-    m_Controller = controller;
-    m_Elevator = elevator;
-    addRequirements(m_Elevator);
+public class CoralOutForAutoCommand extends Command {
+  /** Creates a new CoralOutForAutoCommand. */
+  Coral m_coral;
+  public CoralOutForAutoCommand(Coral coral) {
+    m_coral = coral;
+    addRequirements(m_coral);
     // Use addRequirements() here to declare subsystem dependencies.
   }
-
-  double m_Speed;
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Speed = m_Elevator.getStallSpeed();
-    m_Elevator.moveElevator(m_Speed);
+    m_coral.moveCoral(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Speed = Math.abs(m_Controller.getLeftY()) > 0.1 ? -m_Controller.getLeftY()
-        : m_Elevator.getStallSpeed();
-    m_Elevator.moveElevator(m_Speed);
-
+    m_coral.moveCoral(Constants.CoralConstants.kCoralOutSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Interrupted is : "  + interrupted  );
-    m_Speed = m_Elevator.getStallSpeed();
-    m_Elevator.moveElevator(m_Speed);
+    m_coral.moveCoral(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !m_coral.PhotoSwitchMode();
   }
 }

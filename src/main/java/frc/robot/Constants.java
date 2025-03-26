@@ -412,11 +412,11 @@ public final class Constants {
         public static final int kEncoderPortA = 4; // A - Blue PWM
         public static final int kEncoderPortB = 5; // B - Yellow PWM
         public static final int kBottomLimitSwitchPort = 1;
-        public static final int kTopLimitSwitchPort = 7;
+        public static final int kTopLimitSwitchPort = 5;
         public static final double kClosedEncoderValue = 0;
-        public static final double kL1EncoderValue = 10;
-        public static final double kL2EncoderValue = 26;
-        public static final double kL3EncoderValue = 48;
+        public static final double kL1EncoderValue = 31;
+        public static final double kL2EncoderValue = 23;
+        public static final double kL3EncoderValue = 45;
         public static final double kEncoderValueTreshHold = 2;
         public static final double kTroughBoreRatio = 6 / 2;
     }
