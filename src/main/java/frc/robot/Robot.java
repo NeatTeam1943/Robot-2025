@@ -86,6 +86,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    m_robotContainer.resetGyro();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -95,6 +96,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    System.out.println("Gyro's Yaw" + m_robotContainer.getGyroYaw());
   }
 
   @Override
@@ -112,7 +114,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    Constants.Swerve.maxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5"));
     System.out.println("max speed is: " + Constants.Swerve.maxSpeed);
   }
 

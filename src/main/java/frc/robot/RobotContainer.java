@@ -3,6 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -38,7 +39,7 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
+    private final Swerve m_Swerve = new Swerve();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -52,11 +53,11 @@ public class RobotContainer {
      * Configure default commands for subsystems
      */
     private void configureDefaultCommands() {
-        s_Swerve.setDefaultCommand(
+        m_Swerve.setDefaultCommand(
                 new TeleopSwerve(
-                        s_Swerve,
+                        m_Swerve,
+                        () -> driver.getRawAxis(strafeAxis),
                         () -> driver.getRawAxis(translationAxis),
-                        () -> -driver.getRawAxis(strafeAxis),
                         () -> -driver.getRawAxis(rotationAxis),
                         () -> robotCentric.getAsBoolean()));
     }
@@ -71,7 +72,13 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        zeroGyro.onTrue(new InstantCommand(() -> m_Swerve.zeroHeading()));
+    }
+    public void resetGyro() {
+        m_Swerve.gyro.reset();
+    }
+    public Rotation2d getGyroYaw() {
+        return m_Swerve.getGyroYaw();
     }
 
     /**
@@ -80,6 +87,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new PathPlannerAuto("New auto");
+        resetGyro();
+        return new PathPlannerAuto("Rot");
     }
 }

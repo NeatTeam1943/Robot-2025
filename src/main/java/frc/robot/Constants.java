@@ -65,22 +65,22 @@ public final class Constants {
                 public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
 
                 // PathPlanner configuration
-                public static final double robotMassKg = 40;
-                public static final double robotMOI = 1 / 12.0 * robotMassKg * (2 * trackWidth * trackWidth);
+                public static final double robotMassKg = 45;
+                public static final double robotMOI = 1 / 12.0 * robotMassKg * (2 * 0.69 * 0.69);
                 public static final double wheelCOF = 1.2;
                 public static final double driveMotorReduction = 5.96;
-                public static final int driveMotorCurrentLimit = 50;
+                public static final int driveMotorCurrentLimit = 60;
                 public static final double wheelRadiusMeters = Units.inchesToMeters(0.787402);
 
                 public static final RobotConfig ppConfig = new RobotConfig(
                                 robotMassKg,
                                 robotMOI,
                                 new ModuleConfig(
-                                                0.02,
-                                                10,
+                                                wheelRadiusMeters,
+                                                4.5,
                                                 wheelCOF,
                                                 driveGearbox.withReduction(driveMotorReduction),
-                                                100,
+                                                driveMotorCurrentLimit,
                                                 1),
                                 moduleTranslations);
 
@@ -118,6 +118,7 @@ public final class Constants {
                 public static final double driveKS = 0.32; // TODO: This must be tuned to specific robot
                 public static final double driveKV = 1.51;
                 public static final double driveKA = 0.27;
+
                 // Angle Motor Stator Current Limiting
                 public static final boolean angleEnableStatorCurrentLimit = true; // Enable or disable stator current
                                                                                   // limiting
@@ -130,7 +131,7 @@ public final class Constants {
                 // Drive Motor Stator Current Limiting
                 public static final boolean driveEnableStatorCurrentLimit = true; // Enable or disable stator current
                                                                                   // limiting
-                public static final double driveStatorCurrentLimit = 50.0; // Stator current limit in Amperes
+                public static final double driveStatorCurrentLimit = 24.0; // Stator current limit in Amperes
                 public static final double driveStatorCurrentThreshold = 55.0; // Threshold current in Amperes to
                                                                                // trigger limiting
                 public static final double driveStatorCurrentThresholdTime = 0.1; // Time in seconds before limiting is
@@ -138,27 +139,21 @@ public final class Constants {
 
                 /* Swerve Profiling Values */
                 /** Meters per Second */
-                public static double maxSpeed = Double.parseDouble(SmartDashboard.getString("DB/String 0", "4.5")); // TODO:
-                                                                                                                    // This
-                                                                                                                    // must
-                                                                                                                    // be
-                                                                                                                    // tuned
-                                                                                                                    // to
-                                                                                                                    // specific
-                                                                                                                    // robot
+                public static double maxSpeed = 4.5;
+
                 /** Radians per Second */
-                public static final double maxAngularVelocity = 10.0; // TODO: This must be tuned to specific robot
+                public static final double maxAngularVelocity = 6.283; // TODO: This must be tuned to specific robot
 
                 /* Neutral Modes */
-                public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
-                public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
+                public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
+                public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Coast;
 
                 /* Module Specific Constants */
                 /* Front Left Module - Module 0 */
                 // A1
                 public static final class Mod0 { // TODO: This must be tuned to specific robot
-                        public static final int driveMotorID = 11;
-                        public static final int angleMotorID = 12;
+                        public static final int angleMotorID = 11;
+                        public static final int driveMotorID = 12;
                         public static final int canCoderID = 13;
                         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(52);
                         public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID,
@@ -169,8 +164,8 @@ public final class Constants {
                 /* Front Right Module - Module 1 */
                 // B2
                 public static final class Mod1 { // TODO: This must be tuned to specific robot
-                        public static final int driveMotorID = 41;
-                        public static final int angleMotorID = 42;
+                        public static final int angleMotorID = 41;
+                        public static final int driveMotorID = 42;
                         public static final int canCoderID = 43;
                         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-64.5);
                         public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID,
@@ -181,8 +176,8 @@ public final class Constants {
                 /* Back Left Module - Module 2 */
                 // B1
                 public static final class Mod2 { // TODO: This must be tuned to specific robot
-                        public static final int driveMotorID = 21;
-                        public static final int angleMotorID = 22;
+                        public static final int angleMotorID = 21;
+                        public static final int driveMotorID = 22;
                         public static final int canCoderID = 23;
                         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(96);
                         public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID,
@@ -193,8 +188,8 @@ public final class Constants {
                 /* Back Right Module - Module 3 */
                 // A2
                 public static final class Mod3 { // TODO: This must be tuned to specific robot
-                        public static final int driveMotorID = 31;
-                        public static final int angleMotorID = 32;
+                        public static final int angleMotorID = 31;
+                        public static final int driveMotorID = 32;
                         public static final int canCoderID = 33;
                         public static final Rotation2d angleOffset = Rotation2d.fromDegrees(175.5);
                         public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID,
