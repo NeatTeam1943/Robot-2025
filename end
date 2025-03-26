@@ -1,0 +1,51 @@
+[33mcommit 3b0749aa99a4aa6e0d5e22d476a78e1dc68467ba[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mcodeRevamp[m[33m, [m[1;31morigin/codeRevamp[m[33m)[m
+Author: NeatTeam Software <neatteamsoftware@gmail.com>
+Date:   Wed Jan 22 23:40:19 2025 +0200
+
+    Possibly maybe really perhaps tested
+
+[33mcommit 46fc5cf35aa2add5cbf17f5f4759a9869ae7ec56[m
+Author: NeatTeam Software <neatteamsoftware@gmail.com>
+Date:   Sun Jan 19 21:00:42 2025 +0200
+
+    fixed constants , added bindings , and fixed elevavtor logic
+
+[33mcommit 0476b206e04a433088d198c42d5caa12407b7bec[m
+Author: NeatTeam Software <neatteamsoftware@gmail.com>
+Date:   Sun Jan 19 18:24:14 2025 +0200
+
+    RevampedLastCommit
+    
+    added all mech controls , created Algea Subsystem and commands ,
+    Added elevator commands and fixed some logic.
+    AND CHANGED ALL THE CONSTANTS
+
+[33mcommit 93859827eda588e8995af4e0bbbb320fd1136058[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/LEDs[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: LikoKiko <145937091+LikoKiko@users.noreply.github.com>
+Date:   Thu Jan 16 17:33:37 2025 +0200
+
+    fix some little problems with robotcontiner
+
+[33mcommit f44922b13e94b2ad58bd47381eefcdcb3e9fb753[m
+Author: LikoKiko <145937091+LikoKiko@users.noreply.github.com>
+Date:   Thu Jan 16 17:19:38 2025 +0200
+
+    Robot 2025 with ctre updates and twin stick rotation
+
+[33mcommit 199327876cd9cbfefffad8e1428dd35b18366b47[m
+Author: LikoKiko <145937091+LikoKiko@users.noreply.github.com>
+Date:   Thu Jan 16 17:19:20 2025 +0200
+
+    Robot 2025 with ctre updates and twin stick rotation
+
+[33mcommit 1154c33a9b1b99ed5c13fd76d422c42ab7b4398d[m
+Author: NeatTeam Software <neatteamsoftware@gmail.com>
+Date:   Wed Jan 15 11:32:56 2025 +0200
+
+    Adding constractor to algea class
+
+[33mcommit dff68ed6d1277cf25dbbca3070c4e03c0a65475b[m
+Author: NeatTeam Software <neatteamsoftware@gmail.com>
+Date:   Tue Jan 14 23:47:38 2025 +0200
+
+    Initial commit

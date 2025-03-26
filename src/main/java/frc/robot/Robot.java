@@ -7,10 +7,10 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.lib.math.Conversions;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,6 +28,12 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private static EventLoop m_eventLoop = new EventLoop();
+
+  public static EventLoop getEventLoop() {
+    return m_eventLoop;
+  }
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -42,8 +48,6 @@ public class Robot extends TimedRobot {
     Rotation2d angle = new Rotation2d(0);
     SwerveModuleState desiredState = new SwerveModuleState(2, angle);
 
-    System.out.println(Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
-        Constants.Swerve.wheelCircumference));
   }
 
   /**
@@ -66,16 +70,35 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
+    m_eventLoop.poll();
+
+    m_robotContainer.getHeading();
     CommandScheduler.getInstance().run();
+    SmartDashboard.putString("DB/String 9", m_robotContainer.GetEleavotr().encoderValue() + "");
+    SmartDashboard.putString("DB/String 8", m_robotContainer.GetEleavotr().getStallSpeed() + "");
+    SmartDashboard.putString("Gyro Yaw:", m_robotContainer.GetSwerve().getGyroYaw().getDegrees() + "");
+    m_robotContainer.getCoral().printState();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
+    m_robotContainer.NeatTeamLED();
   }
 
   @Override
   public void disabledPeriodic() {
+    switch (m_robotContainer.autoChooser.getSelected()) {
+      case "autoChooserTesting":
+
+        SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserTesting);
+        break;
+
+      default:
+      case "autoChooserGame":
+        SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserGame);
+        break;
+    }
   }
 
   /**
@@ -86,7 +109,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    m_robotContainer.resetGyro();
+    m_robotContainer.m_LedController.setToDefault();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -105,16 +128,17 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.m_LedController.setToDefault();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    System.out.println("max speed is: " + Constants.Swerve.maxSpeed);
+
+    SmartDashboard.putString("DB/String 7", m_robotContainer.GetALgea().GetEncoderValue() + "");
   }
 
   @Override
