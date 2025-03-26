@@ -3,6 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -30,7 +31,6 @@ import frc.robot.subsystems.LedController.BlinkinPattern;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
         private BooleanEvent m_magnetSwitchPressed;
         // private NoLimitSwitchElevatorMoveToLevelXCommand m_elevatorDefaultCommand;
 
@@ -277,4 +277,10 @@ public class RobotContainer {
         public Coral getCoral() {
                 return m_Coral;
         }
+      public void resetGyro() {
+        m_Swerve.gyro.reset();
+    }
+    public Rotation2d getGyroYaw() {
+        return m_Swerve.getGyroYaw();
+    }
 }

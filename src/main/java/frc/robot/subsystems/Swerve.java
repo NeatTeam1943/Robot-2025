@@ -41,8 +41,7 @@ public class Swerve extends SubsystemBase {
                 new SwerveModule(3, Constants.Swerve.Mod3.kConstants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(),
-                getModulePositions());
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
 
         AutoBuilder.configure(
                 this::getPose,
@@ -50,9 +49,10 @@ public class Swerve extends SubsystemBase {
                 this::getRobotRelativeSpeeds,
                 this::runPureVelocity,
                 new PPHolonomicDriveController(
-                        new PIDConstants(7, 0.0, 0.0), // Rotation - 0.53 (Not good) TODO: tune this to the robot
-                        new PIDConstants(0.9, 0.0, 0.0)), // Velocity - 4.55 (Not good) TODO: tune this to the robot
-                Constants.Swerve.kPPConfig,
+                        new PIDConstants(5.0, 0.0, 0.0),
+                        new PIDConstants(17, 0.0, 0.0)),
+                Constants.Swerve.ppConfig,
+
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this);
     }
