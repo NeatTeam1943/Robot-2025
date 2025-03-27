@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "CoralIntake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "ForwordMiddle"

@@ -12,13 +12,15 @@ public class Elevator extends SubsystemBase {
     private TalonFX m_MasterMotor;
     private TalonFX m_FollowerMotor;
     private DigitalInput m_BottomMagentSwitch;
+    private int m_Direction;
     // private int m_ElevatorLevel;
 
     // private DigitalInput m_MagnetSwitch;
-    // private DigitalInput m_TopLimitSwitch;
+    private DigitalInput m_TopLimitSwitch;
 
     public Elevator() {
 
+        m_Direction = 1;
         m_MasterMotor = new TalonFX(Constants.ElevatorConstants.kLeftMotorPort);
         m_FollowerMotor = new TalonFX(Constants.ElevatorConstants.kRightMotorPort);
         m_BottomMagentSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
@@ -26,13 +28,24 @@ public class Elevator extends SubsystemBase {
 
         // m_MagnetSwitch = new
         // DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
-        // m_TopLimitSwitch = new
-        // DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
+        m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
     }
 
     public double encoderValue() {
         return (Math.abs(m_MasterMotor.getRotorPosition().getValueAsDouble())
                 + Math.abs(m_FollowerMotor.getRotorPosition().getValueAsDouble()) / 2);
+    }
+
+    public int Direction() {
+        return m_Direction;
+    }
+
+    public void SwapDirection() {
+        m_Direction *= -1;
+    }
+
+    public boolean getLimitSwitch() {
+        return m_TopLimitSwitch.get();
     }
 
     public void resetEncoderValue() {
