@@ -4,47 +4,49 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Algea;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AlgeaMoveCommand extends Command {
-  /** Creates a new AlgeaInCommand. */
-  private Algea m_AlgeaIn;
-  private int m_Direction;
+public class AlgeaRoatorAxisEncoderCommand extends Command {
+  /** Creates a new AlgeaRoatorAxisEncoder. */
+  Algea m_AlgeaRotatorAxis;
+  int m_RequestedLevel;
 
-  public AlgeaMoveCommand(Algea algea, int Direction) {
-    m_AlgeaIn = algea;
-    m_Direction = Direction;
+  public AlgeaRoatorAxisEncoderCommand(Algea algeaRotatorAxis, int RequestedLevel) {
+    m_AlgeaRotatorAxis = algeaRotatorAxis;
+    m_RequestedLevel = RequestedLevel;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_AlgeaIn);
+    addRequirements(m_AlgeaRotatorAxis);
   }
+
+  int startingMoveDirection;
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_AlgeaIn.setAlgeaSpeed(0);
+    startingMoveDirection = m_AlgeaRotatorAxis.getMoveDirection(m_RequestedLevel);
+    m_AlgeaRotatorAxis.MoveAlgeaAxis(m_AlgeaRotatorAxis.GetStallSpeed());
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_AlgeaIn.setAlgeaSpeed(0.25 * m_Direction);
+    m_AlgeaRotatorAxis.MoveAlgeaAxis(
+        Constants.AlgeaConstans.kOpenSpeed * m_AlgeaRotatorAxis.getMoveDirection(m_RequestedLevel));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_AlgeaIn.setAlgeaSpeed(0);
+    m_AlgeaRotatorAxis.MoveAlgeaAxis(m_AlgeaRotatorAxis.GetStallSpeed());
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_Direction == -1) {
-      return !m_AlgeaIn.PhotoSwitchState();
-    } else {
-      return m_AlgeaIn.PhotoSwitchState();
-    }
+    return m_AlgeaRotatorAxis.getMoveDirection(m_RequestedLevel) != startingMoveDirection;
   }
 }

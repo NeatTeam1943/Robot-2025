@@ -4,8 +4,12 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.LedController.BlinkinPattern;
@@ -15,49 +19,97 @@ public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   /** Creates a new ElevatorMoveToLevelXCommand. */
   private Elevator m_Elevator;
   private int m_RequestedLevel;
-  private int startingMoveDirecrtion;
   private LedController m_LedController;
+  private PIDController m_pidController;
+  private double m_levelEncoderSetpoint;
+
+private final String dbString = "DB/String 4";
 
   public NoLimitSwitchElevatorMoveToLevelXCommand(Elevator elevator, int requestedLevel, LedController ledController) {
     m_Elevator = elevator;
     m_LedController = ledController;
     m_RequestedLevel = requestedLevel;
+    m_pidController = new PIDController(0.02, 1, 0);
+
+    m_levelEncoderSetpoint = m_Elevator.getEncValue(m_RequestedLevel);
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Elevator, m_LedController);
+  }
+
+  public NoLimitSwitchElevatorMoveToLevelXCommand(Elevator elevator, double encoderValue, LedController ledController) {
+    m_Elevator = elevator;
+    m_LedController = ledController;
+    m_RequestedLevel = 0;
+    m_pidController = new PIDController(0.02, 1, 2);
+
+    m_levelEncoderSetpoint = encoderValue;
+
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_Elevator, m_LedController);
+  }
+
+  private double calculateSpeed() {
+    return MathUtil.clamp(
+        m_pidController.calculate(m_Elevator.encoderValue()), ElevatorConstants.kElevatorDownSpeed,
+        ElevatorConstants.kElevatorMaxMoveSpeed) * m_Elevator.Direction();
   }
 
   @Override
   public void initialize() {
     m_LedController.setLedColor(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.moveElevator(m_Elevator.getStallSpeed());
-    startingMoveDirecrtion = m_Elevator.getMoveDirection(m_RequestedLevel);
+    // m_Elevator.moveElevator(m_Elevator.getStallSpeed());
+    // startingMoveDirecrtion = m_Elevator.getMoveDirection(m_RequestedLevel);
+
+    m_pidController.reset();
+    m_pidController.setTolerance(2);
+
+    m_pidController.setIntegratorRange(-0.02, 0.02);
+    m_pidController.setIZone(m_levelEncoderSetpoint);
+
+    m_pidController.setSetpoint(m_levelEncoderSetpoint);
+
+    SmartDashboard.putString(dbString, "init level " + m_RequestedLevel);
+
+    // m_Elevator.moveElevator(calculateSpeed());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int Direction = m_Elevator.getMoveDirection(m_RequestedLevel);
-    if (Direction != 0) {
-      m_Elevator.moveElevator(-(Constants.ElevatorConstants.kElevatorMoveSpeed * Direction));
-    } else {
-      m_Elevator.moveElevator(m_Elevator.getStallSpeed());
-    }
+    SmartDashboard.putString("DB/String 0", calculateSpeed() + "");
+    m_Elevator.moveElevator(calculateSpeed());
+
+    SmartDashboard.putString(dbString, "moving to level " + m_RequestedLevel);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (m_Elevator.magnetSwitchState()) {
-      m_Elevator.resetEncoderValue();
+    
+    if (!interrupted && !m_Elevator.getLimitSwitch()) {
+      m_LedController.setLedColor(BlinkinPattern.HotPink);
+
     }
-    m_Elevator.moveElevator(m_Elevator.getStallSpeed());
-    m_LedController.setLedColor(BlinkinPattern.HotPink);
+    if (m_Elevator.ElevatorBottomMagnetSwitchState()) {
+      m_Elevator.resetEncoderValue();
+      m_LedController.setLedColor(BlinkinPattern.Green);
+    } 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    new StopElevetor(m_LedController);
-    return m_Elevator.getMoveDirection(m_RequestedLevel) != startingMoveDirecrtion;
+    // new StopElevetor(m_LedController);
+    return m_pidController.atSetpoint()  || m_Elevator.ElevatorBottomMagnetSwitchState();
+    // return m_Elevator.getMoveDirection(m_RequestedLevel) !=
+    // startingMoveDirecrtion;
+    // return false;
+  }
+
+  public void setLevel(int level) {
+    m_RequestedLevel = level;
+    m_levelEncoderSetpoint = m_Elevator.getEncValue(m_RequestedLevel);
   }
 }

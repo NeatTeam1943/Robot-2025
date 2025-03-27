@@ -41,12 +41,12 @@ public class ResetTroughBoreCommand extends Command {
     m_Elevator.resetEncoderValue();
     m_Leds.setLedColor(BlinkinPattern.Violet);
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
-    m_Leds.DefualtColor();
+    m_Leds.setToDefault();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.elevatorBottomLimitState();
+    return m_Elevator.ElevatorBottomMagnetSwitchState();
   }
 }

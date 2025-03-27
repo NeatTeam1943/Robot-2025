@@ -18,11 +18,6 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double kStickDeadband = 0.1;
 
-    public final class OperatorConstants {
-        public static final int kDriverControllerPort = 0;
-        public static final int kMechanisemControllerPort = 1;
-    }
-
     public static final class Swerve {
         public static final int kPigeonID = 1;
         public static final DCMotor kDriveGearbox = DCMotor.getFalcon500(1);
@@ -68,22 +63,22 @@ public final class Constants {
         public static final SensorDirectionValue kCancoderInvert = kChosenModule.cancoderInvert;
 
         // PathPlanner configuration
-        public static final double kRobotMassKg = 40;
-        public static final double kRobotMOI = 1 / 12.0 * kRobotMassKg * (2 * kTrackWidth * kTrackWidth);
+        public static final double kRobotMassKg = 45;
+        public static final double kRobotMOI = 1 / 12.0 * kRobotMassKg * (2 * 0.69 * 0.69);
         public static final double kWheelCOF = 1.2;
         public static final double kDriveMotorReduction = 5.96;
-        public static final int kDriveMotorCurrentLimit = 50;
+        public static final int kDriveMotorCurrentLimit = 24;
         public static final double kWheelRadiusMeters = Units.inchesToMeters(0.787402);
 
         public static final RobotConfig kPPConfig = new RobotConfig(
                 kRobotMassKg,
                 kRobotMOI,
                 new ModuleConfig(
-                        0.02,
-                        10,
+                        kWheelRadiusMeters,
+                        4.5,
                         kWheelCOF,
                         kDriveGearbox.withReduction(kDriveMotorReduction),
-                        100,
+                        kDriveMotorCurrentLimit,
                         1),
                 kModuleTranslations);
 
@@ -121,6 +116,7 @@ public final class Constants {
         public static final double kDriveKS = 0.32; // TODO: This must be tuned to specific robot
         public static final double kDriveKV = 1.51;
         public static final double kDriveKA = 0.27;
+
         // Angle Motor Stator Current Limiting
         public static final boolean kAngleEnableStatorCurrentLimit = true; // Enable or disable stator current limiting
         public static final double kAngleStatorCurrentLimit = 40.0; // Stator current limit in Amperes
@@ -130,20 +126,20 @@ public final class Constants {
 
         // Drive Motor Stator Current Limiting
         public static final boolean kDriveEnableStatorCurrentLimit = true; // Enable or disable stator current limiting
-        public static final double kDriveStatorCurrentLimit = 50.0; // Stator current limit in Amperes
+        public static final double kDriveStatorCurrentLimit = 24.0; // Stator current limit in Amperes
         public static final double kDriveStatorCurrentThreshold = 55.0; // Threshold current in Amperes to trigger
                                                                         // limiting
         public static final double kDriveStatorCurrentThresholdTime = 0.1; // Time in seconds before limiting is applied
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static double kMaxSpeed = 7;
+        public static double kMaxSpeed = 4.5;
         /** Radians per Second */
-        public static final double kMaxAngularVelocity = 10.0;
+        public static final double kMaxAngularVelocity = 6.283;
 
         /* Neutral Modes */
-        public static final NeutralModeValue kAngleNeutralMode = NeutralModeValue.Coast;
-        public static final NeutralModeValue kDriveNeutralMode = NeutralModeValue.Brake;
+        public static final NeutralModeValue kAngleNeutralMode = NeutralModeValue.Brake;
+        public static final NeutralModeValue kDriveNeutralMode = NeutralModeValue.Coast;
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
@@ -151,7 +147,7 @@ public final class Constants {
             public static final int kAngleMotorID = 11;
             public static final int kDriveMotorID = 12;
             public static final int kCanCoderID = 13;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(232);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(52);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -162,7 +158,7 @@ public final class Constants {
             public static final int kAngleMotorID = 41;
             public static final int kDriveMotorID = 42;
             public static final int kCanCoderID = 43;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(115.5);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(-64.5);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -173,7 +169,7 @@ public final class Constants {
             public static final int kAngleMotorID = 21;
             public static final int kDriveMotorID = 22;
             public static final int kCanCoderID = 23;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(286);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(96);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -184,7 +180,7 @@ public final class Constants {
             public static final int kAngleMotorID = 31;
             public static final int kDriveMotorID = 32;
             public static final int kCanCoderID = 33;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(355.5);
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(175.5);
             public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
                     kAngleMotorID,
                     kCanCoderID, kAngleOffset);
@@ -209,16 +205,10 @@ public final class Constants {
     public static final class CoralConstants {
 
         public static final int kPhotoSwitchPort = 9;
+        public static final int kIntakePhotoSwitchPort = 8;
         public static final int kMotorPort = 9;
         public static final double kCoralOutSpeed = 0.2;
         public static final double kCoralInSpeed = 0.15;
-
-    }
-
-    public static final class AlgeaConstants {
-
-        public static final int kMotorPort = 55;
-        public static final int kPhotoSwitchPort = 6;
 
     }
 
@@ -230,32 +220,40 @@ public final class Constants {
 
     public static final class ElevatorConstants {
 
-        public static final int kMagnetSwitchPort = 0;
+        public static final int kMagnetSwitchPort = 2;
         public static final int kRightMotorPort = 55;
         public static final int kLeftMotorPort = 54;
-        public static final double kElevatorMoveSpeed = 2;
-        public static final double kElevatorDownSpeed = 0.7;
-        public static final double kStallSpeed = 0.055;
-        public static final int kEncoderPortA = 4; // A = Blue PWM
-        public static final int kEncoderPortB = 5; // B = Yellow PWM
-        public static final int kBottomLimitSwitchPort = 8;
-        public static final int kTopLimitSwitchPort = 7;
+        public static final double kElevatorMoveSpeed = 0.1;
+        public static final double kElevatorMaxMoveSpeed = 0.5;
+        public static final double kElevatorDownSpeed = -0.3;
+        public static final double kStallSpeed = 0.01;
+        public static final int kEncoderPortA = 4; // A - Blue PWM
+        public static final int kEncoderPortB = 5; // B - Yellow PWM
+        public static final int kBottomLimitSwitchPort = 1;
+        public static final int kTopLimitSwitchPort = 5;
         public static final double kClosedEncoderValue = 0;
-        public static final double kL1EncoderValue = 1200;
-        public static final double kL2EncoderValue = 2625;
-        public static final double kL3EncoderValue = 4800;
-        public static final double kL4EncoderValue = 8100; // TODO: not the real height
+        public static final double kL1EncoderValue = 31;
+        public static final double kL2EncoderValue = 23;
+        public static final double kL3EncoderValue = 45;
         public static final double kEncoderValueTreshHold = 2;
         public static final double kTroughBoreRatio = 6 / 2;
     }
 
-    public static final class AlgeaRotatorAxisConstants {
+    public static final class AlgeaConstans {
 
-        public static final int kMotorPort = 5;
-        public static final double kEncoderValueTreshHold = 0.05;
+        public static final int kMotorPort = 50;
+        public static final double kClosedStallSpeed = 0.1;
+        public static final double kLowerStallSpeed = 0.1;
+        public static final double kUpperstallSpeed = 0.3;
+        public static final double kEncoderValueTreshHold = 5;
         public static final double kFullExtendEncoderValue = 0.25;
+        public static final double kClosedEncoderValue = 0;
+        public static final double kLowerAlgaeEncoderValue = 1000;
+        public static final double kUpperALgeaEncoderValue = 2500;
         public static final double kFullyOpenEncoderValue = 0.5;
         public static final double kEncoderValueLimit = 0.55;
+        public static final double kAlgeaEncValue = 35;
+        public static final double kOpenSpeed = 0.05;
 
     }
 
@@ -269,7 +267,7 @@ public final class Constants {
 
     public static final class ClimberConstants {
         public static final int kMotorPort = 8;
-        public static final int kLimitSwitchPort = 2;
+        public static final int kLimitSwitchPort = 0;
         public static final double kClimberUpSpeed = 0.1;
         public static final double kClimberDownSpeed = -0.3;
         public static final double kClimberStallSpeed = -0.05; // TODO: this needs to be tune via pid at a later date

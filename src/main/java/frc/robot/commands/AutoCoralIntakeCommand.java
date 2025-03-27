@@ -4,25 +4,32 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants;
+import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.LedController.BlinkinPattern;
-import frc.robot.Constants;
-
-import frc.robot.subsystems.Coral;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CoralCommand extends Command {
+public class AutoCoralIntakeCommand extends Command {
+
   /** Creates a new CoralOutTakeCommand. */
   private Coral m_coral;
-  private double m_speed;
   private LedController m_LedController;
+  private CommandXboxController m_Controller1;
+  private CommandXboxController m_Controller2;
+  private boolean m_isThereACoral;
 
-  public CoralCommand(Coral coral, LedController ledController) {
+  public AutoCoralIntakeCommand(Coral coral, LedController ledController, CommandXboxController controller1, CommandXboxController controller2) {
     m_LedController = ledController;
     m_coral = coral;
-    addRequirements(m_coral, m_LedController);
+    m_Controller1 = controller1;
+    m_Controller2 = controller2;
+
+    addRequirements(m_coral);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,15 +37,18 @@ public class CoralCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_isThereACoral = m_coral.IntakePhotoSwitchMode() && !m_coral.PhotoSwitchMode();
     m_coral.moveCoral(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Coral Going Out");
-    SmartDashboard.putString("DB/String 6", String.valueOf(m_speed));
-    m_coral.moveCoral(Constants.CoralConstants.kCoralOutSpeed);
+    if (m_coral.IntakePhotoSwitchMode() && !m_coral.PhotoSwitchMode()) {
+      m_coral.moveCoral(Constants.CoralConstants.kCoralInSpeed);
+    } else {
+      m_coral.moveCoral(0);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -46,14 +56,19 @@ public class CoralCommand extends Command {
   public void end(boolean interrupted) {
     m_coral.moveCoral(0);
     if (!interrupted) {
-      m_LedController.setToDefault();
-    } 
-    
+      if (m_isThereACoral) {
+        m_LedController.setLedColor(BlinkinPattern.White);
+      }
+    }
+    m_Controller1.setRumble(RumbleType.kBothRumble, 0);
+    m_Controller2.setRumble(RumbleType.kBothRumble, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !m_coral.PhotoSwitchMode();
+    m_Controller1.setRumble(RumbleType.kBothRumble, 1);
+    m_Controller2.setRumble(RumbleType.kBothRumble, 1);
+    return m_coral.PhotoSwitchMode() || !m_coral.IntakePhotoSwitchMode();
   }
 }

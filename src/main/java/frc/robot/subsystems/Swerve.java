@@ -41,8 +41,7 @@ public class Swerve extends SubsystemBase {
                 new SwerveModule(3, Constants.Swerve.Mod3.kConstants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(),
-                getModulePositions());
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(), getModulePositions());
 
         AutoBuilder.configure(
                 this::getPose,
@@ -51,8 +50,9 @@ public class Swerve extends SubsystemBase {
                 this::runPureVelocity,
                 new PPHolonomicDriveController(
                         new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(5.0, 0.0, 0.0)),
+                        new PIDConstants(17, 0.0, 0.0)),
                 Constants.Swerve.kPPConfig,
+
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                 this);
     }
@@ -73,7 +73,8 @@ public class Swerve extends SubsystemBase {
         for (SwerveModule mod : m_SwerveMods) {
             if (mod == m_SwerveMods[0]) {
                 mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
-                mod.driveVelocity.Velocity /= 0.9;
+                double cahnge = 1;// SmartDashboard.getNumber("DB/Slider 0", 0.9);
+                mod.driveVelocity.Velocity /= cahnge;
             } else {
                 mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
             }

@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.LedController;
@@ -13,15 +14,14 @@ public class ReInsert extends Command {
 
   private Coral m_Coral;
   private LedController m_Led;
-  private boolean cycled;
-
+  
   public ReInsert(Coral coral, LedController led) {
     m_Coral = coral;
     m_Led = led;
     addRequirements(m_Coral, m_Led);
-    cycled = false;
   }
-
+  
+  private boolean cycled;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -32,13 +32,12 @@ public class ReInsert extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!cycled && m_Coral.PhotoSwitchMode()) {
-      m_Coral.moveCoral(-0.2);
-    } else {
-      m_Coral.moveCoral(0.2);
+    if(!m_Coral.PhotoSwitchMode()){
       cycled = true;
     }
-  }
+    m_Coral.moveCoral(!cycled ? -0.2 : frc.robot.Constants.CoralConstants.kCoralInSpeed);
+    }
+  
 
   // Called once the command ends or is interrupted.
   @Override
@@ -49,6 +48,6 @@ public class ReInsert extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return cycled;
+    return cycled && m_Coral.PhotoSwitchMode();
   }
 }
