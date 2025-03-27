@@ -74,18 +74,18 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.getHeading();
     CommandScheduler.getInstance().run();
-    SmartDashboard.putString("DB/String 9", m_robotContainer.GetEleavotr().encoderValue() + "");
-    SmartDashboard.putString("Elevator Ecoder:", m_robotContainer.GetEleavotr().encoderValue() + "");
+    SmartDashboard.putString("DB/String 9", m_robotContainer.getElevator().encoderValue() + "");
+    SmartDashboard.putString("Elevator Ecoder:", m_robotContainer.getElevator().encoderValue() + "");
     SmartDashboard.putString("Elevator magent:", m_robotContainer.getElevator().ElevatorBottomMagnetSwitchState() + "");
-    SmartDashboard.putString("DB/String 8", m_robotContainer.GetEleavotr().getStallSpeed() + "");
-    SmartDashboard.putString("Gyro Yaw:", m_robotContainer.GetSwerve().getGyroYaw().getDegrees() + "");
+    SmartDashboard.putString("DB/String 8", m_robotContainer.getElevator().getStallSpeed() + "");
+    SmartDashboard.putString("Gyro Yaw:", m_robotContainer.getSwerve().getGyroYaw().getDegrees() + "");
     m_robotContainer.getCoral().printState();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    m_robotContainer.NeatTeamLED();
+    m_robotContainer.neatTeamLED();
   }
 
   @Override
@@ -110,6 +110,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    System.out.println("Gyro's Yaw: " + m_robotContainer.getGyroYaw());
 
     m_robotContainer.m_LedController.setToDefault();
     // schedule the autonomous command (example)
@@ -130,6 +131,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.resetGyro();
     m_robotContainer.m_LedController.setToDefault();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -140,7 +142,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    SmartDashboard.putString("DB/String 7", m_robotContainer.GetALgea().GetEncoderValue() + "");
+    SmartDashboard.putString("DB/String 7", m_robotContainer.getALgea().GetEncoderValue() + "");
   }
 
   @Override
