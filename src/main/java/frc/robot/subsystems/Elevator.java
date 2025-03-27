@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ElevatorConstant;
 
 public class Elevator extends SubsystemBase {
     private TalonFX m_MasterMotor;
@@ -21,14 +22,14 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
 
         m_Direction = 1;
-        m_MasterMotor = new TalonFX(Constants.ElevatorConstants.kLeftMotorPort);
-        m_FollowerMotor = new TalonFX(Constants.ElevatorConstants.kRightMotorPort);
-        m_BottomMagentSwitch = new DigitalInput(Constants.ElevatorConstants.kBottomLimitSwitchPort);
+        m_MasterMotor = new TalonFX(ElevatorConstant.kLeftMotorPort);
+        m_FollowerMotor = new TalonFX(ElevatorConstant.kRightMotorPort);
+        m_BottomMagentSwitch = new DigitalInput(ElevatorConstant.kBottomLimitSwitchPort);
         m_FollowerMotor.setControl(new Follower(m_MasterMotor.getDeviceID(), true));
 
         // m_MagnetSwitch = new
-        // DigitalInput(Constants.ElevatorConstants.kMagnetSwitchPort);
-        m_TopLimitSwitch = new DigitalInput(Constants.ElevatorConstants.kTopLimitSwitchPort);
+        // DigitalInput(ElevatorConstants.kMagnetSwitchPort);
+        m_TopLimitSwitch = new DigitalInput(ElevatorConstant.kTopLimitSwitchPort);
     }
 
     public double encoderValue() {
@@ -85,15 +86,15 @@ public class Elevator extends SubsystemBase {
                 return 0;
             case 1:
                 // return SmartDashboard.getNumber("DB/Slider 0", 0) * 100;
-                return Constants.ElevatorConstants.kL1EncoderValue;
+                return Constants.ElevatorConstant.kL1EncoderValue;
 
             case 2:
                 // return SmartDashboard.getNumber("DB/Slider 1", 0) * 100;
-                return Constants.ElevatorConstants.kL2EncoderValue;
+                return Constants.ElevatorConstant.kL2EncoderValue;
 
             case 3:
                 // return SmartDashboard.getNumber("DB/Slider 2", 0) * 100;
-                return Constants.ElevatorConstants.kL3EncoderValue;
+                return Constants.ElevatorConstant.kL3EncoderValue;
 
             case 4:
                 // return SmartDashboard.getNumber("DB/Slider 3", 0) * 100;

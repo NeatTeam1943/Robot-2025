@@ -72,33 +72,33 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     m_eventLoop.poll();
 
-    m_robotContainer.getHeading();
     CommandScheduler.getInstance().run();
     SmartDashboard.putString("DB/String 9", m_robotContainer.getElevator().encoderValue() + "");
     SmartDashboard.putString("Elevator Ecoder:", m_robotContainer.getElevator().encoderValue() + "");
     SmartDashboard.putString("Elevator magent:", m_robotContainer.getElevator().ElevatorBottomMagnetSwitchState() + "");
     SmartDashboard.putString("DB/String 8", m_robotContainer.getElevator().getStallSpeed() + "");
     SmartDashboard.putString("Gyro Yaw:", m_robotContainer.getSwerve().getGyroYaw().getDegrees() + "");
-    m_robotContainer.getCoral().printState();
+    m_robotContainer.getCoral().getState();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    m_robotContainer.neatTeamLED();
+    m_robotContainer.setToNeatTeamLED();
   }
 
   @Override
   public void disabledPeriodic() {
-    switch (m_robotContainer.autoChooser.getSelected()) {
+    // Don't remove this section this is how you chouse an auto for PP
+    switch (m_robotContainer.m_AutoChooser.getSelected()) {
       case "autoChooserTesting":
 
-        SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserTesting);
+        SmartDashboard.putData("Auto Chooser1", m_robotContainer.m_AutoChooserTesting);
         break;
 
       default:
       case "autoChooserGame":
-        SmartDashboard.putData("Auto Chooser1", m_robotContainer.autoChooserGame);
+        SmartDashboard.putData("Auto Chooser1", m_robotContainer.m_AutoChooserGame);
         break;
     }
   }
@@ -112,7 +112,7 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     System.out.println("Gyro's Yaw: " + m_robotContainer.getGyroYaw());
 
-    m_robotContainer.m_LedController.setToDefault();
+    m_robotContainer.m_LedController.setToDefaultColor();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    System.out.println("Gyro's Yaw" + m_robotContainer.getGyroYaw());
+    m_robotContainer.getSwerve().getVelocityAll();
   }
 
   @Override
@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     m_robotContainer.resetGyro();
-    m_robotContainer.m_LedController.setToDefault();
+    m_robotContainer.m_LedController.setToDefaultColor();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

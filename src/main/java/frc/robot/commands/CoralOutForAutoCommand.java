@@ -12,6 +12,7 @@ import frc.robot.subsystems.Coral;
 public class CoralOutForAutoCommand extends Command {
   /** Creates a new CoralOutForAutoCommand. */
   Coral m_coral;
+
   public CoralOutForAutoCommand(Coral coral) {
     m_coral = coral;
     addRequirements(m_coral);

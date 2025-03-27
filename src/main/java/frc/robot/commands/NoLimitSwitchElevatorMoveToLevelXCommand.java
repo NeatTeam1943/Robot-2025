@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ElevatorConstant;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.LedController;
 import frc.robot.subsystems.LedController.BlinkinPattern;
@@ -23,7 +23,7 @@ public class NoLimitSwitchElevatorMoveToLevelXCommand extends Command {
   private PIDController m_pidController;
   private double m_levelEncoderSetpoint;
 
-private final String dbString = "DB/String 4";
+  private final String dbString = "DB/String 4";
 
   public NoLimitSwitchElevatorMoveToLevelXCommand(Elevator elevator, int requestedLevel, LedController ledController) {
     m_Elevator = elevator;
@@ -51,8 +51,8 @@ private final String dbString = "DB/String 4";
 
   private double calculateSpeed() {
     return MathUtil.clamp(
-        m_pidController.calculate(m_Elevator.encoderValue()), ElevatorConstants.kElevatorDownSpeed,
-        ElevatorConstants.kElevatorMaxMoveSpeed) * m_Elevator.Direction();
+        m_pidController.calculate(m_Elevator.encoderValue()), ElevatorConstant.kElevatorDownSpeed,
+        ElevatorConstant.kElevatorMaxMoveSpeed) * m_Elevator.Direction();
   }
 
   @Override
@@ -87,7 +87,7 @@ private final String dbString = "DB/String 4";
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+
     if (!interrupted && !m_Elevator.getLimitSwitch()) {
       m_LedController.setLedColor(BlinkinPattern.HotPink);
 
@@ -95,14 +95,14 @@ private final String dbString = "DB/String 4";
     if (m_Elevator.ElevatorBottomMagnetSwitchState()) {
       m_Elevator.resetEncoderValue();
       m_LedController.setLedColor(BlinkinPattern.Green);
-    } 
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     // new StopElevetor(m_LedController);
-    return m_pidController.atSetpoint()  || m_Elevator.ElevatorBottomMagnetSwitchState();
+    return m_pidController.atSetpoint() || m_Elevator.ElevatorBottomMagnetSwitchState();
     // return m_Elevator.getMoveDirection(m_RequestedLevel) !=
     // startingMoveDirecrtion;
     // return false;

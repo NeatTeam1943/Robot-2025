@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
-import frc.robot.Constants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -41,7 +39,8 @@ public class Swerve extends SubsystemBase {
                 new SwerveModule(3, Constants.Swerve.Mod3.kConstants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(), getModulePositions());
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.kSwerveKinematics, getGyroYaw(),
+                getModulePositions());
 
         AutoBuilder.configure(
                 this::getPose,
@@ -147,6 +146,19 @@ public class Swerve extends SubsystemBase {
     public void resetModulesToAbsolute() {
         for (SwerveModule mod : m_SwerveMods) {
             mod.resetToAbsolute();
+        }
+    }
+
+    // Prints the current Velocity of one of the chosen modules
+    public double getVelocityPerModule(int module) {
+        SwerveModule mod = m_SwerveMods[module];
+        return mod.getState().speedMetersPerSecond;
+    }
+
+    // Prints the current Velocity of all the modules
+    public void getVelocityAll() {
+        for (SwerveModule mod : m_SwerveMods) {
+            System.out.println("Mod " + mod.moduleNumber + " Velocity: " + mod.getState().speedMetersPerSecond);
         }
     }
 

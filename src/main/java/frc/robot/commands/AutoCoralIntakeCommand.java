@@ -23,7 +23,8 @@ public class AutoCoralIntakeCommand extends Command {
   private CommandXboxController m_Controller2;
   private boolean m_isThereACoral;
 
-  public AutoCoralIntakeCommand(Coral coral, LedController ledController, CommandXboxController controller1, CommandXboxController controller2) {
+  public AutoCoralIntakeCommand(Coral coral, LedController ledController, CommandXboxController controller1,
+      CommandXboxController controller2) {
     m_LedController = ledController;
     m_coral = coral;
     m_Controller1 = controller1;

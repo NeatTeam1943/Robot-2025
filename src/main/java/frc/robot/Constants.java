@@ -18,6 +18,11 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double kStickDeadband = 0.1;
 
+    public static final class ControllerPorts {
+        public static final int kMechControllerPort = 0;
+        public static final int kDriverControllerPort = 1;
+    }
+
     public static final class Swerve {
         public static final int kPigeonID = 1;
         public static final DCMotor kDriveGearbox = DCMotor.getFalcon500(1);
@@ -62,7 +67,7 @@ public final class Constants {
         /* Angle Encoder Invert */
         public static final SensorDirectionValue kCancoderInvert = kChosenModule.cancoderInvert;
 
-        // PathPlanner configuration
+        /* PathPlanner configuration */
         public static final double kRobotMassKg = 45;
         public static final double kRobotMOI = 1 / 12.0 * kRobotMassKg * (2 * 0.69 * 0.69);
         public static final double kWheelCOF = 1.2;
@@ -71,14 +76,14 @@ public final class Constants {
         public static final double kWheelRadiusMeters = Units.inchesToMeters(0.787402);
 
         /* Meters a second! */
-        public static final double kMaxAutoSpeed = 5;
+        public static final double kMaxAutoVelocity = 5; // TODO: Needed to be tuned in the app like here
 
         public static final RobotConfig kPPConfig = new RobotConfig(
                 kRobotMassKg,
                 kRobotMOI,
                 new ModuleConfig(
                         kWheelRadiusMeters,
-                        4.5,
+                        kMaxAutoVelocity,
                         kWheelCOF,
                         kDriveGearbox.withReduction(kDriveMotorReduction),
                         kDriveMotorCurrentLimit,
@@ -222,7 +227,7 @@ public final class Constants {
         public static final boolean kSupplyCurrentLimitEnable = true;
     }
 
-    public static final class ElevatorConstants {
+    public static final class ElevatorConstant {
 
         public static final int kMagnetSwitchPort = 2;
         public static final int kRightMotorPort = 55;

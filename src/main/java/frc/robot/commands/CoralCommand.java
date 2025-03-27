@@ -46,9 +46,9 @@ public class CoralCommand extends Command {
   public void end(boolean interrupted) {
     m_coral.moveCoral(0);
     if (!interrupted) {
-      m_LedController.setToDefault();
-    } 
-    
+      m_LedController.setToDefaultColor();
+    }
+
   }
 
   // Returns true when the command should end.

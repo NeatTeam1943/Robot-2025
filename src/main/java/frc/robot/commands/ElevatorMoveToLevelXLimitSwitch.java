@@ -34,7 +34,7 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
   @Override
   public void initialize() {
     m_LedController.setLedColor(BlinkinPattern.RanbowRainbowPalette);
-    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
+    m_Elevator.moveElevator(Constants.ElevatorConstant.kStallSpeed);
     // m_StartingBottomLimitSwithState = m_Elevator.elevatorBottomLimitState();
     // m_StaringTopLimitSwitchState = m_Elevator.elevatorTopLimitState();
     // m_LastMagnetSwitchState = m_Elevator.magnetSwitchState();
@@ -46,14 +46,15 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
   @Override
   public void execute() {
     // if (m_LevelsToMove != 0) {
-    //   m_Elevator
-    //       .moveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) * Constants.ElevatorConstants.kElevatorMoveSpeed);
-    //   if (m_Elevator.magnetSwitchState() && !m_LastMagnetSwitchState) {
-    //     m_LevelsToMove += -1 * (m_LevelsToMove / Math.abs(m_LevelsToMove));
-    //     m_LastMagnetSwitchState = true;
-    //   } else if (!m_Elevator.magnetSwitchState()) {
-    //     m_LastMagnetSwitchState = false;
-    //   }
+    // m_Elevator
+    // .moveElevator(m_LevelsToMove / Math.abs(m_LevelsToMove) *
+    // Constants.ElevatorConstants.kElevatorMoveSpeed);
+    // if (m_Elevator.magnetSwitchState() && !m_LastMagnetSwitchState) {
+    // m_LevelsToMove += -1 * (m_LevelsToMove / Math.abs(m_LevelsToMove));
+    // m_LastMagnetSwitchState = true;
+    // } else if (!m_Elevator.magnetSwitchState()) {
+    // m_LastMagnetSwitchState = false;
+    // }
 
     // } else
   }
@@ -62,7 +63,7 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
   @Override
   public void end(boolean interrupted) {
     // System.out.println("end, interpted: " + interrupted);
-    m_Elevator.moveElevator(Constants.ElevatorConstants.kStallSpeed);
+    m_Elevator.moveElevator(Constants.ElevatorConstant.kStallSpeed);
     if (!interrupted) {
       if (m_LevelsToMove == 0) {
         // m_Elevator.elevatorLevelSetter(m_RequestedLevel);
@@ -76,12 +77,12 @@ public class ElevatorMoveToLevelXLimitSwitch extends Command {
   public boolean isFinished() {
 
     // if (m_StartingBottomLimitSwithState) {
-  //     return m_LevelsToMove == 0 || m_Elevator.elevatorTopLimitState();
-  //   } else if (m_StaringTopLimitSwitchState) {
-  //     return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState();
-  //   } else
-  //     return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState()
-  //         || m_Elevator.elevatorTopLimitState();
-  return false;
+    // return m_LevelsToMove == 0 || m_Elevator.elevatorTopLimitState();
+    // } else if (m_StaringTopLimitSwitchState) {
+    // return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState();
+    // } else
+    // return m_LevelsToMove == 0 || m_Elevator.elevatorBottomLimitState()
+    // || m_Elevator.elevatorTopLimitState();
+    return false;
   }
 }

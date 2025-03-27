@@ -32,7 +32,7 @@ public class ResetTroughBoreCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Elevator.moveElevator(Constants.ElevatorConstants.kElevatorDownSpeed);
+    m_Elevator.moveElevator(Constants.ElevatorConstant.kElevatorDownSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -41,7 +41,7 @@ public class ResetTroughBoreCommand extends Command {
     m_Elevator.resetEncoderValue();
     m_Leds.setLedColor(BlinkinPattern.Violet);
     m_Elevator.moveElevator(m_Elevator.getStallSpeed());
-    m_Leds.setToDefault();
+    m_Leds.setToDefaultColor();
   }
 
   // Returns true when the command should end.

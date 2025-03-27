@@ -57,74 +57,77 @@ public class RobotContainer {
     }
 
     /* Path Planner */
-    public SendableChooser<String> autoChooser;
-    public SendableChooser<PathPlannerAuto> autoChooserGame;
-    public SendableChooser<PathPlannerAuto> autoChooserTesting;
+    public SendableChooser<String> m_AutoChooser;
+    public SendableChooser<PathPlannerAuto> m_AutoChooserGame;
+    public SendableChooser<PathPlannerAuto> m_AutoChooserTesting;
 
+    // Chosses an auto for Path Planner
     private void autoSelector() {
-        autoChooser = new SendableChooser<String>();
-        autoChooserGame = new SendableChooser<PathPlannerAuto>();
-        autoChooserTesting = new SendableChooser<PathPlannerAuto>();
+        m_AutoChooser = new SendableChooser<String>();
+        m_AutoChooserGame = new SendableChooser<PathPlannerAuto>();
+        m_AutoChooserTesting = new SendableChooser<PathPlannerAuto>();
 
-        autoChooserTesting.setDefaultOption("None", new PathPlannerAuto("None"));
+        m_AutoChooserTesting.setDefaultOption("None", new PathPlannerAuto("None"));
 
-        // Test Autos
-        autoChooserTesting.addOption("Forward Middle", new PathPlannerAuto("ForwardMiddle"));
-        autoChooserTesting.addOption("Forward Bottom", new PathPlannerAuto("BottomForword"));
-        autoChooserTesting.addOption("Rotation", new PathPlannerAuto("Rot"));
-        autoChooserTesting.addOption("Rotation and then forword", new PathPlannerAuto("RotThenForword"));
-        autoChooserTesting.addOption("Forword with Rotation", new PathPlannerAuto("ForwordWithRot"));
-        autoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
-        autoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
-        autoChooserTesting.addOption("Test Auto", new PathPlannerAuto("TestAuto"));
-        autoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
-        autoChooserTesting.addOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
+        /* Test Autos */
+
+        m_AutoChooserTesting.addOption("Forward Middle", new PathPlannerAuto("ForwardMiddle"));
+        m_AutoChooserTesting.addOption("Forward Bottom", new PathPlannerAuto("BottomForword"));
+        m_AutoChooserTesting.addOption("Rotation", new PathPlannerAuto("Rot"));
+        m_AutoChooserTesting.addOption("Rotation and then forword", new PathPlannerAuto("RotThenForword"));
+        m_AutoChooserTesting.addOption("Forword with Rotation", new PathPlannerAuto("ForwordWithRot"));
+        m_AutoChooserTesting.addOption("Move in a circle", new PathPlannerAuto("Circle"));
+        m_AutoChooserTesting.addOption("Doing an S", new PathPlannerAuto("S"));
+        m_AutoChooserTesting.addOption("Test Auto", new PathPlannerAuto("TestAuto"));
+        m_AutoChooserTesting.addOption("To the Riff with S", new PathPlannerAuto("Check"));
+        m_AutoChooserTesting.addOption("Checking OffSet (Be readdy! HellHole)", new PathPlannerAuto("OffSet"));
+
+        /* Game Autos */
 
         // Upper Autos
-        autoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
-        autoChooserGame.addOption("MaxL1Up", new PathPlannerAuto("MaxL1Up"));
-        autoChooserGame.addOption("OneCoralUp", new PathPlannerAuto("OneCoralUp"));
-        autoChooserGame.addOption("BestCoralUp", new PathPlannerAuto("BestCoralUp"));
+        m_AutoChooserGame.setDefaultOption("RunAwayUp", new PathPlannerAuto("RunAwayUp"));
+        m_AutoChooserGame.addOption("MaxL1Up", new PathPlannerAuto("MaxL1Up"));
+        m_AutoChooserGame.addOption("OneCoralUp", new PathPlannerAuto("OneCoralUp"));
+        m_AutoChooserGame.addOption("BestCoralUp", new PathPlannerAuto("BestCoralUp"));
 
         // Down Autos
-        autoChooserGame.addOption("RunAwayDown", new PathPlannerAuto("RunAwayDown"));
-        autoChooserGame.addOption("MaxL1Down", new PathPlannerAuto("MaxL1Down"));
-        autoChooserGame.addOption("OneCoralDown", new PathPlannerAuto("OneCoralDown"));
-        autoChooserGame.addOption("BestCoralDown", new PathPlannerAuto("BestCoralDown"));
+        m_AutoChooserGame.addOption("RunAwayDown", new PathPlannerAuto("RunAwayDown"));
+        m_AutoChooserGame.addOption("MaxL1Down", new PathPlannerAuto("MaxL1Down"));
+        m_AutoChooserGame.addOption("OneCoralDown", new PathPlannerAuto("OneCoralDown"));
+        m_AutoChooserGame.addOption("BestCoralDown", new PathPlannerAuto("BestCoralDown"));
 
         // Middel To Up
-        autoChooserGame.addOption("RunAwayFromMiddelToUp", new PathPlannerAuto("RunAwayFromMiddelToUp"));
-        autoChooserGame.addOption("MaxL1UpFromMiddel", new PathPlannerAuto("MaxL1UpFromMiddel"));
-        autoChooserGame.addOption("OneCoralFromMiddelToUp", new PathPlannerAuto("OneCoralFromMiddelToUp"));
-        autoChooserGame.addOption("BestCoralUpFromMiddel", new PathPlannerAuto("BestCoralUpFromMiddel"));
+        m_AutoChooserGame.addOption("RunAwayFromMiddelToUp", new PathPlannerAuto("RunAwayFromMiddelToUp"));
+        m_AutoChooserGame.addOption("MaxL1UpFromMiddel", new PathPlannerAuto("MaxL1UpFromMiddel"));
+        m_AutoChooserGame.addOption("OneCoralFromMiddelToUp", new PathPlannerAuto("OneCoralFromMiddelToUp"));
+        m_AutoChooserGame.addOption("BestCoralUpFromMiddel", new PathPlannerAuto("BestCoralUpFromMiddel"));
 
         // Middel To Down
-        autoChooserGame.addOption("RunAwayFromMiddelToDown", new PathPlannerAuto("RunAwayFromMiddelToDown"));
-        autoChooserGame.addOption("MaxL1DownFromMiddel", new PathPlannerAuto("MaxL1DownFromMiddel"));
-        autoChooserGame.addOption("OneCoralFromMiddelToDown", new PathPlannerAuto("OneCoralFromMiddelToDown"));
-        autoChooserGame.addOption("BestCoralDownFromMiddel", new PathPlannerAuto("BestCoralDownFromMiddel"));
+        m_AutoChooserGame.addOption("RunAwayFromMiddelToDown", new PathPlannerAuto("RunAwayFromMiddelToDown"));
+        m_AutoChooserGame.addOption("MaxL1DownFromMiddel", new PathPlannerAuto("MaxL1DownFromMiddel"));
+        m_AutoChooserGame.addOption("OneCoralFromMiddelToDown", new PathPlannerAuto("OneCoralFromMiddelToDown"));
+        m_AutoChooserGame.addOption("BestCoralDownFromMiddel", new PathPlannerAuto("BestCoralDownFromMiddel"));
 
-        autoChooser.setDefaultOption("Auto Chooser Game", "autoChooserGame");
-        autoChooser.setDefaultOption("Auto Chooser Testing", "autoChooserTesting");
+        m_AutoChooser.setDefaultOption("Auto Chooser Game", "autoChooserGame");
+        m_AutoChooser.setDefaultOption("Auto Chooser Testing", "autoChooserTesting");
 
         /* Once Coral Middel */
 
-        autoChooserGame.addOption("FW&L3", new PathPlannerAuto("FW&L3"));
+        m_AutoChooserGame.addOption("FW&L3", new PathPlannerAuto("FW&L3"));
 
-        // AutoTest
-
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        SmartDashboard.putData("Auto Chooser", m_AutoChooser);
 
     }
 
+    // Returns the PP Auto for the auto time in the game
     public Command getAutonomousCommand() {
-        switch (autoChooser.getSelected()) {
+        switch (m_AutoChooser.getSelected()) {
             case "autoChooserTesting":
-                return autoChooserTesting.getSelected();
+                return m_AutoChooserTesting.getSelected();
 
             default:
             case "autoChooserGame":
-                return autoChooserGame.getSelected();
+                return m_AutoChooserGame.getSelected();
         }
     }
 
@@ -132,9 +135,6 @@ public class RobotContainer {
     private final CommandXboxController m_DriveController;
     private final CommandXboxController m_MechController;
 
-    /**
-     * Configure default commands for subsystems
-     */
     /* Subsystems */
     public final Swerve m_Swerve;
     private Coral m_Coral;
@@ -142,12 +142,7 @@ public class RobotContainer {
     private Climber m_Climber;
     private Algea m_AlgeaRotatorAxis;
     public LedController m_LedController;
-    // private Algea m_Algea;
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and
-     * commands.
-     */
     /* Swerve */
     private final int rotationAxis;
     private final int strafeAxis;
@@ -155,15 +150,10 @@ public class RobotContainer {
 
     public String getThroBore() {
         return m_Elevator.encoderValue() + "";
-        // return m_Coral.PhotoSwitchMode() + "";
     }
 
     public void resetElevator() {
         m_Elevator.resetEncoderValue();
-    }
-
-    public void getHeading() {
-        // System.out.println(m_Swerve.getPose());
     }
 
     public RobotContainer() {
@@ -195,8 +185,6 @@ public class RobotContainer {
                 new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
         NamedCommands.registerCommand("Elevator L4", new ElevatorFullExtend(m_Elevator));
 
-        // m_elevatorDefaultCommand = new
-        // NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 0, m_LedController);
         m_magnetSwitchPressed = new BooleanEvent(Robot.getEventLoop(),
                 m_Elevator::ElevatorBottomMagnetSwitchState);
 
@@ -207,17 +195,6 @@ public class RobotContainer {
         autoSelector();
     }
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
-    /**
-     * Use this method to define your button->command mappings. Buttons can be
-     * created by instantiating a {@link GenericHID} or one of its subclasses
-     * ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-     * passing it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
     private void configureButtonBindings() {
         /* Driver Buttons */
         m_DriveController.a().whileTrue(new InstantCommand(() -> m_Swerve.zeroHeading()));
@@ -225,41 +202,29 @@ public class RobotContainer {
         m_DriveController.rightBumper().onTrue(new RunCommand(
                 () -> m_LedController.setLedColor(BlinkinPattern.Gold), m_LedController));
         m_DriveController.rightBumper()
-                .onFalse(new RunCommand(() -> m_LedController.setToDefault(), m_LedController));
+                .onFalse(new RunCommand(() -> m_LedController.setToDefaultColor(), m_LedController));
 
         /* Mech Buttons */
-        m_MechController.y().whileTrue(new CoralCommand(m_Coral, m_LedController));
-        m_MechController.x().onTrue(new CoralCommand(
-                m_Coral, m_LedController)
-                .andThen(new ResetElevatorCommand(m_Elevator,
-                        m_LedController)));
-        m_MechController.start()
-                .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 4, m_LedController));
+        // Coral
+        m_MechController.y().whileTrue(new CoralCommand(m_Coral, m_LedController)); // Coral Out
+        m_MechController.back().onTrue(new ReInsert(m_Coral, m_LedController));
+        m_MechController.x().onTrue(new CoralCommand(m_Coral, m_LedController) // Coral Out
+                .andThen(new ResetElevatorCommand(m_Elevator, m_LedController))); // And then Elevator Down
+
+        // Elevator
         m_MechController.povDown()
                 .onTrue(new ResetElevatorCommand(m_Elevator, m_LedController));
-        // .onTrue(new ResetElevatorCommand(m_Elevator, m_LedController));
         m_MechController.povLeft()
                 .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 1, m_LedController));
         m_MechController.povRight()
                 .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 2,
                         m_LedController));
-
         m_MechController.povUp()
                 .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
-        // m_AlgeaRotatorAxis.AlgeaRotatorAxisMove(1);
         m_MechController.a().onTrue(new InstantCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
-        m_MechController.back().onTrue(new ReInsert(m_Coral, m_LedController));
-
-        /* Algea Rotator Axis By Encoder Command */
-        // m_MechController.rightBumper().onTrue(new
-        // AlgeaRoatorAxisEncoderCommand(m_AlgeaRotatorAxis, 0));
-        // m_MechController.a().onTrue(new
-        // AlgeaRoatorAxisEncoderCommand(m_AlgeaRotatorAxis, 1));
-        // m_MechController.b().onTrue(new
-        // AlgeaRoatorAxisEncoderCommand(m_AlgeaRotatorAxis, 2));
     }
 
-    public void neatTeamLED() {
+    public void setToNeatTeamLED() {
         m_LedController.ColorSetter(BlinkinPattern.DontDoThisNeatTeam);
     }
 

@@ -16,7 +16,6 @@ public class ResetElevatorCommand extends Command {
   private Elevator m_Elevator;
   private LedController m_LedController;
 
-
   public ResetElevatorCommand(Elevator elevator, LedController ledController) {
     m_LedController = ledController;
     m_Elevator = elevator;
@@ -25,6 +24,7 @@ public class ResetElevatorCommand extends Command {
   }
 
   double LastEncoderValue;
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -33,11 +33,12 @@ public class ResetElevatorCommand extends Command {
   }
 
   boolean IsGoingDown;
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IsGoingDown = Math.abs(m_Elevator.encoderValue()) - Math.abs(LastEncoderValue ) > 0;
-    m_Elevator.moveElevator(Constants.ElevatorConstants.kElevatorDownSpeed * m_Elevator.Direction());
+    IsGoingDown = Math.abs(m_Elevator.encoderValue()) - Math.abs(LastEncoderValue) > 0;
+    m_Elevator.moveElevator(Constants.ElevatorConstant.kElevatorDownSpeed * m_Elevator.Direction());
     LastEncoderValue = m_Elevator.encoderValue();
   }
 
@@ -54,6 +55,6 @@ public class ResetElevatorCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_Elevator.ElevatorBottomMagnetSwitchState()  || (IsGoingDown && m_Elevator.encoderValue() > 1);
+    return m_Elevator.ElevatorBottomMagnetSwitchState() || (IsGoingDown && m_Elevator.encoderValue() > 1);
   }
 }
