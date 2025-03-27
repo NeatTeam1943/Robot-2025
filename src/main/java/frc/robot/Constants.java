@@ -70,6 +70,9 @@ public final class Constants {
         public static final int kDriveMotorCurrentLimit = 24;
         public static final double kWheelRadiusMeters = Units.inchesToMeters(0.787402);
 
+        /* Meters a second! */
+        public static final double kMaxAutoSpeed = 5;
+
         public static final RobotConfig kPPConfig = new RobotConfig(
                 kRobotMassKg,
                 kRobotMOI,
@@ -134,6 +137,7 @@ public final class Constants {
         /* Swerve Profiling Values */
         /** Meters per Second */
         public static double kMaxSpeed = 4.5;
+
         /** Radians per Second */
         public static final double kMaxAngularVelocity = 6.283;
 
