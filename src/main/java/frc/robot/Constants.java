@@ -12,6 +12,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
@@ -23,7 +25,7 @@ public final class Constants {
         public static final int kDriverControllerPort = 1;
     }
 
-    public static final class Swerve {
+    public static final class SwerveConstans {
         public static final int kPigeonID = 1;
         public static final DCMotor kDriveGearbox = DCMotor.getFalcon500(1);
 
@@ -74,9 +76,8 @@ public final class Constants {
         public static final double kDriveMotorReduction = 5.96;
         public static final int kDriveMotorCurrentLimit = 24;
         public static final double kWheelRadiusMeters = Units.inchesToMeters(0.787402);
-
-        /* Meters a second! */
-        public static final double kMaxAutoVelocity = 5; // TODO: Needed to be tuned in the app like here
+        
+        public static final double kMaxAutoVelocity = NetworkTable.getTable("SmartDashboard").getDouble("AutoSpeed");
 
         public static final RobotConfig kPPConfig = new RobotConfig(
                 kRobotMassKg,

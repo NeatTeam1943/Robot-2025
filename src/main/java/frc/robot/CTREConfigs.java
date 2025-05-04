@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import frc.robot.Constants.SwerveConstans;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 public final class CTREConfigs {
@@ -10,48 +11,48 @@ public final class CTREConfigs {
 
     public CTREConfigs() {
         /** Swerve CANCoder Configuration */
-        swerveCANcoderConfig.MagnetSensor.SensorDirection = Constants.Swerve.kCancoderInvert;
+        swerveCANcoderConfig.MagnetSensor.SensorDirection = SwerveConstans.kCancoderInvert;
 
         /** Swerve Angle Motor Configurations */
         /* Motor Inverts and Neutral Mode */
-        swerveAngleFXConfig.MotorOutput.Inverted = Constants.Swerve.kAngleMotorInvert;
-        swerveAngleFXConfig.MotorOutput.NeutralMode = Constants.Swerve.kAngleNeutralMode;
+        swerveAngleFXConfig.MotorOutput.Inverted = SwerveConstans.kAngleMotorInvert;
+        swerveAngleFXConfig.MotorOutput.NeutralMode = SwerveConstans.kAngleNeutralMode;
 
         /* Gear Ratio and Wrapping Config */
-        swerveAngleFXConfig.Feedback.SensorToMechanismRatio = Constants.Swerve.kAngleGearRatio;
+        swerveAngleFXConfig.Feedback.SensorToMechanismRatio = SwerveConstans.kAngleGearRatio;
         swerveAngleFXConfig.ClosedLoopGeneral.ContinuousWrap = true;
 
         /* Current Limiting */
-        swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.kAngleEnableCurrentLimit;
-        swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.kAngleCurrentLimit;
+        swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimitEnable = SwerveConstans.kAngleEnableCurrentLimit;
+        swerveAngleFXConfig.CurrentLimits.SupplyCurrentLimit = SwerveConstans.kAngleCurrentLimit;
 
         /* PID Config */
-        swerveAngleFXConfig.Slot0.kP = Constants.Swerve.kAngleKP;
-        swerveAngleFXConfig.Slot0.kI = Constants.Swerve.kAngleKI;
-        swerveAngleFXConfig.Slot0.kD = Constants.Swerve.kAngleKD;
+        swerveAngleFXConfig.Slot0.kP = SwerveConstans.kAngleKP;
+        swerveAngleFXConfig.Slot0.kI = SwerveConstans.kAngleKI;
+        swerveAngleFXConfig.Slot0.kD = SwerveConstans.kAngleKD;
 
         /** Swerve Drive Motor Configuration */
         /* Motor Inverts and Neutral Mode */
-        swerveDriveFXConfig.MotorOutput.Inverted = Constants.Swerve.kDriveMotorInvert;
-        swerveDriveFXConfig.MotorOutput.NeutralMode = Constants.Swerve.kDriveNeutralMode;
+        swerveDriveFXConfig.MotorOutput.Inverted = SwerveConstans.kDriveMotorInvert;
+        swerveDriveFXConfig.MotorOutput.NeutralMode = SwerveConstans.kDriveNeutralMode;
 
         /* Gear Ratio Config */
-        swerveDriveFXConfig.Feedback.SensorToMechanismRatio = Constants.Swerve.kDriveGearRatio;
+        swerveDriveFXConfig.Feedback.SensorToMechanismRatio = SwerveConstans.kDriveGearRatio;
 
         /* Current Limiting */
-        swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.kDriveEnableCurrentLimit;
-        swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.kDriveCurrentLimit;
+        swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimitEnable = SwerveConstans.kDriveEnableCurrentLimit;
+        swerveDriveFXConfig.CurrentLimits.SupplyCurrentLimit = SwerveConstans.kDriveCurrentLimit;
 
         /* PID Config */
-        swerveDriveFXConfig.Slot0.kP = Constants.Swerve.kDriveKP;
-        swerveDriveFXConfig.Slot0.kI = Constants.Swerve.kDriveKI;
-        swerveDriveFXConfig.Slot0.kD = Constants.Swerve.kDriveKD;
+        swerveDriveFXConfig.Slot0.kP = SwerveConstans.kDriveKP;
+        swerveDriveFXConfig.Slot0.kI = SwerveConstans.kDriveKI;
+        swerveDriveFXConfig.Slot0.kD = SwerveConstans.kDriveKD;
 
         /* Open and Closed Loop Ramping */
-        swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = Constants.Swerve.kOpenLoopRamp;
-        swerveDriveFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = Constants.Swerve.kOpenLoopRamp;
+        swerveDriveFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = SwerveConstans.kOpenLoopRamp;
+        swerveDriveFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = SwerveConstans.kOpenLoopRamp;
 
-        swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = Constants.Swerve.kClosedLoopRamp;
-        swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.Swerve.kClosedLoopRamp;
+        swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = SwerveConstans.kClosedLoopRamp;
+        swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = SwerveConstans.kClosedLoopRamp;
     }
 }

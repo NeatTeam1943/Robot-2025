@@ -110,7 +110,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    System.out.println("Gyro's Yaw: " + m_robotContainer.getGyroYaw());
+    m_robotContainer.getSwerve().getVelocityAll();
 
     m_robotContainer.m_LedController.setToDefaultColor();
     // schedule the autonomous command (example)
@@ -141,6 +141,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    m_robotContainer.getSwerve().getVelocityAll();
 
     SmartDashboard.putString("DB/String 7", m_robotContainer.getALgea().GetEncoderValue() + "");
   }

@@ -4,6 +4,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.Constants.SwerveConstans;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Algea;
@@ -54,6 +56,8 @@ public class RobotContainer {
         m_Climber.setDefaultCommand(new ClimberMoveCommandTest(m_Climber, m_DriveController));
         m_Coral.setDefaultCommand(new AutoCoralIntakeCommand(m_Coral, m_LedController, m_DriveController,
                 m_MechController));
+        SmartDashboard.putString("AutoSpeed", SwerveConstans.kMaxAutoVelocity + "");
+        SwerveConstans.kMaxAutoVelocity = NetworkTable.
     }
 
     /* Path Planner */

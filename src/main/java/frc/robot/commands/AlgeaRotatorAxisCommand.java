@@ -42,6 +42,7 @@ public class AlgeaRotatorAxisCommand extends Command {
         m_AlgeaRotatorAxis.MoveAlgeaAxis(0);
     }
 
+
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
