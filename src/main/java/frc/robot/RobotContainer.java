@@ -5,6 +5,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -57,7 +58,6 @@ public class RobotContainer {
         m_Coral.setDefaultCommand(new AutoCoralIntakeCommand(m_Coral, m_LedController, m_DriveController,
                 m_MechController));
         SmartDashboard.putString("AutoSpeed", SwerveConstans.kMaxAutoVelocity + "");
-        SwerveConstans.kMaxAutoVelocity = NetworkTable.
     }
 
     /* Path Planner */
@@ -152,6 +152,10 @@ public class RobotContainer {
     private final int strafeAxis;
     private final int translationAxis;
 
+    /* Tag Command */
+
+    private TagCommand m_TagCommand;
+
     public String getThroBore() {
         return m_Elevator.encoderValue() + "";
     }
@@ -180,6 +184,8 @@ public class RobotContainer {
         m_AlgeaRotatorAxis = new Algea();
         m_Climber = new Climber();
         // m_Algea = new Algea();
+
+        m_TagCommand = new TagCommand(m_Swerve);
         NamedCommands.registerCommand("CoralCommand", new CoralCommand(m_Coral, m_LedController));
         NamedCommands.registerCommand("Reset Elevator",
                 new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 0, m_LedController));
@@ -226,6 +232,9 @@ public class RobotContainer {
         m_MechController.povUp()
                 .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
         m_MechController.a().onTrue(new InstantCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
+        m_DriveController.leftBumper().whileTrue(new TagCommand(m_Swerve));
+        m_DriveController.y().whileTrue(new FollowTagCommand(m_Swerve));
+
     }
 
     public void setToNeatTeamLED() {
