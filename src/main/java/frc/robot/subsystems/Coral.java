@@ -29,7 +29,7 @@ public class Coral extends SubsystemBase {
     public void moveCoral(double speed) {
         m_Motor.set(speed);
 
-        SmartDashboard.putString("DB/String 5", m_Motor.get() + "");
+        // SmartDashboard.putString("DB/String 5", m_Motor.get() + "");
     }
 
     public void getState() {

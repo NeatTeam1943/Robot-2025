@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import static edu.wpi.first.units.Units.Rotation;
+
 import javax.transaction.xa.Xid;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,6 +15,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.subsystems.LimelightHelpers;
 import frc.robot.subsystems.Swerve;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -34,6 +37,8 @@ public class FollowTagCommand extends Command {
     cSpeeds = new ChassisSpeeds(0, 0, 0);
   }
 
+  double rotation;
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -49,17 +54,28 @@ public class FollowTagCommand extends Command {
         .getTable(Constants.VisionConstants.limelightName).getEntry("tx").getDouble(0)));
     SmartDashboard.putNumber("DB/Slider 2", YDistance);
     SmartDashboard.putNumber("DB/Slider 1", XDistance);
-    double xSpeed , ySpeed;
-    if(XDistance > YDistance){
-       xSpeed = Constants.VisionConstants.maxSpeed;
-       ySpeed = xSpeed * (YDistance/XDistance);
+    double xSpeed, ySpeed;
+    if (LimelightHelpers.getTX(Constants.VisionConstants.limelightName) != 0) {
+      rotation = -0.1 * Math.abs(LimelightHelpers.getTX(Constants.VisionConstants.limelightName))
+          / LimelightHelpers.getTX(Constants.VisionConstants.limelightName);
+    } else {
+      rotation = 0;
     }
-    else{
+    if (XDistance > YDistance) {
+      xSpeed = Constants.VisionConstants.maxSpeed;
+      ySpeed = xSpeed * (YDistance / XDistance);
+    } else {
       ySpeed = Constants.VisionConstants.maxSpeed;
-      xSpeed = ySpeed * (YDistance/XDistance);
+      xSpeed = ySpeed * (YDistance / XDistance);
     }
     if (isValidTarget) {
-      m_Swerve.runPureVelocity(new ChassisSpeeds(ySpeed , xSpeed , 0));
+      SmartDashboard.putNumber("DB/Slider 0", ySpeed);
+      SmartDashboard.putNumber("DB/Slider 1", xSpeed);
+      SmartDashboard.putNumber("DB/Slider 2", rotation);
+      // m_Swerve.runPureVelocity(new ChassisSpeeds(ySpeed , xSpee d, 0));
+      m_Swerve.drive(new Translation2d(-xSpeed, ySpeed), rotation, false, true);
+    } else {
+      m_Swerve.drive(new Translation2d(0, 0), 0, false, true);
     }
   }
 

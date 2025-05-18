@@ -232,7 +232,8 @@ public class RobotContainer {
         m_MechController.povUp()
                 .onTrue(new NoLimitSwitchElevatorMoveToLevelXCommand(m_Elevator, 3, m_LedController));
         m_MechController.a().onTrue(new InstantCommand(() -> m_Elevator.resetEncoderValue(), m_Elevator));
-        m_DriveController.leftBumper().whileTrue(new TagCommand(m_Swerve));
+        m_DriveController.leftBumper().whileTrue(new AlignInFrontOfTag
+        (m_Swerve));
         m_DriveController.y().whileTrue(new FollowTagCommand(m_Swerve));
 
     }

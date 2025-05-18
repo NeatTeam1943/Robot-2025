@@ -80,7 +80,7 @@ public final class Constants {
         public static final double kDriveMotorReduction = 5.96;
         public static final int kDriveMotorCurrentLimit = 24;
         public static final double kWheelRadiusMeters = Units.inchesToMeters(0.787402);
-        
+
         public static final double kMaxAutoVelocity = 4.5;
 
         public static final RobotConfig kPPConfig = new RobotConfig(
@@ -278,11 +278,19 @@ public final class Constants {
         public static final double kAtWantedLevelColor = 0.57;
         public static final double kCoralInColor = 0.93;
     }
-     public static final class VisionConstants {
+
+    public static final class VisionConstants {
+
+
+        public static final double kWantedRotation = 0;// D
+        public static final double kRoationErrorTolernece = 1;// D
+        public static final double kDistanceErrorTolerence = 0.1; // m
+        public static final double kWantedDistance = 1; // m 
+
         public static final String limelightName = "limelight-neat";
-        public static final double cameraHeightMeters = 0.13; // m
+        public static final double cameraHeightMeters = 0.38; // m
         public static final double cameraPitchRadians = Units.degreesToRadians(50.0); // rad
-        public static final double defaultTargetHeightMeters = 1.04; // m fallback
+        public static final double defaultTargetHeightMeters = .51; // m fallback
         public static final double focalLengthPixels = 320.0; // pixels
         public static final double maxAprilTagDistance = 3.0; // m
         public static final double minAprilTagDistance = 0.1; // m
@@ -296,71 +304,73 @@ public final class Constants {
         public static final double angleKI = Constants.SwerveConstans.kAngleKI;
         public static final double angleKD = Constants.SwerveConstans.kAngleKD;
 
-        public static final double maxSpeed = 1.5; // m/s
-        public static final double minSpeed = 0.2; // m/s
-     }
-             public static final class FieldConstants {
-            public static final Pose2d[] aprilTagPoses = new Pose2d[] {
-                    new Pose2d(657.37 * 0.0254, 25.80 * 0.0254, Rotation2d.fromDegrees(126)),
-                    new Pose2d(657.37 * 0.0254, 291.20 * 0.0254, Rotation2d.fromDegrees(234)),
-                    new Pose2d(455.15 * 0.0254, 317.15 * 0.0254, Rotation2d.fromDegrees(270)),
-                    new Pose2d(365.20 * 0.0254, 241.64 * 0.0254, Rotation2d.fromDegrees(0)),
-                    new Pose2d(365.20 * 0.0254, 75.39 * 0.0254, Rotation2d.fromDegrees(0)),
-                    new Pose2d(530.49 * 0.0254, 130.17 * 0.0254, Rotation2d.fromDegrees(300)),
-                    new Pose2d(546.87 * 0.0254, 158.50 * 0.0254, Rotation2d.fromDegrees(0)),
-                    new Pose2d(530.49 * 0.0254, 186.83 * 0.0254, Rotation2d.fromDegrees(60)),
-                    new Pose2d(497.77 * 0.0254, 186.83 * 0.0254, Rotation2d.fromDegrees(120)),
-                    new Pose2d(481.39 * 0.0254, 158.50 * 0.0254, Rotation2d.fromDegrees(180)),
-                    new Pose2d(497.77 * 0.0254, 130.17 * 0.0254, Rotation2d.fromDegrees(240)),
-                    new Pose2d(33.51 * 0.0254, 25.80 * 0.0254, Rotation2d.fromDegrees(54)),
-                    new Pose2d(33.51 * 0.0254, 291.20 * 0.0254, Rotation2d.fromDegrees(306)),
-                    new Pose2d(325.68 * 0.0254, 241.64 * 0.0254, Rotation2d.fromDegrees(180)),
-                    new Pose2d(325.68 * 0.0254, 75.39 * 0.0254, Rotation2d.fromDegrees(180)),
-                    new Pose2d(235.73 * 0.0254, -0.15 * 0.0254, Rotation2d.fromDegrees(90)),
-                    new Pose2d(160.39 * 0.0254, 130.17 * 0.0254, Rotation2d.fromDegrees(240)),
-                    new Pose2d(144.00 * 0.0254, 158.50 * 0.0254, Rotation2d.fromDegrees(180)),
-                    new Pose2d(160.39 * 0.0254, 186.83 * 0.0254, Rotation2d.fromDegrees(120)),
-                    new Pose2d(193.10 * 0.0254, 186.83 * 0.0254, Rotation2d.fromDegrees(60)),
-                    new Pose2d(209.49 * 0.0254, 158.50 * 0.0254, Rotation2d.fromDegrees(0)),
-                    new Pose2d(193.10 * 0.0254, 130.17 * 0.0254, Rotation2d.fromDegrees(300))
-            };
+        public static final double maxSpeed = 0.3; // m/s
+        public static final double minSpeed = 0.0; // m/s
+        public static final double MaxRotaionSpeed = 0.3; //D/s
+        public static final double MinRotaionSpeed = 0.0;//D/s
+    }
 
-            // Field dimensions (in m)
-            public static final double kFieldWidth = Units.inchesToMeters(324.0);
-            public static final double kFieldLength = Units.inchesToMeters(648.0);
-            public static final double kCoralStationRadius = Units.inchesToMeters(48.0);
-            public static final double kReefRadius = Units.inchesToMeters(36.0);
-            public static final double kBargeWidth = Units.inchesToMeters(90.0);
-        }
-
-        // AprilTag heights (in m) from FE‑2025 drawings using the Z coordinate.
-        public static final HashMap<Integer, Double> aprilTagHeights = new HashMap<>() {
-            {
-                put(1, 58.50 * 0.0254);
-                put(2, 58.50 * 0.0254);
-                put(3, 51.25 * 0.0254);
-                put(4, 73.54 * 0.0254);
-                put(5, 73.54 * 0.0254);
-                put(6, 12.13 * 0.0254);
-                put(7, 12.13 * 0.0254);
-                put(8, 12.13 * 0.0254);
-                put(9, 12.13 * 0.0254);
-                put(10, 12.13 * 0.0254);
-                put(11, 12.13 * 0.0254);
-                put(12, 58.50 * 0.0254);
-                put(13, 58.50 * 0.0254);
-                put(14, 73.54 * 0.0254);
-                put(15, 73.54 * 0.0254);
-                put(16, 51.25 * 0.0254);
-                put(17, 12.13 * 0.0254);
-                put(18, 12.13 * 0.0254);
-                put(19, 12.13 * 0.0254);
-                put(20, 12.13 * 0.0254);
-                put(21, 12.13 * 0.0254);
-                put(22, 12.13 * 0.0254);
-            }
+    public static final class FieldConstants {
+        public static final Pose2d[] aprilTagPoses = new Pose2d[] {
+                new Pose2d(657.37 * 0.0254, 25.80 * 0.0254, Rotation2d.fromDegrees(126)),
+                new Pose2d(657.37 * 0.0254, 291.20 * 0.0254, Rotation2d.fromDegrees(234)),
+                new Pose2d(455.15 * 0.0254, 317.15 * 0.0254, Rotation2d.fromDegrees(270)),
+                new Pose2d(365.20 * 0.0254, 241.64 * 0.0254, Rotation2d.fromDegrees(0)),
+                new Pose2d(365.20 * 0.0254, 75.39 * 0.0254, Rotation2d.fromDegrees(0)),
+                new Pose2d(530.49 * 0.0254, 130.17 * 0.0254, Rotation2d.fromDegrees(300)),
+                new Pose2d(546.87 * 0.0254, 158.50 * 0.0254, Rotation2d.fromDegrees(0)),
+                new Pose2d(530.49 * 0.0254, 186.83 * 0.0254, Rotation2d.fromDegrees(60)),
+                new Pose2d(497.77 * 0.0254, 186.83 * 0.0254, Rotation2d.fromDegrees(120)),
+                new Pose2d(481.39 * 0.0254, 158.50 * 0.0254, Rotation2d.fromDegrees(180)),
+                new Pose2d(497.77 * 0.0254, 130.17 * 0.0254, Rotation2d.fromDegrees(240)),
+                new Pose2d(33.51 * 0.0254, 25.80 * 0.0254, Rotation2d.fromDegrees(54)),
+                new Pose2d(33.51 * 0.0254, 291.20 * 0.0254, Rotation2d.fromDegrees(306)),
+                new Pose2d(325.68 * 0.0254, 241.64 * 0.0254, Rotation2d.fromDegrees(180)),
+                new Pose2d(325.68 * 0.0254, 75.39 * 0.0254, Rotation2d.fromDegrees(180)),
+                new Pose2d(235.73 * 0.0254, -0.15 * 0.0254, Rotation2d.fromDegrees(90)),
+                new Pose2d(160.39 * 0.0254, 130.17 * 0.0254, Rotation2d.fromDegrees(240)),
+                new Pose2d(144.00 * 0.0254, 158.50 * 0.0254, Rotation2d.fromDegrees(180)),
+                new Pose2d(160.39 * 0.0254, 186.83 * 0.0254, Rotation2d.fromDegrees(120)),
+                new Pose2d(193.10 * 0.0254, 186.83 * 0.0254, Rotation2d.fromDegrees(60)),
+                new Pose2d(209.49 * 0.0254, 158.50 * 0.0254, Rotation2d.fromDegrees(0)),
+                new Pose2d(193.10 * 0.0254, 130.17 * 0.0254, Rotation2d.fromDegrees(300))
         };
 
+        // Field dimensions (in m)
+        public static final double kFieldWidth = Units.inchesToMeters(324.0);
+        public static final double kFieldLength = Units.inchesToMeters(648.0);
+        public static final double kCoralStationRadius = Units.inchesToMeters(48.0);
+        public static final double kReefRadius = Units.inchesToMeters(36.0);
+        public static final double kBargeWidth = Units.inchesToMeters(90.0);
+    }
+
+    // AprilTag heights (in m) from FE‑2025 drawings using the Z coordinate.
+    public static final HashMap<Integer, Double> aprilTagHeights = new HashMap<>() {
+        {
+            put(1, 58.50 * 0.0254);
+            put(2, 58.50 * 0.0254);
+            put(3, 51.25 * 0.0254);
+            put(4, 73.54 * 0.0254);
+            put(5, 73.54 * 0.0254);
+            put(6, 12.13 * 0.0254);
+            put(7, 12.13 * 0.0254);
+            put(8, 12.13 * 0.0254);
+            put(9, 12.13 * 0.0254);
+            put(10, 12.13 * 0.0254);
+            put(11, 12.13 * 0.0254);
+            put(12, 58.50 * 0.0254);
+            put(13, 58.50 * 0.0254);
+            put(14, 73.54 * 0.0254);
+            put(15, 73.54 * 0.0254);
+            put(16, 51.25 * 0.0254);
+            put(17, 12.13 * 0.0254);
+            put(18, 12.13 * 0.0254);
+            put(19, 12.13 * 0.0254);
+            put(20, 12.13 * 0.0254);
+            put(21, 12.13 * 0.0254);
+            put(22, 12.13 * 0.0254);
+        }
+    };
 
     public static final class ClimberConstants {
         public static final int kMotorPort = 8;
