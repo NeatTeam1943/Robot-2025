@@ -167,7 +167,7 @@ public final class Constants {
                     kCanCoderID, kAngleOffset);
         }
 
-        /* Back Right Module - Module 1 */
+        /* Back Right Module - Module 3 */
         public static final class ModA2 { // A2
             public static final int kAngleMotorID = 31;
             public static final int kDriveMotorID = 32;
@@ -178,7 +178,7 @@ public final class Constants {
                     kCanCoderID, kAngleOffset);
         }
 
-        /* Front Right Module - Module 2 */
+        /* Front Right Module - Module 1 */
         public static final class ModB2 { // B2
             public static final int kAngleMotorID = 41;
             public static final int kDriveMotorID = 42;
@@ -189,7 +189,7 @@ public final class Constants {
                     kCanCoderID, kAngleOffset);
         }
 
-        /* Back Left Module - Module 3 */
+        /* Back Left Module - Module 2 */
         public static final class ModB1 { // B1
             public static final int kAngleMotorID = 21;
             public static final int kDriveMotorID = 22;
