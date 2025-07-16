@@ -73,12 +73,12 @@ public class Robot extends TimedRobot {
     m_eventLoop.poll();
 
     CommandScheduler.getInstance().run();
-    SmartDashboard.putString("DB/String 9", m_robotContainer.getElevator().encoderValue() + "");
-    SmartDashboard.putString("Elevator Ecoder:", m_robotContainer.getElevator().encoderValue() + "");
-    SmartDashboard.putString("Elevator magent:", m_robotContainer.getElevator().ElevatorBottomMagnetSwitchState() + "");
-    SmartDashboard.putString("DB/String 8", m_robotContainer.getElevator().getStallSpeed() + "");
+    // SmartDashboard.putString("DB/String 9", m_robotContainer.getElevator().encoderValue() + "");
+    // SmartDashboard.putString("Elevator Ecoder:", m_robotContainer.getElevator().encoderValue() + "");
+    // SmartDashboard.putString("Elevator magent:", m_robotContainer.getElevator().ElevatorBottomMagnetSwitchState() + "");
+    // SmartDashboard.putString("DB/String 8", m_robotContainer.getElevator().getStallSpeed() + "");
     SmartDashboard.putString("Gyro Yaw:", m_robotContainer.getSwerve().getGyroYaw().getDegrees() + "");
-    m_robotContainer.getCoral().getState();
+    // m_robotContainer.getCoral().getState();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -143,7 +143,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     m_robotContainer.getSwerve().getVelocityAll();
 
-    SmartDashboard.putString("DB/String 7", m_robotContainer.getALgea().GetEncoderValue() + "");
+    // SmartDashboard.putString("DB/String 7", m_robotContainer.getALgea().GetEncoderValue() + "");
   }
 
   @Override

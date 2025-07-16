@@ -22,6 +22,10 @@ public class Coral extends SubsystemBase {
         return m_OutTakePhotoSwitch.get();
     }
 
+    public DigitalInput getIntakeLimitSwitch(){
+        return m_IntakePhotoSwitch;
+    }
+
     public boolean IntakePhotoSwitchMode() {
         return m_IntakePhotoSwitch.get();
     }

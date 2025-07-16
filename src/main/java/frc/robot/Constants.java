@@ -74,7 +74,7 @@ public final class Constants {
         public static final SensorDirectionValue kCancoderInvert = kChosenModule.cancoderInvert;
 
         /* PathPlanner configuration */
-        public static final double kRobotMassKg = 45;
+        public static final double kRobotMassKg = 30;
         public static final double kRobotMOI = 1 / 12.0 * kRobotMassKg * (2 * 0.69 * 0.69);
         public static final double kWheelCOF = 1.2;
         public static final double kDriveMotorReduction = 5.96;
@@ -92,7 +92,7 @@ public final class Constants {
                         kWheelCOF,
                         kDriveGearbox.withReduction(kDriveMotorReduction),
                         kDriveMotorCurrentLimit,
-                        1),
+                        2),
                 kModuleTranslations);
 
         /* Swerve Current Limiting */
@@ -157,7 +157,7 @@ public final class Constants {
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
-        public static final class Mod0 { // A1
+        public static final class ModA1 { // A1
             public static final int kAngleMotorID = 11;
             public static final int kDriveMotorID = 12;
             public static final int kCanCoderID = 13;
@@ -167,8 +167,19 @@ public final class Constants {
                     kCanCoderID, kAngleOffset);
         }
 
-        /* Front Right Module - Module 1 */
-        public static final class Mod1 { // B2
+        /* Back Right Module - Module 1 */
+        public static final class ModA2 { // A2
+            public static final int kAngleMotorID = 31;
+            public static final int kDriveMotorID = 32;
+            public static final int kCanCoderID = 33;
+            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(75);
+            public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
+                    kAngleMotorID,
+                    kCanCoderID, kAngleOffset);
+        }
+
+        /* Front Right Module - Module 2 */
+        public static final class ModB2 { // B2
             public static final int kAngleMotorID = 41;
             public static final int kDriveMotorID = 42;
             public static final int kCanCoderID = 43;
@@ -178,8 +189,8 @@ public final class Constants {
                     kCanCoderID, kAngleOffset);
         }
 
-        /* Back Left Module - Module 2 */
-        public static final class Mod2 { // B1
+        /* Back Left Module - Module 3 */
+        public static final class ModB1 { // B1
             public static final int kAngleMotorID = 21;
             public static final int kDriveMotorID = 22;
             public static final int kCanCoderID = 23;
@@ -189,16 +200,6 @@ public final class Constants {
                     kCanCoderID, kAngleOffset);
         }
 
-        /* Back Right Module - Module 3 */
-        public static final class Mod3 { // A2
-            public static final int kAngleMotorID = 31;
-            public static final int kDriveMotorID = 32;
-            public static final int kCanCoderID = 33;
-            public static final Rotation2d kAngleOffset = Rotation2d.fromDegrees(175.5);
-            public static final SwerveModuleConstants kConstants = new SwerveModuleConstants(kDriveMotorID,
-                    kAngleMotorID,
-                    kCanCoderID, kAngleOffset);
-        }
     }
 
     public static final class AutoConstants {
@@ -281,16 +282,15 @@ public final class Constants {
 
     public static final class VisionConstants {
 
-
         public static final double kWantedRotation = 0;// D
         public static final double kRoationErrorTolernece = 1;// D
         public static final double kDistanceErrorTolerence = 0.1; // m
-        public static final double kWantedDistance = 1; // m 
+        public static final double kWantedDistance = 1; // m
 
         public static final String limelightName = "limelight-neat";
-        public static final double cameraHeightMeters = 0.38; // m
+        public static final double cameraHeightMeters = 0.33; // m
         public static final double cameraPitchRadians = Units.degreesToRadians(50.0); // rad
-        public static final double defaultTargetHeightMeters = .51; // m fallback
+        public static final double defaultTargetHeightMeters = .17; // m fallback
         public static final double focalLengthPixels = 320.0; // pixels
         public static final double maxAprilTagDistance = 3.0; // m
         public static final double minAprilTagDistance = 0.1; // m
@@ -306,8 +306,8 @@ public final class Constants {
 
         public static final double maxSpeed = 0.3; // m/s
         public static final double minSpeed = 0.0; // m/s
-        public static final double MaxRotaionSpeed = 0.3; //D/s
-        public static final double MinRotaionSpeed = 0.0;//D/s
+        public static final double MaxRotaionSpeed = 0.3; // D/s
+        public static final double MinRotaionSpeed = 0.0;// D/s
     }
 
     public static final class FieldConstants {

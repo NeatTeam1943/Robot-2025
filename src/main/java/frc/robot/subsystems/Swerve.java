@@ -34,10 +34,10 @@ public class Swerve extends SubsystemBase {
         gyro.setYaw(0);
 
         m_SwerveMods = new SwerveModule[] {
-                new SwerveModule(0, SwerveConstans.Mod0.kConstants),
-                new SwerveModule(1, SwerveConstans.Mod1.kConstants),
-                new SwerveModule(2, SwerveConstans.Mod2.kConstants),
-                new SwerveModule(3, SwerveConstans.Mod3.kConstants)
+                new SwerveModule(0, SwerveConstans.ModA1.kConstants),
+                new SwerveModule(1, SwerveConstans.ModB2.kConstants),
+                new SwerveModule(2, SwerveConstans.ModB1.kConstants),
+                new SwerveModule(3, SwerveConstans.ModA2.kConstants)
         };
 
         swerveOdometry = new SwerveDriveOdometry(SwerveConstans.kSwerveKinematics, getGyroYaw(),
@@ -49,8 +49,8 @@ public class Swerve extends SubsystemBase {
                 this::getRobotRelativeSpeeds,
                 this::runPureVelocity,
                 new PPHolonomicDriveController(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(17, 0.0, 0.0)),
+                        new PIDConstants(4, 0.4, 1), // Translation (x, y)
+                        new PIDConstants(5, 0.5, 0.3)), // Rotation
                 SwerveConstans.kPPConfig,
 
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,

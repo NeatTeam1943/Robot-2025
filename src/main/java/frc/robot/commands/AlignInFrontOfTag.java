@@ -66,12 +66,12 @@ public class AlignInFrontOfTag extends Command {
   public void execute() {
     boolean isValidTarget = LimelightHelpers.getTV(Constants.VisionConstants.limelightName);
     SmartDashboard.putBoolean("DB/LED 2", isValidTarget);
-    XDistance = (Constants.VisionConstants.defaultTargetHeightMeters
-        - Constants.VisionConstants.cameraHeightMeters) / Math
-            .tan(Math.toRadians(LimelightHelpers.getTY(Constants.VisionConstants.limelightName)));
-    YDistance = XDistance
-        * Math.tan(Math.toRadians(LimelightHelpers.getTX(Constants.VisionConstants.limelightName))
-            - m_Swerve.getHeading().getRadians());
+    XDistance = Math.abs((Constants.VisionConstants.defaultTargetHeightMeters
+    - Constants.VisionConstants.cameraHeightMeters) / Math
+        .tan(Math.toRadians(LimelightHelpers.getTY(Constants.VisionConstants.limelightName))));
+    YDistance = Math.abs(XDistance
+    * Math.tan(Math.toRadians(LimelightHelpers.getTX(Constants.VisionConstants.limelightName))
+        - m_Swerve.getHeading().getRadians()));
     SmartDashboard.putString("DB/String 0", "" + XDistance);
     SmartDashboard.putString("DB/String 4", "" + YDistance);
     SmartDashboard.putString("DB/String 5", "" + Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2)));
@@ -128,3 +128,4 @@ public class AlignInFrontOfTag extends Command {
                 - Constants.VisionConstants.kDistanceErrorTolerence < Constants.VisionConstants.kWantedDistance));
   }
 }
+  
