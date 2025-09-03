@@ -43,18 +43,6 @@ public class Swerve extends SubsystemBase {
         swerveOdometry = new SwerveDriveOdometry(SwerveConstans.kSwerveKinematics, getGyroYaw(),
                 getModulePositions());
 
-        AutoBuilder.configure(
-                this::getPose,
-                this::setPose,
-                this::getRobotRelativeSpeeds,
-                this::runPureVelocity,
-                new PPHolonomicDriveController(
-                        new PIDConstants(5.0, 0.0, 0.0),
-                        new PIDConstants(17, 0.0, 0.0)),
-                SwerveConstans.kPPConfig,
-
-                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-                this);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -163,6 +151,70 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+    // SysId Methods
+    public void setDriveVoltage(double voltage) {
+        for (SwerveModule mod : m_SwerveMods) {
+            mod.setDriveVoltage(voltage);
+        }
+    }
+
+    public void setAngleVoltage(double voltage) {
+        for (SwerveModule mod : m_SwerveMods) {
+            mod.setAngleVoltage(voltage);
+        }
+    }
+
+    public double getDriveVelocity() {
+        double totalVelocity = 0;
+        for (SwerveModule mod : m_SwerveMods) {
+            totalVelocity += mod.getState().speedMetersPerSecond;
+        }
+        return totalVelocity / m_SwerveMods.length;
+    }
+
+    public double getDrivePosition() {
+        double totalPosition = 0;
+        for (SwerveModule mod : m_SwerveMods) {
+            totalPosition += mod.getPosition().distanceMeters;
+        }
+        return totalPosition / m_SwerveMods.length;
+    }
+
+    public double getAngleVelocity() {
+        double totalVelocity = 0;
+        for (SwerveModule mod : m_SwerveMods) {
+            totalVelocity += mod.getAngleVelocity();
+        }
+        return totalVelocity / m_SwerveMods.length;
+    }
+
+    public double getAnglePosition() {
+        double totalPosition = 0;
+        for (SwerveModule mod : m_SwerveMods) {
+            totalPosition += mod.getPosition().angle.getRotations();
+        }
+        return totalPosition / m_SwerveMods.length;
+    }
+
+    private double driveVoltage = 0;
+    private double angleVoltage = 0;
+
+    public double getDriveVoltage() {
+        return driveVoltage;
+    }
+
+    public double getAngleVoltage() {
+        return angleVoltage;
+    }
+
+    public void setDriveVoltageInternal(double voltage) {
+        driveVoltage = voltage;
+    }
+
+    public void setAngleVoltageInternal(double voltage) {
+        angleVoltage = voltage;
+    }
+
     @Override
     public void periodic() {
         swerveOdometry.update(getGyroYaw(), getModulePositions());
@@ -172,5 +224,13 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
+
+        // SysId Data Logging
+        SmartDashboard.putNumber("SysId Drive Velocity", getDriveVelocity());
+        SmartDashboard.putNumber("SysId Drive Position", getDrivePosition());
+        SmartDashboard.putNumber("SysId Angle Velocity", getAngleVelocity());
+        SmartDashboard.putNumber("SysId Angle Position", getAnglePosition());
+        SmartDashboard.putNumber("SysId Drive Voltage", getDriveVoltage());
+        SmartDashboard.putNumber("SysId Angle Voltage", getAngleVoltage());
     }
 }

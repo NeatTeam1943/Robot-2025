@@ -5,11 +5,17 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.math.Conversions;
 import frc.lib.util.SwerveModuleConstants;
 import frc.robot.Constants.SwerveConstans;
@@ -78,7 +84,7 @@ public class SwerveModule {
         driveVelocity.FeedForward = driveFeedForward.calculate(desiredState.speedMetersPerSecond);
         // driveVelocity.FeedForward = 0;
         mDriveMotor.setControl(driveVelocity);
-        
+
     }
 
     public Rotation2d getCANcoder() {
@@ -103,5 +109,18 @@ public class SwerveModule {
                 SwerveConstans.kWheelCircumference);
         Rotation2d angle = Rotation2d.fromRotations(mAngleMotor.getPosition().getValueAsDouble());
         return new SwerveModulePosition(distance, angle);
+    }
+
+    // SysId Methods
+    public void setDriveVoltage(double voltage) {
+        mDriveMotor.setVoltage(voltage);
+    }
+
+    public void setAngleVoltage(double voltage) {
+        mAngleMotor.setVoltage(voltage);
+    }
+
+    public double getAngleVelocity() {
+        return mAngleMotor.getVelocity().getValueAsDouble();
     }
 }
