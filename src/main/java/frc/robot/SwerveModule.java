@@ -5,6 +5,9 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
@@ -14,6 +17,9 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.measure.MutDistance;
+import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.lib.math.Conversions;
@@ -123,4 +129,22 @@ public class SwerveModule {
     public double getAngleVelocity() {
         return mAngleMotor.getVelocity().getValueAsDouble();
     }
+
+    private final MutVoltage m_appliedVoltage = Volts.mutable(0);
+
+    private final MutDistance m_Distance = Meters.mutable(0);
+
+    private final MutLinearVelocity m_Velocity = MetersPerSecond.mutable(0);
+
+    private final SysIdRoutine routine = new SysIdRoutine(
+            new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism(
+                null, 
+                
+                log -> {
+                
+                    log.motor("Motor num1").voltage(
+                        m_appliedVoltage.mut_replace(mDriveMotor.get() * RobotController.getBatteryVoltage(), Volts))
+                        .linearPosition(m_Distance.mut_replace(mDriveMotor.getRotorPosition().getValueAsDouble())).linearPosition(m_Velocity.mut_replace(mDriveMotor.getVelocity().getValueAsDouble());
+            }, this));
 }
