@@ -139,12 +139,19 @@ public class SwerveModule {
     private final SysIdRoutine routine = new SysIdRoutine(
             new SysIdRoutine.Config(),
             new SysIdRoutine.Mechanism(
-                null, 
+                voltage ->{
+                    mDriverMotor.setDriveVoltage(voltage);
+                    mAngleMotor.setAngleVoltage(voltage);
+                }, 
                 
                 log -> {
                 
                     log.motor("Motor num1").voltage(
                         m_appliedVoltage.mut_replace(mDriveMotor.get() * RobotController.getBatteryVoltage(), Volts))
-                        .linearPosition(m_Distance.mut_replace(mDriveMotor.getRotorPosition().getValueAsDouble())).linearPosition(m_Velocity.mut_replace(mDriveMotor.getVelocity().getValueAsDouble());
-            }, this));
+                        .linearPosition(m_Distance.mut_replace(mDriveMotor.getRotorPosition().getValueAsDouble()))
+                        .linerVelocity(m_Velocity.mut_replace(mDriveMotor.getVelocity().getValueAsDouble()));
+                        
+                }
+                
+            this));
 }
