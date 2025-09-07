@@ -142,7 +142,7 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static double kMaxSpeed = 4.5;
+        public static double kMaxSpeed = 1;
 
         /** Radians per Second */
         public static final double kMaxAngularVelocity = 6.283;

@@ -3,12 +3,12 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 public class RobotContainer {
 
@@ -60,6 +60,15 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         m_DriveController.a().whileTrue(new InstantCommand(() -> m_Swerve.zeroHeading()));
+
+        m_DriveController.y().and(m_DriveController.povDown())
+                .whileTrue(m_Swerve.sysIdDynamic(Direction.kReverse, m_Swerve.GetModXSysIDRoutine()));
+        m_DriveController.y().and(m_DriveController.povUp())
+                .whileTrue(m_Swerve.sysIdDynamic(Direction.kForward, m_Swerve.GetModXSysIDRoutine()));
+        m_DriveController.x().and(m_DriveController.povDown())
+                .whileTrue(m_Swerve.sysIdQuasistatic(Direction.kReverse, m_Swerve.GetModXSysIDRoutine()));
+        m_DriveController.x().and(m_DriveController.povUp())
+                .whileTrue(m_Swerve.sysIdQuasistatic(Direction.kForward, m_Swerve.GetModXSysIDRoutine()));
 
     }
 

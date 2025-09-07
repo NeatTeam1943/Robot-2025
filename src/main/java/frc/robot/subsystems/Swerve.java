@@ -1,11 +1,14 @@
 package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
-import frc.robot.Constants.SwerveConstans;
+import frc.robot.Constants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -15,38 +18,57 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.MutDistance;
+import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] m_SwerveMods;
     public Pigeon2 gyro;
-    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(SwerveConstans.kModuleTranslations);
+    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(Constants.SwerveConstans.kModuleTranslations);
 
     public Swerve() {
-        gyro = new Pigeon2(SwerveConstans.kPigeonID);
+        gyro = new Pigeon2(Constants.SwerveConstans.kPigeonID);
         Pigeon2Configuration config = new Pigeon2Configuration();
         config.MountPose.MountPoseYaw = -90; // Adjust if your Pigeon is mounted at an angle
         gyro.getConfigurator().apply(config);
         gyro.setYaw(0);
 
         m_SwerveMods = new SwerveModule[] {
-                new SwerveModule(0, SwerveConstans.Mod0.kConstants),
-                new SwerveModule(1, SwerveConstans.Mod1.kConstants),
-                new SwerveModule(2, SwerveConstans.Mod2.kConstants),
-                new SwerveModule(3, SwerveConstans.Mod3.kConstants)
+                new SwerveModule(0, Constants.SwerveConstans.Mod0.kConstants),
+                new SwerveModule(1, Constants.SwerveConstans.Mod1.kConstants),
+                new SwerveModule(2, Constants.SwerveConstans.Mod2.kConstants),
+                new SwerveModule(3, Constants.SwerveConstans.Mod3.kConstants)
         };
 
-        swerveOdometry = new SwerveDriveOdometry(SwerveConstans.kSwerveKinematics, getGyroYaw(),
+        swerveOdometry = new SwerveDriveOdometry(Constants.SwerveConstans.kSwerveKinematics, getGyroYaw(),
                 getModulePositions());
 
+        AutoBuilder.configure(
+                this::getPose,
+                this::setPose,
+                this::getRobotRelativeSpeeds,
+                this::runPureVelocity,
+                new PPHolonomicDriveController(
+                        new PIDConstants(5.0, 0.0, 0.0),
+                        new PIDConstants(17, 0.0, 0.0)),
+                Constants.SwerveConstans.kPPConfig,
+
+                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                this);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-        SwerveModuleState[] swerveModuleStates = SwerveConstans.kSwerveKinematics.toSwerveModuleStates(
+        SwerveModuleState[] swerveModuleStates = Constants.SwerveConstans.kSwerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                         translation.getX(),
                         translation.getY(),
@@ -56,7 +78,7 @@ public class Swerve extends SubsystemBase {
                                 translation.getX(),
                                 translation.getY(),
                                 rotation));
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstans.kMaxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstans.kMaxSpeed);
 
         for (SwerveModule mod : m_SwerveMods) {
             if (mod == m_SwerveMods[0]) {
@@ -72,7 +94,7 @@ public class Swerve extends SubsystemBase {
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
 
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstans.kMaxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstans.kMaxSpeed);
 
         for (SwerveModule mod : m_SwerveMods) {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
@@ -113,7 +135,7 @@ public class Swerve extends SubsystemBase {
 
     public void runPureVelocity(ChassisSpeeds speeds) {
         var moduleStates = kinematics.toSwerveModuleStates(speeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, SwerveConstans.kMaxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, Constants.SwerveConstans.kMaxSpeed);
         setModuleStates(moduleStates);
     }
 
@@ -138,81 +160,118 @@ public class Swerve extends SubsystemBase {
         }
     }
 
-    // Prints the current Velocity of one of the chosen modules
-    public double getVelocityPerModule(int module) {
-        SwerveModule mod = m_SwerveMods[module];
-        return mod.getState().speedMetersPerSecond;
+    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
+    private final MutVoltage m_appliedVoltage = Volts.mutable(0);
+    // Mutable holder for unit-safe linear distance values, persisted to avoid
+    // reallocation.
+    private final MutDistance m_distance = Meters.mutable(0);
+    // Mutable holder for unit-safe linear velocity values, persisted to avoid
+    // reallocation.
+    private final MutLinearVelocity m_velocity = MetersPerSecond.mutable(0);
+
+    public SysIdRoutine GetModXSysIDRoutine() {
+        SwerveModule mod1 = m_SwerveMods[0];
+        SwerveModule mod2 = m_SwerveMods[1];
+        SwerveModule mod3 = m_SwerveMods[2];
+        SwerveModule mod4 = m_SwerveMods[3];
+        SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism((voltage) -> {
+            mod1.getDriveMotor().setVoltage(voltage.in(Volts));
+            mod1.getAngleMotor().setVoltage(voltage.in(Volts));
+            mod2.getDriveMotor().setVoltage(voltage.in(Volts));
+            mod2.getAngleMotor().setVoltage(voltage.in(Volts));
+            mod3.getDriveMotor().setVoltage(voltage.in(Volts));
+            mod3.getAngleMotor().setVoltage(voltage.in(Volts));
+            mod4.getDriveMotor().setVoltage(voltage.in(Volts));
+            mod4.getAngleMotor().setVoltage(voltage.in(Volts));
+        },
+                log -> {
+                    log.motor("Drive Motor of moudle number : " + mod1.moduleNumber)
+                            .voltage(
+                                    m_appliedVoltage.mut_replace(
+                                            mod1.getDriveMotor().get() * RobotController.getBatteryVoltage(), Volts))
+                            .linearPosition(m_distance
+                                    .mut_replace(mod1.getDriveMotor().getRotorPosition().getValueAsDouble(), Meters))
+                            .linearVelocity(
+                                    m_velocity.mut_replace(mod1.getDriveMotor().getVelocity().getValueAsDouble(),
+                                            MetersPerSecond));
+                    log.motor("Angle Motor of moudle number : " + mod1.moduleNumber)
+                            .voltage(
+                                    m_appliedVoltage.mut_replace(
+                                            mod1.getAngleMotor().get() * RobotController.getBatteryVoltage(), Volts))
+                            .linearPosition(m_distance
+                                    .mut_replace(mod1.getAngleMotor().getRotorPosition().getValueAsDouble(), Meters))
+                            .linearVelocity(
+                                    m_velocity.mut_replace(mod1.getAngleMotor().getVelocity().getValueAsDouble(),
+                                            MetersPerSecond));
+                    log.motor("Drive Motor of moudle number : " + mod2.moduleNumber)
+                            .voltage(
+                                    m_appliedVoltage.mut_replace(
+                                            mod2.getDriveMotor().get() * RobotController.getBatteryVoltage(), Volts))
+                            .linearPosition(m_distance
+                                    .mut_replace(mod2.getDriveMotor().getRotorPosition().getValueAsDouble(), Meters))
+                            .linearVelocity(
+                                    m_velocity.mut_replace(mod2.getDriveMotor().getVelocity().getValueAsDouble(),
+                                            MetersPerSecond));
+                    log.motor("Angle Motor of moudle number : " + mod2.moduleNumber)
+                            .voltage(
+                                    m_appliedVoltage.mut_replace(
+                                            mod2.getAngleMotor().get() * RobotController.getBatteryVoltage(), Volts))
+                            .linearPosition(m_distance
+                                    .mut_replace(mod2.getAngleMotor().getRotorPosition().getValueAsDouble(), Meters))
+                            .linearVelocity(
+                                    m_velocity.mut_replace(mod2.getAngleMotor().getVelocity().getValueAsDouble(),
+                                            MetersPerSecond));
+                    log.motor("Drive Motor of moudle number : " + mod3.moduleNumber)
+                            .voltage(
+                                    m_appliedVoltage.mut_replace(
+                                            mod3.getDriveMotor().get() * RobotController.getBatteryVoltage(), Volts))
+                            .linearPosition(m_distance
+                                    .mut_replace(mod3.getDriveMotor().getRotorPosition().getValueAsDouble(), Meters))
+                            .linearVelocity(
+                                    m_velocity.mut_replace(mod3.getDriveMotor().getVelocity().getValueAsDouble(),
+                                            MetersPerSecond));
+                    log.motor("Angle Motor of moudle number : " + mod3.moduleNumber)
+                            .voltage(
+                                    m_appliedVoltage.mut_replace(
+                                            mod3.getAngleMotor().get() * RobotController.getBatteryVoltage(), Volts))
+                            .linearPosition(m_distance
+                                    .mut_replace(mod3.getAngleMotor().getRotorPosition().getValueAsDouble(), Meters))
+                            .linearVelocity(
+                                    m_velocity.mut_replace(mod3.getAngleMotor().getVelocity().getValueAsDouble(),
+                                            MetersPerSecond));
+                    log.motor("Drive Motor of moudle number : " + mod4.moduleNumber)
+                            .voltage(
+                                    m_appliedVoltage.mut_replace(
+                                            mod4.getDriveMotor().get() * RobotController.getBatteryVoltage(), Volts))
+                            .linearPosition(m_distance
+                                    .mut_replace(mod4.getDriveMotor().getRotorPosition().getValueAsDouble(), Meters))
+                            .linearVelocity(
+                                    m_velocity.mut_replace(mod4.getDriveMotor().getVelocity().getValueAsDouble(),
+                                            MetersPerSecond));
+                    log.motor("Angle Motor of moudle number : " + mod4.moduleNumber)
+                            .voltage(
+                                    m_appliedVoltage.mut_replace(
+                                            mod4.getAngleMotor().get() * RobotController.getBatteryVoltage(), Volts))
+                            .linearPosition(m_distance
+                                    .mut_replace(mod4.getAngleMotor().getRotorPosition().getValueAsDouble(), Meters))
+                            .linearVelocity(
+                                    m_velocity.mut_replace(mod4.getAngleMotor().getVelocity().getValueAsDouble(),
+                                            MetersPerSecond));
+                }, this));
+        return routine;
     }
 
-    // Prints the current Velocity of all the modules
-    public void getVelocityAll() {
-        for (SwerveModule mod : m_SwerveMods) {
-            System.out.println("Mod " + mod.moduleNumber + " Velocity: " + mod.getState().speedMetersPerSecond);
-        }
+    public Command sysIdQuasistatic(SysIdRoutine.Direction direction, SysIdRoutine routine) {
+        return routine.quasistatic(direction);
     }
 
-    // SysId Methods
-    public void setDriveVoltage(double voltage) {
-        for (SwerveModule mod : m_SwerveMods) {
-            mod.setDriveVoltage(voltage);
-        }
-    }
-
-    public void setAngleVoltage(double voltage) {
-        for (SwerveModule mod : m_SwerveMods) {
-            mod.setAngleVoltage(voltage);
-        }
-    }
-
-    public double getDriveVelocity() {
-        double totalVelocity = 0;
-        for (SwerveModule mod : m_SwerveMods) {
-            totalVelocity += mod.getState().speedMetersPerSecond;
-        }
-        return totalVelocity / m_SwerveMods.length;
-    }
-
-    public double getDrivePosition() {
-        double totalPosition = 0;
-        for (SwerveModule mod : m_SwerveMods) {
-            totalPosition += mod.getPosition().distanceMeters;
-        }
-        return totalPosition / m_SwerveMods.length;
-    }
-
-    public double getAngleVelocity() {
-        double totalVelocity = 0;
-        for (SwerveModule mod : m_SwerveMods) {
-            totalVelocity += mod.getAngleVelocity();
-        }
-        return totalVelocity / m_SwerveMods.length;
-    }
-
-    public double getAnglePosition() {
-        double totalPosition = 0;
-        for (SwerveModule mod : m_SwerveMods) {
-            totalPosition += mod.getPosition().angle.getRotations();
-        }
-        return totalPosition / m_SwerveMods.length;
-    }
-
-    private double driveVoltage = 0;
-    private double angleVoltage = 0;
-
-    public double getDriveVoltage() {
-        return driveVoltage;
-    }
-
-    public double getAngleVoltage() {
-        return angleVoltage;
-    }
-
-    public void setDriveVoltageInternal(double voltage) {
-        driveVoltage = voltage;
-    }
-
-    public void setAngleVoltageInternal(double voltage) {
-        angleVoltage = voltage;
+    /**
+     * Returns a command that will execute a dynamic test in the given direction.
+     *
+     * @param direction The direction (forward or reverse) to run the test in
+     */
+    public Command sysIdDynamic(SysIdRoutine.Direction direction, SysIdRoutine routine) {
+        return routine.dynamic(direction);
     }
 
     @Override
@@ -224,13 +283,5 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
-
-        // SysId Data Logging
-        SmartDashboard.putNumber("SysId Drive Velocity", getDriveVelocity());
-        SmartDashboard.putNumber("SysId Drive Position", getDrivePosition());
-        SmartDashboard.putNumber("SysId Angle Velocity", getAngleVelocity());
-        SmartDashboard.putNumber("SysId Angle Position", getAnglePosition());
-        SmartDashboard.putNumber("SysId Drive Voltage", getDriveVoltage());
-        SmartDashboard.putNumber("SysId Angle Voltage", getAngleVoltage());
     }
 }
