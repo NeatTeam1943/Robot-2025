@@ -116,18 +116,19 @@ public final class Constants {
         public static final double kAngleKD = kChosenModule.angleKD;
 
         /* Drive Motor PID Values */
-        public static final double kDriveKP = 0.0; // TODO: This must be tuned to specific robot
+        public static final double kDriveKP = 0.12; // TODO: This must be tuned to specific robot
         public static final double kDriveKI = 0.0;
         public static final double kDriveKD = 0.0;
         public static final double kDriveKF = 0.0;
 
         /* Drive Motor Characterization Values From SYSID */
-        public static final double kDriveKS = 0; // TODO: This must be tuned to specific robot
-        public static final double kDriveKV = 0;
-        public static final double kDriveKA = 0;
+        public static final double kDriveKS = 0.32; // TODO: This must be tuned to specific robot
+        public static final double kDriveKV = 1.51;
+        public static final double kDriveKA = 0.27;
 
         // Angle Motor Stator Current Limiting
-        public static final boolean kAngleEnableStatorCurrentLimit = true; // Enable or disable stator current limiting
+        public static final boolean kAngleEnableStatorCurrentLimit = true; // Enable[]\ or disable stator current
+                                                                           // limiting
         public static final double kAngleStatorCurrentLimit = 40.0; // Stator current limit in Amperes
         public static final double kAngleStatorCurrentThreshold = 45.0; // Threshold current in Amperes to trigger
                                                                         // limiting
@@ -142,7 +143,7 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static double kMaxSpeed = 1;
+        public static double kMaxSpeed = 4.5;
 
         /** Radians per Second */
         public static final double kMaxAngularVelocity = 6.283;

@@ -11,6 +11,12 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.VoltsPerMeterPerSecond;
+import static edu.wpi.first.units.Units.VoltsPerMeterPerSecondSquared;
+import static edu.wpi.first.units.Units.VoltsPerRadianPerSecond;
+
+import java.lang.invoke.VarHandle;
+
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -21,16 +27,21 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.LinearAccelerationUnit;
+import edu.wpi.first.units.Unit;
+import edu.wpi.first.units.VoltageUnit;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Time;
+import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
@@ -72,7 +83,8 @@ public class Swerve extends SubsystemBase {
                                 this);
         }
 
-        public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+        public void 
+        drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
                 SwerveModuleState[] swerveModuleStates = Constants.SwerveConstans.kSwerveKinematics
                                 .toSwerveModuleStates(
                                                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -175,25 +187,21 @@ public class Swerve extends SubsystemBase {
         // reallocation.
         private final MutLinearVelocity m_velocity = MetersPerSecond.mutable(0);
 
-        private final double rampRate = 0.1;
-        private final double stepVoltage = 1;
-        private final Time timeout = Seconds(10);
+        private final Velocity<VoltageUnit> rampRate = Volts.per(Seconds).of(0.3);
+        private final Voltage stepVoltage = Volts.of(4);
+        private final Time timeout = Second.of(10);
 
-        public SysIdRoutine GetModXSysIDRoutine() {
+        public SysIdRoutine getDriveSysIdRoutine() {
                 SwerveModule mod1 = m_SwerveMods[0];
                 SwerveModule mod2 = m_SwerveMods[1];
                 SwerveModule mod3 = m_SwerveMods[2];
                 SwerveModule mod4 = m_SwerveMods[3];
-                SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(rampRate.in(Volts), step),
+                SysIdRoutine driveRoutine = new SysIdRoutine(new SysIdRoutine.Config(rampRate, stepVoltage, timeout),
                                 new SysIdRoutine.Mechanism((voltage) -> {
                                         mod1.getDriveMotor().setVoltage(voltage.in(Volts));
-                                        mod1.getAngleMotor().setVoltage(voltage.in(Volts));
                                         mod2.getDriveMotor().setVoltage(voltage.in(Volts));
-                                        mod2.getAngleMotor().setVoltage(voltage.in(Volts));
                                         mod3.getDriveMotor().setVoltage(voltage.in(Volts));
-                                        mod3.getAngleMotor().setVoltage(voltage.in(Volts));
                                         mod4.getDriveMotor().setVoltage(voltage.in(Volts));
-                                        mod4.getAngleMotor().setVoltage(voltage.in(Volts));
                                 },
                                                 log -> {
                                                         log.motor("Drive Motor of moudle number : 1 ")
@@ -216,27 +224,7 @@ public class Swerve extends SubsystemBase {
                                                                                                         .getVelocity()
                                                                                                         .getValueAsDouble(),
                                                                                                         MetersPerSecond));
-                                                        log.motor("Angle Motor of moudle number : 1 ")
-                                                                        .voltage(
-                                                                                        m_appliedVoltage.mut_replace(
-                                                                                                        mod1.getAngleMotor()
-                                                                                                                        .get()
-                                                                                                                        * RobotController
-                                                                                                                                        .getBatteryVoltage(),
-                                                                                                        Volts))
-                                                                        .linearPosition(m_distance
-                                                                                        .mut_replace(mod1
-                                                                                                        .getAngleMotor()
-                                                                                                        .getRotorPosition()
-                                                                                                        .getValueAsDouble(),
-                                                                                                        Meters))
-                                                                        .linearVelocity(
-                                                                                        m_velocity.mut_replace(mod1
-                                                                                                        .getAngleMotor()
-                                                                                                        .getVelocity()
-                                                                                                        .getValueAsDouble(),
-                                                                                                        MetersPerSecond));
-                                                        log.motor("Drive Motor of moudle number :  2 ")
+                                                        log.motor("Drive Motor of moudle number : 2 ")
                                                                         .voltage(
                                                                                         m_appliedVoltage.mut_replace(
                                                                                                         mod2.getDriveMotor()
@@ -256,27 +244,7 @@ public class Swerve extends SubsystemBase {
                                                                                                         .getVelocity()
                                                                                                         .getValueAsDouble(),
                                                                                                         MetersPerSecond));
-                                                        log.motor("Angle Motor of moudle number : 2 ")
-                                                                        .voltage(
-                                                                                        m_appliedVoltage.mut_replace(
-                                                                                                        mod2.getAngleMotor()
-                                                                                                                        .get()
-                                                                                                                        * RobotController
-                                                                                                                                        .getBatteryVoltage(),
-                                                                                                        Volts))
-                                                                        .linearPosition(m_distance
-                                                                                        .mut_replace(mod2
-                                                                                                        .getAngleMotor()
-                                                                                                        .getRotorPosition()
-                                                                                                        .getValueAsDouble(),
-                                                                                                        Meters))
-                                                                        .linearVelocity(
-                                                                                        m_velocity.mut_replace(mod2
-                                                                                                        .getAngleMotor()
-                                                                                                        .getVelocity()
-                                                                                                        .getValueAsDouble(),
-                                                                                                        MetersPerSecond));
-                                                        log.motor("Drive Motor of moudle number :  3 ")
+                                                        log.motor("Drive Motor of moudle number : 3 ")
                                                                         .voltage(
                                                                                         m_appliedVoltage.mut_replace(
                                                                                                         mod3.getDriveMotor()
@@ -293,26 +261,6 @@ public class Swerve extends SubsystemBase {
                                                                         .linearVelocity(
                                                                                         m_velocity.mut_replace(mod3
                                                                                                         .getDriveMotor()
-                                                                                                        .getVelocity()
-                                                                                                        .getValueAsDouble(),
-                                                                                                        MetersPerSecond));
-                                                        log.motor("Angle Motor of moudle number : 3 ")
-                                                                        .voltage(
-                                                                                        m_appliedVoltage.mut_replace(
-                                                                                                        mod3.getAngleMotor()
-                                                                                                                        .get()
-                                                                                                                        * RobotController
-                                                                                                                                        .getBatteryVoltage(),
-                                                                                                        Volts))
-                                                                        .linearPosition(m_distance
-                                                                                        .mut_replace(mod3
-                                                                                                        .getAngleMotor()
-                                                                                                        .getRotorPosition()
-                                                                                                        .getValueAsDouble(),
-                                                                                                        Meters))
-                                                                        .linearVelocity(
-                                                                                        m_velocity.mut_replace(mod3
-                                                                                                        .getAngleMotor()
                                                                                                         .getVelocity()
                                                                                                         .getValueAsDouble(),
                                                                                                         MetersPerSecond));
@@ -336,7 +284,84 @@ public class Swerve extends SubsystemBase {
                                                                                                         .getVelocity()
                                                                                                         .getValueAsDouble(),
                                                                                                         MetersPerSecond));
-                                                        log.motor("Angle Motor of moudle number :  4 ")
+                                                }, this));
+                return driveRoutine;
+        }
+
+        public SysIdRoutine getAngleSysIdRoutine() {
+                SwerveModule mod1 = m_SwerveMods[0];
+                SwerveModule mod2 = m_SwerveMods[1];
+                SwerveModule mod3 = m_SwerveMods[2];
+                SwerveModule mod4 = m_SwerveMods[3];
+                SysIdRoutine angleRoutine = new SysIdRoutine(new SysIdRoutine.Config(rampRate, stepVoltage, timeout),
+                                new SysIdRoutine.Mechanism((voltage) -> {
+                                        mod1.getAngleMotor().setVoltage(voltage.in(Volts));
+                                        mod2.getAngleMotor().setVoltage(voltage.in(Volts));
+                                        mod3.getAngleMotor().setVoltage(voltage.in(Volts));
+                                        mod4.getAngleMotor().setVoltage(voltage.in(Volts));
+                                },
+                                                log -> {
+                                                        log.motor("Angle Motor of moudle number : 1 ")
+                                                                        .voltage(
+                                                                                        m_appliedVoltage.mut_replace(
+                                                                                                        mod1.getAngleMotor()
+                                                                                                                        .get()
+                                                                                                                        * RobotController
+                                                                                                                                        .getBatteryVoltage(),
+                                                                                                        Volts))
+                                                                        .linearPosition(m_distance
+                                                                                        .mut_replace(mod1
+                                                                                                        .getAngleMotor()
+                                                                                                        .getRotorPosition()
+                                                                                                        .getValueAsDouble(),
+                                                                                                        Meters))
+                                                                        .linearVelocity(
+                                                                                        m_velocity.mut_replace(mod1
+                                                                                                        .getAngleMotor()
+                                                                                                        .getVelocity()
+                                                                                                        .getValueAsDouble(),
+                                                                                                        MetersPerSecond));
+                                                        log.motor("Angle Motor of moudle number : 2 ")
+                                                                        .voltage(
+                                                                                        m_appliedVoltage.mut_replace(
+                                                                                                        mod2.getAngleMotor()
+                                                                                                                        .get()
+                                                                                                                        * RobotController
+                                                                                                                                        .getBatteryVoltage(),
+                                                                                                        Volts))
+                                                                        .linearPosition(m_distance
+                                                                                        .mut_replace(mod2
+                                                                                                        .getAngleMotor()
+                                                                                                        .getRotorPosition()
+                                                                                                        .getValueAsDouble(),
+                                                                                                        Meters))
+                                                                        .linearVelocity(
+                                                                                        m_velocity.mut_replace(mod2
+                                                                                                        .getAngleMotor()
+                                                                                                        .getVelocity()
+                                                                                                        .getValueAsDouble(),
+                                                                                                        MetersPerSecond));
+                                                        log.motor("Angle Motor of moudle number : 3 ")
+                                                                        .voltage(
+                                                                                        m_appliedVoltage.mut_replace(
+                                                                                                        mod3.getAngleMotor()
+                                                                                                                        .get()
+                                                                                                                        * RobotController
+                                                                                                                                        .getBatteryVoltage(),
+                                                                                                        Volts))
+                                                                        .linearPosition(m_distance
+                                                                                        .mut_replace(mod3
+                                                                                                        .getAngleMotor()
+                                                                                                        .getRotorPosition()
+                                                                                                        .getValueAsDouble(),
+                                                                                                        Meters))
+                                                                        .linearVelocity(
+                                                                                        m_velocity.mut_replace(mod3
+                                                                                                        .getAngleMotor()
+                                                                                                        .getVelocity()
+                                                                                                        .getValueAsDouble(),
+                                                                                                        MetersPerSecond));
+                                                        log.motor("Angle Motor of moudle number : 4 ")
                                                                         .voltage(
                                                                                         m_appliedVoltage.mut_replace(
                                                                                                         mod4.getAngleMotor()
@@ -357,10 +382,11 @@ public class Swerve extends SubsystemBase {
                                                                                                         .getValueAsDouble(),
                                                                                                         MetersPerSecond));
                                                 }, this));
-                return routine;
+                return angleRoutine;
         }
 
-        public Command sysIdQuasistatic(SysIdRoutine.Direction direction, SysIdRoutine routine) {
+        public Command sysIdQuasistatic(SysIdRoutine.Direction direction,
+                        SysIdRoutine routine) {
                 return routine.quasistatic(direction);
         }
 
